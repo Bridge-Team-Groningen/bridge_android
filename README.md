@@ -1,2 +1,15 @@
-# bridge_android
-Android part of Bridge project
+# Bridge - we connect you.
+### Android application.
+
+---
+
+### Team members:
+*  A. Gauca
+*  A. Grigore
+*  A. Yudhistira
+*  P. Adamopoulos
+*  S. Wendt
+*  T. Kocharyan
+*  T. de Vries
+
+---
