@@ -7,6 +7,9 @@
         <entry key="..\:/Users/tigra/Desktop/android/bridge_android/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
         <entry key="..\:/Users/tigra/Desktop/android/bridge_android/app/src/main/res/drawable/ic_splashscreen.xml" value="0.1085" />
         <entry key="..\:/Users/tigra/Desktop/android/bridge_android/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/Users/tigra/Desktop/android/bridge_android/app/src/main/res/layout/fragment_auth.xml" value="0.21" />
+        <entry key="..\:/Users/tigra/Desktop/android/bridge_android/app/src/main/res/layout/fragment_edit_profile.xml" value="0.33636363636363636" />
+        <entry key="..\:/Users/tigra/Desktop/android/bridge_android/app/src/main/res/layout/fragment_profile.xml" value="0.33" />
         <entry key="..\:/Users/tigra/Desktop/android/bridge_android/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />
       </map>
     </option>

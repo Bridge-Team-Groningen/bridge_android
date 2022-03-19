@@ -14,11 +14,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "721015261159-qb1b2dtp278umghhbvm3dq8j8tnv5o2e.apps.googleusercontent.com",
+          "client_id": "721015261159-ujj24gd2rfflupqokfjbvsf60b09n498.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "nl.totowka.bridge",
-            "certificate_hash": "9ef8efbaea65af2b8b481b5dc4baa3dc6e0b9a25"
+            "certificate_hash": "2491f134a26b1472b020ae50f1b68d6cf4e61948"
           }
         },
         {

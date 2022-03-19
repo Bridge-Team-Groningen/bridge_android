@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">Bridge</string>
+    <string name="app_name" translatable="false">Bridge</string>
+    <string name="edit_profile">Edit Profile</string>
 </resources>
