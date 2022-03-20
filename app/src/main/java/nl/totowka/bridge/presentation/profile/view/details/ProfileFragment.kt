@@ -4,13 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import nl.totowka.bridge.databinding.FragmentProfileBinding
-import androidx.appcompat.app.AppCompatActivity
 import nl.totowka.bridge.R
-import nl.totowka.bridge.presentation.auth.view.AuthFragment
+import nl.totowka.bridge.databinding.FragmentProfileBinding
+import nl.totowka.bridge.presentation.LauncherActivity
 import nl.totowka.bridge.presentation.profile.view.edit.EditProfileFragment
 
 
@@ -35,6 +34,7 @@ class ProfileFragment : Fragment(), View.OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (activity as AppCompatActivity?)?.supportActionBar?.hide()
+        (activity as LauncherActivity).isBottomNavVisible(true)
     }
 
     override fun onClick(view: View?) {
@@ -64,5 +64,10 @@ class ProfileFragment : Fragment(), View.OnClickListener {
                 putParcelable(PROFILE_TAG, account)
             }
         }
+
+        /**
+         * Получение объекта [ProfileFragment] без учета профиля
+         */
+        fun newInstance() = ProfileFragment()
     }
 }

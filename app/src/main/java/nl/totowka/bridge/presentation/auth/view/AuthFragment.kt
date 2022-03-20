@@ -19,6 +19,7 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import nl.totowka.bridge.R
 import nl.totowka.bridge.databinding.FragmentAuthBinding
+import nl.totowka.bridge.presentation.LauncherActivity
 import nl.totowka.bridge.presentation.profile.view.details.ProfileFragment
 
 /**
@@ -46,6 +47,11 @@ class AuthFragment : Fragment(), View.OnClickListener {
         binding = FragmentAuthBinding.inflate(inflater, container, false)
         bindButtons()
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        (activity as LauncherActivity).isBottomNavVisible(false)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
