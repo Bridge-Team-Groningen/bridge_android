@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "721015261159",
+    "project_id": "bridge-1646521763437",
+    "storage_bucket": "bridge-1646521763437.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:721015261159:android:b651687da00746eabd1f42",
+        "android_client_info": {
+          "package_name": "nl.totowka.bridge"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "721015261159-ujj24gd2rfflupqokfjbvsf60b09n498.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "nl.totowka.bridge",
+            "certificate_hash": "2491f134a26b1472b020ae50f1b68d6cf4e61948"
+          }
+        },
+        {
+          "client_id": "721015261159-3i8q89u5n36qhsktgcfaljd0hfp791l0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvmguLlLYUJBMoum9dOYlL77mYfh7xT_k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "721015261159-3i8q89u5n36qhsktgcfaljd0hfp791l0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

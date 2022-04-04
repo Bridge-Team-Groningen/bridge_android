@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
+    android:orientation="vertical"
+    android:paddingHorizontal="14dp"
+    android:paddingVertical="7dp">
+
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center" />
+
+    <TextView
+        android:id="@+id/title"
+        style="@style/AppTheme.Text.EventTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:textSize="24sp"
+        tools:text="Вечеринка у меня дома" />
+
+    <TextView
+        android:id="@+id/place"
+        style="@style/Theme.Bridge.Text.EventDetails"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        tools:text="Zernike campus" />
+
+    <TextView
+        android:id="@+id/time"
+        style="@style/Theme.Bridge.Text.EventDetails"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="10am" />
+
+    <TextView
+        android:id="@+id/people"
+        style="@style/Theme.Bridge.Text.EventDetails"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="10 people to go" />
+
+    <Button
+        android:id="@+id/signup"
+        style="@style/Widget.MaterialComponents.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Sign up" />
+
+</LinearLayout>
