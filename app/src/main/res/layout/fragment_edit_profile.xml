@@ -89,6 +89,7 @@
                     app:boxBackgroundColor="@android:color/transparent">
 
                     <EditText
+                        android:id="@+id/interests"
                         style="@style/Theme.Bridge.Text.Profile.ItemText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -112,6 +113,7 @@
                     app:boxBackgroundColor="@android:color/transparent">
 
                     <EditText
+                        android:id="@+id/age"
                         style="@style/Theme.Bridge.Text.Profile.ItemText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -135,6 +137,7 @@
                     app:boxBackgroundColor="@android:color/transparent">
 
                     <EditText
+                        android:id="@+id/people"
                         style="@style/Theme.Bridge.Text.Profile.ItemText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -158,6 +161,7 @@
                     app:boxBackgroundColor="@android:color/transparent">
 
                     <EditText
+                        android:id="@+id/city"
                         style="@style/Theme.Bridge.Text.Profile.ItemText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

@@ -12,7 +12,7 @@ import nl.totowka.bridge.databinding.EventDetailsHolderBinding
 import nl.totowka.bridge.domain.model.EventEntity
 
 /**
- * BottomSheetDialogFragment для отображения смыслов переведенного слова
+ * [BottomSheetDialogFragment] to display the event details.
  */
 class EventDetailsBottomDialogFragment : BottomSheetDialogFragment() {
     private lateinit var binding: EventDetailsHolderBinding

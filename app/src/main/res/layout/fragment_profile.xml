@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_profile"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -75,10 +76,11 @@
                     android:text="Interests" />
 
                 <TextView
+                    android:id="@+id/interests"
                     style="@style/Theme.Bridge.Text.Profile.ItemText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Soccer, Squash, Android, Travelling" />
+                    tools:text="Soccer, Squash, Android, Travelling" />
 
                 <View
                     android:layout_width="match_parent"
@@ -100,10 +102,11 @@
                     android:text="Age" />
 
                 <TextView
+                    android:id="@+id/age"
                     style="@style/Theme.Bridge.Text.Profile.ItemText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="20 years old" />
+                    tools:text="20 years old" />
 
                 <View
                     android:layout_width="match_parent"
@@ -125,10 +128,11 @@
                     android:text="How many people would like to meet:" />
 
                 <TextView
+                    android:id="@+id/people"
                     style="@style/Theme.Bridge.Text.Profile.ItemText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="5 people" />
+                    tools:text="5 people" />
 
                 <View
                     android:layout_width="match_parent"
@@ -150,10 +154,11 @@
                     android:text="Currently at:" />
 
                 <TextView
+                    android:id="@+id/city"
                     style="@style/Theme.Bridge.Text.Profile.ItemText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Groningen, Netherlands" />
+                    tools:text="Groningen, Netherlands" />
 
                 <View
                     android:layout_width="match_parent"

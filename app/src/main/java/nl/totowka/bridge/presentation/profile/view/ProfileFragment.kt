@@ -1,4 +1,4 @@
-package nl.totowka.bridge.presentation.profile.view.details
+package nl.totowka.bridge.presentation.profile.view
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,20 +9,23 @@ import androidx.fragment.app.Fragment
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import nl.totowka.bridge.R
 import nl.totowka.bridge.databinding.FragmentProfileBinding
+import nl.totowka.bridge.domain.model.ProfileEntity
 import nl.totowka.bridge.presentation.LauncherActivity
-import nl.totowka.bridge.presentation.profile.view.edit.EditProfileFragment
+import nl.totowka.bridge.utils.ModelPreferencesManager
 
 
 /**
- * Фрагмент, отвечающий за экран изучения слов.
+ * [Fragment] to display the user data.
  */
 class ProfileFragment : Fragment(), View.OnClickListener {
     private lateinit var binding: FragmentProfileBinding
     var account: GoogleSignInAccount? = null
+    var profile: ProfileEntity? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         account = arguments?.getParcelable(PROFILE_TAG)
+        // TODO: Call API with google id to get User's data
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -35,6 +38,26 @@ class ProfileFragment : Fragment(), View.OnClickListener {
         super.onViewCreated(view, savedInstanceState)
         (activity as AppCompatActivity?)?.supportActionBar?.hide()
         (activity as LauncherActivity).isBottomNavVisible(true)
+
+        if(account != null) {
+            account.let {
+                profile = ProfileEntity(0, it?.id?.toInt() ?: 0, it?.displayName ?: "undefinded", it?.familyName ?: "undefined")
+                ModelPreferencesManager.put(profile)
+            }
+        } else {
+            profile = ModelPreferencesManager.get<ProfileEntity>()
+        }
+
+        profile?.let { profile ->
+            binding.interests.text = profile.interests?.joinToString() ?: "undefined"
+            binding.age.text = profile.age?.let {
+                context?.getString(R.string.age, it)
+            } ?: "undefined"
+            binding.people.text = profile.peopleToMeet?.let {
+                context?.getString(R.string.people, it)
+            } ?: "undefined"
+            binding.city.text = profile.city ?: "undefined"
+        }
     }
 
     override fun onClick(view: View?) {

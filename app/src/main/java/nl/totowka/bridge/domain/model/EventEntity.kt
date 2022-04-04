@@ -7,7 +7,7 @@ import kotlinx.android.parcel.IgnoredOnParcel
 import kotlinx.android.parcel.Parcelize
 
 /**
- * Domain-объект мероприятия
+ * Domain-layer entity of event.
  */
 @Parcelize
 data class EventEntity(

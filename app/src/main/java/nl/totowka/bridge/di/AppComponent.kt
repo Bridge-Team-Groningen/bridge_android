@@ -4,6 +4,10 @@ import android.content.Context
 import dagger.BindsInstance
 import dagger.Component
 import nl.totowka.bridge.presentation.LauncherActivity
+import nl.totowka.bridge.presentation.auth.view.AuthFragment
+import nl.totowka.bridge.presentation.events.EventsFragment
+import nl.totowka.bridge.presentation.profile.view.ProfileFragment
+import nl.totowka.bridge.presentation.trending.view.TrendingFragment
 import javax.inject.Singleton
 
 /**
@@ -13,11 +17,15 @@ import javax.inject.Singleton
 @Singleton
 @Component(
     modules = [
-        BindModule::class
+        BindModule::class, RetrofitModule::class
     ]
 )
 interface AppComponent {
     fun inject(launcher: LauncherActivity)
+    fun inject(fragment: AuthFragment)
+    fun inject(fragment: EventsFragment)
+    fun inject(fragment: ProfileFragment)
+    fun inject(fragment: TrendingFragment)
 
     @Component.Builder
     interface Builder {

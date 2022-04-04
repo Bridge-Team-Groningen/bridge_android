@@ -8,12 +8,12 @@ import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.activity_main.*
 import nl.totowka.bridge.R
 import nl.totowka.bridge.presentation.auth.view.AuthFragment
-import nl.totowka.bridge.presentation.profile.view.details.ProfileFragment
+import nl.totowka.bridge.presentation.profile.view.ProfileFragment
 import nl.totowka.bridge.presentation.events.EventsFragment
 import nl.totowka.bridge.presentation.trending.view.TrendingFragment
 
 /**
- * Main Activity. All fragments will be added on top of it.
+ * Main [Activity]. All fragments will be added on top of it.
  * Created by Kocharyan Tigran on 04.03.2022.
  */
 class LauncherActivity : AppCompatActivity() {
@@ -23,7 +23,6 @@ class LauncherActivity : AppCompatActivity() {
         installSplashScreen()
         setContentView(R.layout.activity_main)
         this.supportActionBar?.hide()
-
         if (savedInstanceState == null) {
             supportFragmentManager
                 .beginTransaction()

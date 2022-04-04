@@ -4,5 +4,6 @@
     <string name="people">%d people</string>
     <string name="time">Time: %s</string>
     <string name="place">Held at %s</string>
+    <string name="age">%d years old</string>
     <string name="undefined">Undefined</string>
 </resources>

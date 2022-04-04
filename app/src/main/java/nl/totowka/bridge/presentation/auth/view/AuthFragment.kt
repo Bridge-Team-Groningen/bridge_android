@@ -1,6 +1,7 @@
 package nl.totowka.bridge.presentation.auth.view
 
 import android.app.Activity
+import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -20,10 +21,13 @@ import com.google.android.gms.tasks.Task
 import nl.totowka.bridge.R
 import nl.totowka.bridge.databinding.FragmentAuthBinding
 import nl.totowka.bridge.presentation.LauncherActivity
-import nl.totowka.bridge.presentation.profile.view.details.ProfileFragment
+import nl.totowka.bridge.presentation.profile.view.ProfileFragment
+import nl.totowka.bridge.utils.ModelPreferencesManager
 
 /**
- * Фрагмент, отвечающий за экран изучения слов.
+ * [Fragment] to display the authentication information.
+ *
+ * @author Kocharyan Tigran
  */
 class AuthFragment : Fragment(), View.OnClickListener {
     private lateinit var binding: FragmentAuthBinding
@@ -32,6 +36,7 @@ class AuthFragment : Fragment(), View.OnClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        ModelPreferencesManager.with(activity?.applicationContext as Application)
         setupAuth()
     }
 
@@ -39,7 +44,7 @@ class AuthFragment : Fragment(), View.OnClickListener {
         super.onStart()
         val account = GoogleSignIn.getLastSignedInAccount(this.context as Context)
         account?.let {
-            startProfile(it)
+            startProfile()
         }
     }
 
@@ -88,6 +93,13 @@ class AuthFragment : Fragment(), View.OnClickListener {
         (activity as AppCompatActivity).supportFragmentManager
             .beginTransaction()
             .replace(R.id.fragment_container, ProfileFragment.newInstance(account), ProfileFragment.TAG)
+            .commit()
+    }
+
+    private fun startProfile() {
+        (activity as AppCompatActivity).supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.fragment_container, ProfileFragment.newInstance(), ProfileFragment.TAG)
             .commit()
     }
 

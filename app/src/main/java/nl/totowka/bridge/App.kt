@@ -3,6 +3,7 @@ package nl.totowka.bridge
 import android.app.Application
 import nl.totowka.bridge.di.AppComponent
 import nl.totowka.bridge.di.DaggerAppComponent
+import nl.totowka.bridge.utils.ModelPreferencesManager
 
 /**
  * Basic application to support DI with application context.

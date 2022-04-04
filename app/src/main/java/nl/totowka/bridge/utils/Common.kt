@@ -6,41 +6,13 @@ import android.view.View
 import androidx.annotation.StringRes
 
 /**
- * Объект для работы с методами во время UI
+ * Object to work with common methods during UI work.
  */
 object Common {
-
     /**
-     * Перевод SkyEng аббревиатуры в полную форму
+     * Checking the Internet connection.
      *
-     * @param part часть речи
-     */
-    fun getPartOfSpeech(part: String): String {
-        return when (part) {
-            "n" -> "noun"
-            "v" -> "verb"
-            "j" -> "adjective"
-            "r" -> "adverb"
-            "prp" -> "preposition"
-            "prn" -> "pronoun"
-            "crd" -> "cardinal number"
-            "cjc" -> "conjunction"
-            "exc" -> "interjection"
-            "det" -> "article"
-            "abb" -> "abbreviation"
-            "x" -> "particle"
-            "ord" -> "ordinal number"
-            "md" -> "modal verb"
-            "ph" -> "phrase"
-            "phi" -> "idiom"
-            else -> "undefined"
-        }
-    }
-
-    /**
-     * Проверка на подключени к интернету
-     *
-     * @param context контекст приложения
+     * @param context app's context
      */
     fun isConnectedInternet(context: Context): Boolean {
         val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
@@ -49,14 +21,14 @@ object Common {
     }
 
     /**
-     * Перевод View в состояние GONE
+     * Making [View] to [View.GONE] mode
      */
     fun View.setGone() {
         this.visibility = View.GONE
     }
 
     /**
-     * Получение строки из ресурсов
+     * Getting [String] from [StringRes]
      */
     fun Context.string(@StringRes resId: Int) = this.resources.getString(resId)
 }

@@ -18,7 +18,9 @@ import nl.totowka.bridge.presentation.trending.adapter.TrendingEventsAdapter
 import nl.totowka.bridge.utils.callback.EventClickListener
 
 /**
- * Фрагмент, отвечающий за экран изучения слов.
+ * [Fragment] to display the trending events.
+ *
+ * @author Kocharyan Tigran
  */
 class TrendingFragment : Fragment() {
     private lateinit var binding: FragmentTrendingBinding

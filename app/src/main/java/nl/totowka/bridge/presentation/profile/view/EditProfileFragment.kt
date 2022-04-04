@@ -1,22 +1,24 @@
-package nl.totowka.bridge.presentation.profile.view.edit
+package nl.totowka.bridge.presentation.profile.view
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import nl.totowka.bridge.R
 import nl.totowka.bridge.databinding.FragmentEditProfileBinding
-import nl.totowka.bridge.presentation.profile.view.details.ProfileFragment
-import nl.totowka.bridge.utils.Common.string
+import nl.totowka.bridge.domain.model.ProfileEntity
+import nl.totowka.bridge.utils.ModelPreferencesManager
 
 
 /**
- * Фрагмент, отвечающий за экран изучения слов.
+ * [Fragment] to edit the user data.
+ *
+ * @author Kocharyan Tigran
  */
 class EditProfileFragment : Fragment(), View.OnClickListener {
     private lateinit var binding: FragmentEditProfileBinding
@@ -46,14 +48,31 @@ class EditProfileFragment : Fragment(), View.OnClickListener {
     override fun onClick(view: View?) {
         when (view?.id) {
             R.id.save_profile -> {
-                Toast.makeText(this.context, "Successfully saved", Toast.LENGTH_SHORT).show()
+                var profile = ModelPreferencesManager.get<ProfileEntity>() ?: ProfileEntity(0)
+                if (!binding.interests.isEmpty()) {
+                    profile.interests = binding.interests.text().split(",")
+                }
+                if (!binding.age.isEmpty()) {
+                    profile.age = binding.age.text().toInt()
+                }
+                if (!binding.people.isEmpty()) {
+                    profile.peopleToMeet = binding.people.text().toInt()
+                }
+                if (!binding.city.isEmpty()) {
+                    profile.city = binding.city.text()
+                }
+                ModelPreferencesManager.put(profile)
                 // TODO: SAVE ON BACKEND
+                Toast.makeText(this.context, "Successfully saved", Toast.LENGTH_SHORT).show()
             }
             R.id.back -> {
                 exit()
             }
         }
     }
+
+    private fun EditText.isEmpty() = this.text.toString().isEmpty()
+    private fun EditText.text() = this.text.toString()
 
     private fun exit() {
         (activity as AppCompatActivity).supportFragmentManager
