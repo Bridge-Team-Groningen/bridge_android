@@ -54,6 +54,6 @@ class RetrofitModule {
         HttpLoggingInterceptor().setLevel(if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE)
 
     companion object {
-        private const val SERVER_BASE_URL = "SERVER_BASE_URL" // TODO: add url
+        private const val SERVER_BASE_URL = "https://bridgerug.herokuapp.com/" // TODO: add url
     }
 }

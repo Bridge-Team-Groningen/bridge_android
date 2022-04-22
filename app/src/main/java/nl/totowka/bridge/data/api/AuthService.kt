@@ -39,8 +39,7 @@ interface AuthService {
     fun addUser(@Body profile: ProfileDataEntity): Completable
 
     companion object {
-        private const val BASE_URL = "HEROKU URL"
         private const val GET_USER_URL = ""
-        private const val ADD_USER_URL = ""
+        private const val ADD_USER_URL = "api/users/"
     }
 }

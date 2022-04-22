@@ -38,26 +38,26 @@ class ProfileFragment : Fragment(), View.OnClickListener {
         super.onViewCreated(view, savedInstanceState)
         (activity as AppCompatActivity?)?.supportActionBar?.hide()
         (activity as LauncherActivity).isBottomNavVisible(true)
-
-        if(account != null) {
-            account.let {
-                profile = ProfileEntity(0, it?.id?.toInt() ?: 0, it?.displayName ?: "undefinded", it?.familyName ?: "undefined")
-                ModelPreferencesManager.put(profile)
-            }
-        } else {
-            profile = ModelPreferencesManager.get<ProfileEntity>()
-        }
-
-        profile?.let { profile ->
-            binding.interests.text = profile.interests?.joinToString() ?: "undefined"
-            binding.age.text = profile.age?.let {
-                context?.getString(R.string.age, it)
-            } ?: "undefined"
-            binding.people.text = profile.peopleToMeet?.let {
-                context?.getString(R.string.people, it)
-            } ?: "undefined"
-            binding.city.text = profile.city ?: "undefined"
-        }
+//
+//        if(account != null) {
+//            account.let {
+//                profile = ProfileEntity(0, it?.id?.toInt() ?: 0, it?.displayName ?: "undefinded", it?.familyName ?: "undefined")
+//                ModelPreferencesManager.put(profile)
+//            }
+//        } else {
+//            profile = ModelPreferencesManager.get<ProfileEntity>()
+//        }
+//
+//        profile?.let { profile ->
+//            binding.interests.text = profile.interests?.joinToString() ?: "undefined"
+//            binding.age.text = profile.age?.let {
+//                context?.getString(R.string.age, it)
+//            } ?: "undefined"
+//            binding.people.text = profile.peopleToMeet?.let {
+//                context?.getString(R.string.people, it)
+//            } ?: "undefined"
+//            binding.city.text = profile.city ?: "undefined"
+//        }
     }
 
     override fun onClick(view: View?) {

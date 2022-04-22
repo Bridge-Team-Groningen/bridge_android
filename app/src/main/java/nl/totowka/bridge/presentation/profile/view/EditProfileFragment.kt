@@ -48,22 +48,22 @@ class EditProfileFragment : Fragment(), View.OnClickListener {
     override fun onClick(view: View?) {
         when (view?.id) {
             R.id.save_profile -> {
-                var profile = ModelPreferencesManager.get<ProfileEntity>() ?: ProfileEntity(0)
-                if (!binding.interests.isEmpty()) {
-                    profile.interests = binding.interests.text().split(",")
-                }
-                if (!binding.age.isEmpty()) {
-                    profile.age = binding.age.text().toInt()
-                }
-                if (!binding.people.isEmpty()) {
-                    profile.peopleToMeet = binding.people.text().toInt()
-                }
-                if (!binding.city.isEmpty()) {
-                    profile.city = binding.city.text()
-                }
-                ModelPreferencesManager.put(profile)
-                // TODO: SAVE ON BACKEND
-                Toast.makeText(this.context, "Successfully saved", Toast.LENGTH_SHORT).show()
+//                var profile = ModelPreferencesManager.get<ProfileEntity>() ?: ProfileEntity(0)
+//                if (!binding.interests.isEmpty()) {
+//                    profile.interests = binding.interests.text().split(",")
+//                }
+//                if (!binding.age.isEmpty()) {
+//                    profile.age = binding.age.text().toInt()
+//                }
+//                if (!binding.people.isEmpty()) {
+//                    profile.peopleToMeet = binding.people.text().toInt()
+//                }
+//                if (!binding.city.isEmpty()) {
+//                    profile.city = binding.city.text()
+//                }
+//                ModelPreferencesManager.put(profile)
+//                // TODO: SAVE ON BACKEND
+//                Toast.makeText(this.context, "Successfully saved", Toast.LENGTH_SHORT).show()
             }
             R.id.back -> {
                 exit()
