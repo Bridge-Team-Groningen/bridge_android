@@ -34,6 +34,8 @@ data class ProfileEntity(
     var name: String? = null,
     var googleId: String? = null,
     var email: String? = null,
+    var age: Int? = null,
+    var hobbies: String? = null,
     var gender: String? = null,
     var description: String? = null,
     var interest: String? = null,
@@ -41,6 +43,7 @@ data class ProfileEntity(
     var starSign: String? = null,
     var city: String? = null,
     var mottoInLife: String? = null,
+    var questionWifi: String? = null,
 ) : Parcelable
 
 @Parcelize

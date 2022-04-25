@@ -85,6 +85,8 @@ data class ProfileDataEntity(
     @SerializedName("name") var name: String? = null,
     @SerializedName("googleId") var googleId: String? = null,
     @SerializedName("email") var email: String? = null,
+    @SerializedName("age") var age: Int? = null,
+    @SerializedName("hobbies") var hobbies: String? = null,
     @SerializedName("gender") var gender: String? = null,
     @SerializedName("description") var description: String? = null,
     @SerializedName("interest") var interest: String? = null,
@@ -92,19 +94,23 @@ data class ProfileDataEntity(
     @SerializedName("starSign") var starSign: String? = null,
     @SerializedName("city") var city: String? = null,
     @SerializedName("mottoInLife") var mottoInLife: String? = null,
+    @SerializedName("questionWifi") var questionWifi: String? = null,
 ) : Parcelable {
 
     fun toEntity() = ProfileEntity(
         name,
         googleId,
         email,
+        age,
+        hobbies,
         gender,
         description,
         interest,
         capacity,
         starSign,
         city,
-        mottoInLife
+        mottoInLife,
+        questionWifi
     )
 
     companion object {
@@ -113,13 +119,16 @@ data class ProfileDataEntity(
                 name,
                 googleId,
                 email,
+                age,
+                hobbies,
                 gender,
                 description,
                 interest,
                 capacity,
                 starSign,
                 city,
-                mottoInLife
+                mottoInLife,
+                questionWifi
             )
         }
     }

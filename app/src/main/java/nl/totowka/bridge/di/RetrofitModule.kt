@@ -3,7 +3,7 @@ package nl.totowka.bridge.di
 import dagger.Module
 import dagger.Provides
 import nl.totowka.bridge.BuildConfig
-import nl.totowka.bridge.data.api.AuthService
+import nl.totowka.bridge.data.api.ProfileService
 import nl.totowka.bridge.data.api.EventService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -19,17 +19,17 @@ import javax.inject.Singleton
 class RetrofitModule {
     @Provides
     @Singleton
-    fun provideAuthService(builder: Retrofit.Builder): AuthService = builder
-        .baseUrl("$SERVER_BASE_URL")
+    fun provideAuthService(builder: Retrofit.Builder): ProfileService = builder
+        .baseUrl(SERVER_BASE_URL+USER_URL)
         .addConverterFactory(GsonConverterFactory.create())
         .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
         .build()
-        .create(AuthService::class.java)
+        .create(ProfileService::class.java)
 
     @Provides
     @Singleton
     fun provideEventService(builder: Retrofit.Builder): EventService = builder
-        .baseUrl("$SERVER_BASE_URL")
+        .baseUrl(SERVER_BASE_URL+EVENT_URL)
         .addConverterFactory(GsonConverterFactory.create())
         .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
         .build()
@@ -54,6 +54,8 @@ class RetrofitModule {
         HttpLoggingInterceptor().setLevel(if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE)
 
     companion object {
-        private const val SERVER_BASE_URL = "https://bridgerug.herokuapp.com/" // TODO: add url
+        private const val SERVER_BASE_URL = "https://bridgerug.herokuapp.com/"
+        private const val EVENT_URL = "api/events/"
+        private const val USER_URL = "api/users/"
     }
 }

@@ -28,9 +28,9 @@ import nl.totowka.bridge.databinding.FragmentAuthBinding
 import nl.totowka.bridge.domain.interactor.ProfileInteractor
 import nl.totowka.bridge.domain.model.ProfileEntity
 import nl.totowka.bridge.presentation.LauncherActivity
-import nl.totowka.bridge.presentation.auth.viewmodel.AuthViewModel
+import nl.totowka.bridge.presentation.profile.viewmodel.ProfileViewModel
 import nl.totowka.bridge.presentation.profile.view.ProfileFragment
-import nl.totowka.bridge.presentation.profile.viewmodel.AuthViewModelFactory
+import nl.totowka.bridge.presentation.profile.viewmodel.ProfileViewModelFactory
 import nl.totowka.bridge.utils.ModelPreferencesManager
 import nl.totowka.bridge.utils.scheduler.SchedulersProvider
 import javax.inject.Inject
@@ -44,7 +44,7 @@ class AuthFragment : Fragment(), View.OnClickListener {
     private lateinit var binding: FragmentAuthBinding
     private lateinit var options: GoogleSignInOptions
     private lateinit var client: GoogleSignInClient
-    private lateinit var viewModel: AuthViewModel
+    private lateinit var viewModel: ProfileViewModel
 
     @Inject
     lateinit var interactor: ProfileInteractor
@@ -62,9 +62,9 @@ class AuthFragment : Fragment(), View.OnClickListener {
     override fun onStart() {
         super.onStart()
         val account = GoogleSignIn.getLastSignedInAccount(this.context as Context)
-//        account?.let {
-//            startProfile()
-//        }
+        account?.id?.let {
+            viewModel.getProfile(it)
+        }
     }
 
     override fun onCreateView(
@@ -101,8 +101,8 @@ class AuthFragment : Fragment(), View.OnClickListener {
 
     private fun createViewModel() {
         viewModel = ViewModelProvider(
-            this, AuthViewModelFactory(interactor, schedulers)
-        ).get(AuthViewModel::class.java)
+            this, ProfileViewModelFactory(interactor, schedulers)
+        ).get(ProfileViewModel::class.java)
     }
 
     private fun setupAuth() {
@@ -121,25 +121,24 @@ class AuthFragment : Fragment(), View.OnClickListener {
     }
 
     private fun startProfile(account: GoogleSignInAccount) {
-        viewModel.addProfile(
-            ProfileEntity(
-                account.displayName,
-                account.id.toString(),
-                account.email
-            )
+        val profile = ProfileEntity(
+            account.displayName,
+            account.id,
+            account.email
         )
-//        (activity as AppCompatActivity).supportFragmentManager
-//            .beginTransaction()
-//            .replace(R.id.fragment_container, ProfileFragment.newInstance(account), ProfileFragment.TAG)
-//            .commit()
+        viewModel.addProfile(profile)
+        startProfile(profile)
     }
 
-    private fun startProfile() {
-
-//        (activity as AppCompatActivity).supportFragmentManager
-//            .beginTransaction()
-//            .replace(R.id.fragment_container, ProfileFragment.newInstance(), ProfileFragment.TAG)
-//            .commit()
+    private fun startProfile(profile: ProfileEntity) {
+        (activity as AppCompatActivity).supportFragmentManager
+            .beginTransaction()
+            .replace(
+                R.id.fragment_container,
+                ProfileFragment.newInstance(profile),
+                ProfileFragment.TAG
+            )
+            .commit()
     }
 
     private fun bindButtons() {
@@ -147,19 +146,13 @@ class AuthFragment : Fragment(), View.OnClickListener {
         binding.googleAuth.setSize(SignInButton.SIZE_WIDE)
     }
 
-    private fun observeLiveData() {
-        viewModel.getErrorLiveData().observe(viewLifecycleOwner, this::showError)
-        viewModel.getProgressLiveData().observe(viewLifecycleOwner, this::showProgress)
-        viewModel.getSuccessLiveData().observe(viewLifecycleOwner, this::showSuccess)
-    }
-
     private fun showProgress(isVisible: Boolean) {
         // TODO
     }
 
-    private fun showSuccess(isSuccess: Boolean) {
+    private fun showSuccess(message: String) {
         Log.d(TAG, "showSuccess() called")
-        Snackbar.make(binding.root, "Successfully Added", BaseTransientBottomBar.LENGTH_SHORT)
+        Snackbar.make(binding.root, message, BaseTransientBottomBar.LENGTH_SHORT)
             .show()
     }
 
@@ -167,6 +160,13 @@ class AuthFragment : Fragment(), View.OnClickListener {
         Log.d(TAG, "showError() called with: throwable = $throwable")
         Snackbar.make(binding.root, throwable.toString(), BaseTransientBottomBar.LENGTH_SHORT)
             .show()
+    }
+
+    private fun observeLiveData() {
+        viewModel.getErrorLiveData().observe(viewLifecycleOwner, this::showError)
+        viewModel.getProgressLiveData().observe(viewLifecycleOwner, this::showProgress)
+        viewModel.getSuccessLiveData().observe(viewLifecycleOwner, this::showSuccess)
+        viewModel.getProfileLiveData().observe(viewLifecycleOwner, this::startProfile)
     }
 
     companion object {
