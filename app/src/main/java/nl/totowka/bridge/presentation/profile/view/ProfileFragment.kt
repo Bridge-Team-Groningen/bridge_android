@@ -87,7 +87,7 @@ class ProfileFragment : Fragment(), View.OnClickListener {
             binding.interests.text = profile.interest ?: "undefined"
             binding.hobbies.text = profile.hobbies ?: "undefined"
             binding.mottoInLife.text = profile.mottoInLife ?: "undefined"
-            binding.age.text = context?.getString(R.string.age, "undefined")
+            binding.age.text = context?.getString(R.string.age, profile.age.toString())
             binding.people.text = profile.capacity?.let {
                 context?.getString(R.string.people, it)
             } ?: "undefined"
