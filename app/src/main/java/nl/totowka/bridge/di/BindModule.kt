@@ -2,6 +2,8 @@ package nl.totowka.bridge.di
 
 import dagger.Binds
 import dagger.Module
+import nl.totowka.bridge.data.repository.ProfileRepositoryImpl
+import nl.totowka.bridge.domain.repository.ProfileRepository
 import nl.totowka.bridge.utils.scheduler.SchedulersProvider
 import nl.totowka.bridge.utils.scheduler.SchedulersProviderImpl
 
@@ -13,4 +15,7 @@ import nl.totowka.bridge.utils.scheduler.SchedulersProviderImpl
 interface BindModule {
     @Binds
     fun bindSchedulers(impl: SchedulersProviderImpl): SchedulersProvider
+
+    @Binds
+    fun bindAuthRepository(impl: ProfileRepositoryImpl): ProfileRepository
 }

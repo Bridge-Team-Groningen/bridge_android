@@ -18,6 +18,8 @@
         <entry key="..\:/Users/tigra/Desktop/android/bridge_android/app/src/main/res/menu/bottom_menu.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/tigra/Desktop/android/bridge_android/app/src/main/res/menu/menu.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/tigra/Desktop/android/bridge_android/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_edit_profile.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.1" />
       </map>
     </option>
   </component>

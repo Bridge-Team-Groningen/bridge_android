@@ -5,12 +5,14 @@ import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -18,11 +20,20 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.SignInButton
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
+import com.google.android.material.snackbar.BaseTransientBottomBar
+import com.google.android.material.snackbar.Snackbar
+import nl.totowka.bridge.App
 import nl.totowka.bridge.R
 import nl.totowka.bridge.databinding.FragmentAuthBinding
+import nl.totowka.bridge.domain.interactor.ProfileInteractor
+import nl.totowka.bridge.domain.model.ProfileEntity
 import nl.totowka.bridge.presentation.LauncherActivity
+import nl.totowka.bridge.presentation.profile.viewmodel.ProfileViewModel
 import nl.totowka.bridge.presentation.profile.view.ProfileFragment
+import nl.totowka.bridge.presentation.profile.viewmodel.ProfileViewModelFactory
 import nl.totowka.bridge.utils.ModelPreferencesManager
+import nl.totowka.bridge.utils.scheduler.SchedulersProvider
+import javax.inject.Inject
 
 /**
  * [Fragment] to display the authentication information.
@@ -33,22 +44,34 @@ class AuthFragment : Fragment(), View.OnClickListener {
     private lateinit var binding: FragmentAuthBinding
     private lateinit var options: GoogleSignInOptions
     private lateinit var client: GoogleSignInClient
+    private lateinit var viewModel: ProfileViewModel
+
+    @Inject
+    lateinit var interactor: ProfileInteractor
+
+    @Inject
+    lateinit var schedulers: SchedulersProvider
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         ModelPreferencesManager.with(activity?.applicationContext as Application)
+        (activity?.applicationContext as App).getAppComponent().inject(this)
         setupAuth()
     }
 
     override fun onStart() {
         super.onStart()
         val account = GoogleSignIn.getLastSignedInAccount(this.context as Context)
-        account?.let {
-            startProfile()
+        account?.id?.let {
+            viewModel.getProfile(it)
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         binding = FragmentAuthBinding.inflate(inflater, container, false)
         bindButtons()
         return binding.root
@@ -57,6 +80,8 @@ class AuthFragment : Fragment(), View.OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (activity as LauncherActivity).isBottomNavVisible(false)
+        createViewModel()
+        observeLiveData()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -72,6 +97,12 @@ class AuthFragment : Fragment(), View.OnClickListener {
                 R.id.google_auth -> startActivityForResult(client.signInIntent, GOOGLE_AUTH)
             }
         }
+    }
+
+    private fun createViewModel() {
+        viewModel = ViewModelProvider(
+            this, ProfileViewModelFactory(interactor, schedulers)
+        ).get(ProfileViewModel::class.java)
     }
 
     private fun setupAuth() {
@@ -90,22 +121,52 @@ class AuthFragment : Fragment(), View.OnClickListener {
     }
 
     private fun startProfile(account: GoogleSignInAccount) {
-        (activity as AppCompatActivity).supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.fragment_container, ProfileFragment.newInstance(account), ProfileFragment.TAG)
-            .commit()
+        val profile = ProfileEntity(
+            account.displayName,
+            account.id,
+            account.email
+        )
+        viewModel.addProfile(profile)
+        startProfile(profile)
     }
 
-    private fun startProfile() {
+    private fun startProfile(profile: ProfileEntity) {
         (activity as AppCompatActivity).supportFragmentManager
             .beginTransaction()
-            .replace(R.id.fragment_container, ProfileFragment.newInstance(), ProfileFragment.TAG)
+            .replace(
+                R.id.fragment_container,
+                ProfileFragment.newInstance(profile),
+                ProfileFragment.TAG
+            )
             .commit()
     }
 
     private fun bindButtons() {
         binding.googleAuth.setOnClickListener(this)
         binding.googleAuth.setSize(SignInButton.SIZE_WIDE)
+    }
+
+    private fun showProgress(isVisible: Boolean) {
+        // TODO
+    }
+
+    private fun showSuccess(message: String) {
+        Log.d(TAG, "showSuccess() called")
+        Snackbar.make(binding.root, message, BaseTransientBottomBar.LENGTH_SHORT)
+            .show()
+    }
+
+    private fun showError(throwable: Throwable) {
+        Log.d(TAG, "showError() called with: throwable = $throwable")
+        Snackbar.make(binding.root, throwable.toString(), BaseTransientBottomBar.LENGTH_SHORT)
+            .show()
+    }
+
+    private fun observeLiveData() {
+        viewModel.getErrorLiveData().observe(viewLifecycleOwner, this::showError)
+        viewModel.getProgressLiveData().observe(viewLifecycleOwner, this::showProgress)
+        viewModel.getSuccessLiveData().observe(viewLifecycleOwner, this::showSuccess)
+        viewModel.getProfileLiveData().observe(viewLifecycleOwner, this::startProfile)
     }
 
     companion object {

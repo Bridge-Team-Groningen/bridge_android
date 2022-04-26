@@ -7,11 +7,11 @@ import nl.totowka.bridge.domain.model.ProfileEntity
 /**
  * Interface to work with Auth API.
  */
-interface AuthRepository {
+interface ProfileRepository {
     /**
      * Update the [ProfileEntity] on DB.
      */
-    fun update(profile: ProfileEntity): Completable
+    fun update(googleId: String, profile: ProfileEntity): Completable
 
     /**
      * Add the [ProfileEntity] to DB.
@@ -21,15 +21,15 @@ interface AuthRepository {
     /**
      * Delete the [ProfileEntity] from DB.
      */
-    fun delete(id: Int): Completable
+    fun delete(googleId: String): Completable
 
     /**
      * Get the [ProfileEntity] from DB.
      */
-    fun get(id: Int): Single<ProfileEntity>
+    fun get(googleId: String): Single<ProfileEntity>
 
     /**
      * Check whether the [ProfileEntity] saved in DB.
      */
-    fun isUser(id: Int): Single<Boolean>
+    fun isUser(googleId: String): Single<Boolean>
 }
