@@ -13,6 +13,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.util.LogTime
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -28,6 +29,7 @@ import nl.totowka.bridge.databinding.FragmentAuthBinding
 import nl.totowka.bridge.domain.interactor.ProfileInteractor
 import nl.totowka.bridge.domain.model.ProfileEntity
 import nl.totowka.bridge.presentation.LauncherActivity
+import nl.totowka.bridge.presentation.profile.view.EditProfileFragment
 import nl.totowka.bridge.presentation.profile.viewmodel.ProfileViewModel
 import nl.totowka.bridge.presentation.profile.view.ProfileFragment
 import nl.totowka.bridge.presentation.profile.viewmodel.ProfileViewModelFactory
@@ -126,11 +128,23 @@ class AuthFragment : Fragment(), View.OnClickListener {
             account.id,
             account.email
         )
-        viewModel.addProfile(profile)
-        startProfile(profile)
+        editProfile(profile)
+    }
+
+    private fun editProfile(profile: ProfileEntity) {
+        Log.d(TAG, profile.toString())
+        (activity as AppCompatActivity).supportFragmentManager
+            .beginTransaction()
+            .replace(
+                R.id.fragment_container,
+                EditProfileFragment.newInstance(profile),
+                ProfileFragment.TAG
+            )
+            .commit()
     }
 
     private fun startProfile(profile: ProfileEntity) {
+        Log.d(TAG, profile.toString())
         (activity as AppCompatActivity).supportFragmentManager
             .beginTransaction()
             .replace(

@@ -5,10 +5,10 @@ import dagger.BindsInstance
 import dagger.Component
 import nl.totowka.bridge.presentation.LauncherActivity
 import nl.totowka.bridge.presentation.auth.view.AuthFragment
-import nl.totowka.bridge.presentation.events.EventsFragment
+import nl.totowka.bridge.presentation.events.view.signed.EventsFragment
 import nl.totowka.bridge.presentation.profile.view.EditProfileFragment
 import nl.totowka.bridge.presentation.profile.view.ProfileFragment
-import nl.totowka.bridge.presentation.trending.view.TrendingFragment
+import nl.totowka.bridge.presentation.events.view.trending.TrendingFragment
 import javax.inject.Singleton
 
 /**

@@ -4,10 +4,7 @@ import io.reactivex.Completable
 import io.reactivex.Single
 import nl.totowka.bridge.data.model.EventDataEntity
 import nl.totowka.bridge.data.model.ProfileDataEntity
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Query
+import retrofit2.http.*
 
 /**
  * Event API for getting events from db.
@@ -17,18 +14,16 @@ import retrofit2.http.Query
 interface EventService {
 
     /**
-     * Method calls API to get the current trending events from db.
+     * Method calls API to get the activity events from db.
      */
-    @GET(GET_TRENDING_EVENTS_URL)
-    fun getTrendingEvents(): Single<List<EventDataEntity>>
+    @GET("activity/{activity}")
+    fun getActivityEvents(@Path("activity") activity: String): Single<List<EventDataEntity>>
 
     /**
-     * Method calls API to get the events that user has signed for.
-     *
-     * @param googleID user's id provided by google
+     * Method calls API to get all events.
      */
-    @GET(GET_USER_EVENTS_URL)
-    fun getUserEvents(@Query("googleID") googleID: String): Single<List<EventDataEntity>>
+    @GET(GET_ALL_EVENTS_URL)
+    fun getAllEvents(): Single<List<EventDataEntity>>
 
     /**
      * Method to add event to db.
@@ -38,10 +33,16 @@ interface EventService {
     @POST(ADD_EVENT_URL)
     fun addEvent(@Body event: EventDataEntity): Completable
 
+    /**
+     * Method to delete event from db.
+     *
+     * @param id id of event created by user
+     */
+    @DELETE("{id}")
+    fun deleteEvent(@Path("id") id: String): Completable
+
     companion object {
-        private const val BASE_URL = "HEROKU URL"
-        private const val GET_USER_EVENTS_URL = ""
-        private const val GET_TRENDING_EVENTS_URL = ""
-        private const val ADD_EVENT_URL = ""
+        private const val GET_ALL_EVENTS_URL = "."
+        private const val ADD_EVENT_URL = "."
     }
 }
