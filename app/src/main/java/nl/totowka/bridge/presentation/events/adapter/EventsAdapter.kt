@@ -1,31 +1,30 @@
-package nl.totowka.bridge.presentation.trending.adapter
+package nl.totowka.bridge.presentation.events.adapter
 
-import android.media.MediaPlayer
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
+import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
-import coil.size.Scale
-import coil.transform.CircleCropTransformation
-import com.bumptech.glide.Glide
 import nl.totowka.bridge.R
 import nl.totowka.bridge.domain.model.EventEntity
 import nl.totowka.bridge.utils.callback.EventClickListener
-import java.io.IOException
-import java.net.URI
+
 
 /**
- * Адаптер для отображения слов в BottomSheet
+ * Adapter to show events in recyclerview
  */
-class TrendingEventsAdapter(
-    private var events: List<EventEntity>,
+class EventsAdapter(
+    private var events: ArrayList<EventEntity>,
     private var clickListener: EventClickListener
 ) : RecyclerView.Adapter<EventViewHolder>() {
+
+    fun updateData(events: ArrayList<EventEntity>) {
+        this.events.clear()
+        this.events.addAll(events)
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -42,7 +41,7 @@ class TrendingEventsAdapter(
 }
 
 /**
- * Holder для отображения смысла слова
+ * Holder to show the events
  */
 class EventViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val imageView: ImageView = itemView.findViewById(R.id.image)
@@ -53,12 +52,12 @@ class EventViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     fun bind(event: EventEntity, clickListener: EventClickListener) {
         val context = itemView.context
         itemView.setOnClickListener { clickListener.onClick(event) }
-        Glide.with(context)
-            .load(context.resources.getDrawable(event.image, null))
-            .circleCrop()
-            .into(imageView)
-        placeTextView.text = event.place
-        timeTextView.text = event.time
-        peopleTextView.text = context.getString(R.string.people, event.people)
+//        Glide.with(context)
+//            .load(context.resources.getDrawable(event.image, null))
+//            .circleCrop()
+//            .into(imageView)
+        placeTextView.text = event.location
+        timeTextView.text = event.date.toString()
+        peopleTextView.text = context.getString(R.string.people, event.noOfParticipants)
     }
 }

@@ -1,23 +1,28 @@
 package nl.totowka.bridge.presentation.profile.view
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.textfield.TextInputLayout
 import nl.totowka.bridge.App
 import nl.totowka.bridge.R
 import nl.totowka.bridge.databinding.FragmentEditProfileBinding
 import nl.totowka.bridge.domain.interactor.ProfileInteractor
 import nl.totowka.bridge.domain.model.ProfileEntity
+import nl.totowka.bridge.presentation.SharedViewModel
 import nl.totowka.bridge.presentation.auth.view.AuthFragment
 import nl.totowka.bridge.presentation.profile.viewmodel.ProfileViewModel
 import nl.totowka.bridge.presentation.profile.viewmodel.ProfileViewModelFactory
@@ -34,6 +39,7 @@ import javax.inject.Inject
 class EditProfileFragment : Fragment(), View.OnClickListener {
     private lateinit var binding: FragmentEditProfileBinding
     private lateinit var viewModel: ProfileViewModel
+    private val sharedViewModel: SharedViewModel by activityViewModels()
     var profile: ProfileEntity? = null
 
     @Inject
@@ -56,6 +62,16 @@ class EditProfileFragment : Fragment(), View.OnClickListener {
         binding = FragmentEditProfileBinding.inflate(inflater, container, false)
         binding.saveProfile.setOnClickListener(this)
         binding.back.setOnClickListener(this)
+
+        val genders = resources.getStringArray(R.array.genders)
+        val gendersAdapter = ArrayAdapter(this.context as Context, R.layout.dropdown_item, genders)
+        binding.gendersDropdown.setAdapter(gendersAdapter)
+
+        val starSigns = resources.getStringArray(R.array.starSigns)
+        val starSignsAdapter =
+            ArrayAdapter(this.context as Context, R.layout.dropdown_item, starSigns)
+        binding.starSignsDropdown.setAdapter(starSignsAdapter)
+
         return binding.root
     }
 
@@ -80,40 +96,48 @@ class EditProfileFragment : Fragment(), View.OnClickListener {
     override fun onClick(view: View?) {
         when (view?.id) {
             R.id.save_profile -> {
-//                var profile = ModelPreferencesManager.get<ProfileEntity>() ?: ProfileEntity(0)
                 profile?.let {
-                    if (!binding.interests.isEmpty()) {
-                        it.interest = binding.interests.text()
+                    if (it.gender.isNullOrEmpty() or it.city.isNullOrEmpty() or (it.age == null) or it.interestList.isNullOrEmpty() or (it.capacity == null)) {
+                        if (binding.gendersMenu.isEmpty() or binding.city.isEmpty() or binding.age.isEmpty() or binding.interests.isEmpty() or binding.people.isEmpty()) {
+                            Snackbar.make(
+                                binding.root,
+                                "Age, Gender, City, Interest and № of people to meet should be filled!",
+                                BaseTransientBottomBar.LENGTH_SHORT
+                            ).show()
+                        } else {
+                            if (!binding.interests.isEmpty()) {
+                                it.interestList = binding.interests.text()
+                            }
+                            if (binding.gendersMenu.isNotEmpty()) {
+                                it.gender = binding.gendersMenu.editText?.text()
+                            }
+                            if (!binding.description.isEmpty()) {
+                                it.description = binding.description.text()
+                            }
+                            if (binding.starSignsMenu.isNotEmpty()) {
+                                it.starSign = binding.starSignsMenu.editText?.text()
+                            }
+                            if (!binding.mottoInLife.isEmpty()) {
+                                it.mottoInLife = binding.mottoInLife.text()
+                            }
+                            if (!binding.people.isEmpty()) {
+                                it.capacity = binding.people.text().toInt()
+                            }
+                            if (!binding.city.isEmpty()) {
+                                it.city = binding.city.text()
+                            }
+                            if (!binding.age.isEmpty()) {
+                                it.age = binding.age.text().toInt()
+                            }
+                            if (!binding.hobbies.isEmpty()) {
+                                it.hobbies = binding.hobbies.text()
+                            }
+                            it.googleId?.let { id ->
+                                viewModel.updateProfile(id, it)
+                            } ?: showError(Exception("Couldn't find Google ID"))
+                        }
                     }
-                    if (!binding.gender.isEmpty()) {
-                        it.gender = binding.gender.text()
-                    }
-                    if (!binding.description.isEmpty()) {
-                        it.description = binding.description.text()
-                    }
-                    if (!binding.starSign.isEmpty()) {
-                        it.starSign = binding.starSign.text()
-                    }
-                    if (!binding.mottoInLife.isEmpty()) {
-                        it.mottoInLife = binding.mottoInLife.text()
-                    }
-                    if (!binding.people.isEmpty()) {
-                        it.capacity = binding.people.text().toInt()
-                    }
-                    if (!binding.city.isEmpty()) {
-                        it.city = binding.city.text()
-                    }
-                    if (!binding.age.isEmpty()) {
-                        it.age = binding.age.text().toInt()
-                    }
-                    if (!binding.hobbies.isEmpty()) {
-                        it.hobbies = binding.hobbies.text()
-                    }
-                    it.googleId?.let { id ->
-                        viewModel.updateProfile(id, it)
-                    } ?: showError(Exception("Couldn't find Google ID"))
                 }
-//                ModelPreferencesManager.put(profile)
             }
             R.id.back -> {
                 profile?.googleId?.let { viewModel.getProfile(it) }
@@ -132,14 +156,18 @@ class EditProfileFragment : Fragment(), View.OnClickListener {
     }
 
     private fun showSuccess(message: String) {
-        Log.d(AuthFragment.TAG, "showSuccess() called")
+        Log.d(TAG, "showSuccess() called")
         Snackbar.make(binding.root, message, BaseTransientBottomBar.LENGTH_SHORT)
             .show()
     }
 
     private fun showError(throwable: Throwable) {
-        Log.d(AuthFragment.TAG, "showError() called with: throwable = $throwable")
-        Snackbar.make(binding.root, throwable.toString(), BaseTransientBottomBar.LENGTH_SHORT)
+        Log.d(TAG, "showError() called with: throwable = $throwable")
+        Snackbar.make(
+            binding.root,
+            throwable.toString(),
+            BaseTransientBottomBar.LENGTH_SHORT
+        )
             .show()
     }
 
@@ -151,6 +179,7 @@ class EditProfileFragment : Fragment(), View.OnClickListener {
     }
 
     private fun startProfile(profile: ProfileEntity) {
+        sharedViewModel.setUser(profile)
         (activity as AppCompatActivity).supportFragmentManager
             .beginTransaction()
             .replace(
@@ -162,6 +191,8 @@ class EditProfileFragment : Fragment(), View.OnClickListener {
     }
 
     private fun EditText.isEmpty() = this.text.toString().isEmpty()
+    private fun TextInputLayout.isNotEmpty() = this.editText?.text.toString().isNotEmpty()
+    private fun TextInputLayout.isEmpty() = this.editText?.text.toString().isEmpty()
     private fun EditText.text() = this.text.toString()
 
     private fun exit() {
@@ -170,8 +201,8 @@ class EditProfileFragment : Fragment(), View.OnClickListener {
     }
 
     companion object {
-        const val TAG = "ProfileFragment"
-        const val PROFILE_TAG = "PROFILE_TAG"
+        const val TAG = "EditProfileFragment"
+        const val PROFILE_TAG = "EDIT_PROFILE_TAG"
         private const val TAG_ADD = "$TAG ADD"
         private const val TAG_ERROR = "$TAG ERROR"
         private const val TAG_PROGRESS = "$TAG PROGRESS"

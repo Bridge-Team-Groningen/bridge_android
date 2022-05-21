@@ -9,8 +9,8 @@ import kotlinx.android.synthetic.main.activity_main.*
 import nl.totowka.bridge.R
 import nl.totowka.bridge.presentation.auth.view.AuthFragment
 import nl.totowka.bridge.presentation.profile.view.ProfileFragment
-import nl.totowka.bridge.presentation.events.EventsFragment
-import nl.totowka.bridge.presentation.trending.view.TrendingFragment
+import nl.totowka.bridge.presentation.events.view.signed.EventsFragment
+import nl.totowka.bridge.presentation.events.view.trending.TrendingFragment
 
 /**
  * Main [Activity]. All fragments will be added on top of it.
