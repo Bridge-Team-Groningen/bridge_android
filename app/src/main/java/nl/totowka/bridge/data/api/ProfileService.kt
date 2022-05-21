@@ -22,18 +22,18 @@ interface ProfileService {
     /**
      * Method takes googleID to identify the user in db
      *
-     * @param googleID user's id
+     * @param googleId user's id
      */
-    @GET("login/{googleId}")
-    fun getUser(@Path("googleId") googleID: String): Single<ProfileDataEntity>
+    @GET("{googleId}")
+    fun getUser(@Path("googleId") googleId: String): Single<ProfileDataEntity>
 
     /**
      * Method takes googleID to delete the user from db
      *
-     * @param googleID user's id
+     * @param googleId user's id
      */
-    @DELETE
-    fun deleteUser(@Query("googleID") googleID: String): Completable
+    @DELETE("{googleId}")
+    fun deleteUser(@Path("googleId") googleId: String): Completable
 
     /**
      * Method adds user's profile to db
@@ -49,10 +49,11 @@ interface ProfileService {
      * @param profile entity of user
      */
     @Headers("Content-Type: application/json")
-    @PUT("googleId/{googleId}")
+    @PUT("{googleId}")
     fun updateUser(@Path("googleId") googleId: String, @Body profile: ProfileDataEntity): Completable
 
     companion object {
         private const val POST_USER_URL = "."
+        private const val DELETE_USER_URL = "."
     }
 }

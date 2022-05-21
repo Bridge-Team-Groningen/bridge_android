@@ -59,10 +59,10 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:gravity="center"
-        tools:text="Kocharyan Tigran"
         android:textAlignment="center"
         android:textSize="24sp"
-        app:layout_constraintTop_toBottomOf="@id/profile_image" />
+        app:layout_constraintTop_toBottomOf="@id/profile_image"
+        tools:text="Kocharyan Tigran" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -83,20 +83,17 @@
                 android:orientation="vertical">
 
                 <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:textColorHint="@color/purple"
-                    app:boxBackgroundColor="@android:color/transparent">
+                    android:id="@+id/genders_menu"
+                    android:hint="Gender">
 
-                    <EditText
-                        android:id="@+id/gender"
-                        style="@style/Theme.Bridge.Text.Profile.ItemText"
+                    <AutoCompleteTextView
+                        android:id="@+id/genders_dropdown"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Type your gender..."
-                        android:imeOptions="actionNext" />
-
+                        android:inputType="none" />
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
 
@@ -179,20 +176,17 @@
                 android:orientation="vertical">
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/starSigns_menu"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:textColorHint="@color/purple"
-                    app:boxBackgroundColor="@android:color/transparent">
+                    android:hint="Star Sign">
 
-                    <EditText
-                        android:id="@+id/starSign"
-                        style="@style/Theme.Bridge.Text.Profile.ItemText"
+                    <AutoCompleteTextView
+                        android:id="@+id/starSigns_dropdown"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Type your star sign..."
-                        android:imeOptions="actionNext" />
-
+                        android:inputType="none" />
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
 
@@ -214,6 +208,8 @@
                         style="@style/Theme.Bridge.Text.Profile.ItemText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:inputType="numberDecimal"
+                        android:digits="0123456789"
                         android:hint="Type your age..."
                         android:imeOptions="actionNext" />
 
@@ -238,6 +234,8 @@
                         style="@style/Theme.Bridge.Text.Profile.ItemText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:inputType="numberDecimal"
+                        android:digits="0123456789"
                         android:hint="Type the amount of people to meet..."
                         android:imeOptions="actionNext" />
 

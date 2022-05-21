@@ -5,6 +5,7 @@ import dagger.Provides
 import nl.totowka.bridge.BuildConfig
 import nl.totowka.bridge.data.api.ProfileService
 import nl.totowka.bridge.data.api.EventService
+import nl.totowka.bridge.data.api.UserEventService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -37,6 +38,15 @@ class RetrofitModule {
 
     @Provides
     @Singleton
+    fun provideUserEventService(builder: Retrofit.Builder): UserEventService = builder
+        .baseUrl(SERVER_BASE_URL+USER_EVENT_URL)
+        .addConverterFactory(GsonConverterFactory.create())
+        .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+        .build()
+        .create(UserEventService::class.java)
+
+    @Provides
+    @Singleton
     fun provideRetrofitBuilder(client: OkHttpClient): Retrofit.Builder = Retrofit.Builder()
         .client(client)
         .addConverterFactory(GsonConverterFactory.create())
@@ -55,7 +65,9 @@ class RetrofitModule {
 
     companion object {
         private const val SERVER_BASE_URL = "https://bridgerug.herokuapp.com/"
+        private const val LOCAL_BASE_URL = "http://localhost:8080//"
         private const val EVENT_URL = "api/events/"
+        private const val USER_EVENT_URL = "api/user_events/"
         private const val USER_URL = "api/users/"
     }
 }

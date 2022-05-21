@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.material.snackbar.BaseTransientBottomBar
@@ -18,6 +19,7 @@ import nl.totowka.bridge.databinding.FragmentProfileBinding
 import nl.totowka.bridge.domain.interactor.ProfileInteractor
 import nl.totowka.bridge.domain.model.ProfileEntity
 import nl.totowka.bridge.presentation.LauncherActivity
+import nl.totowka.bridge.presentation.SharedViewModel
 import nl.totowka.bridge.presentation.auth.view.AuthFragment
 import nl.totowka.bridge.presentation.profile.viewmodel.ProfileViewModel
 import nl.totowka.bridge.presentation.profile.viewmodel.ProfileViewModelFactory
@@ -32,6 +34,7 @@ import javax.inject.Inject
 class ProfileFragment : Fragment(), View.OnClickListener {
     private lateinit var binding: FragmentProfileBinding
     private lateinit var viewModel: ProfileViewModel
+    private val sharedViewModel: SharedViewModel by activityViewModels()
     var profile: ProfileEntity? = null
 
     @Inject
@@ -58,33 +61,14 @@ class ProfileFragment : Fragment(), View.OnClickListener {
         observeLiveData()
         (activity as AppCompatActivity?)?.supportActionBar?.hide()
         (activity as LauncherActivity).isBottomNavVisible(true)
-//
-//        if(account != null) {
-//            account.let {
-//                profile = ProfileEntity(0, it?.id?.toInt() ?: 0, it?.displayName ?: "undefinded", it?.familyName ?: "undefined")
-//                ModelPreferencesManager.put(profile)
-//            }
-//        } else {
-//            profile = ModelPreferencesManager.get<ProfileEntity>()
-//        }
-//
-//        profile?.let { profile ->
-//            binding.interests.text = profile.interests?.joinToString() ?: "undefined"
-//            binding.age.text = profile.age?.let {
-//                context?.getString(R.string.age, it)
-//            } ?: "undefined"
-//            binding.people.text = profile.peopleToMeet?.let {
-//                context?.getString(R.string.people, it)
-//            } ?: "undefined"
-//            binding.city.text = profile.city ?: "undefined"
-//        }
 
         profile?.let { profile ->
+            sharedViewModel.setUser(profile)
             binding.profileTitle.text = profile.name ?: "undefined"
             binding.gender.text = profile.gender ?: "undefined"
             binding.description.text = profile.description ?: "undefined"
             binding.starSign.text = profile.starSign ?: "undefined"
-            binding.interests.text = profile.interest ?: "undefined"
+            binding.interests.text = profile.interestList ?: "undefined"
             binding.hobbies.text = profile.hobbies ?: "undefined"
             binding.mottoInLife.text = profile.mottoInLife ?: "undefined"
             binding.age.text = context?.getString(R.string.age, profile.age.toString())
