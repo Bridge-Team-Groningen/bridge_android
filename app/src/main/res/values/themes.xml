@@ -60,6 +60,25 @@
         <item name="android:textSize">18sp</item>
     </style>
 
+    <style name="Theme.Bridge.Text.Event">
+        <item name="android:lineSpacingMultiplier">1.2</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="Theme.Bridge.Text.Event.Title">
+        <item name="android:fontFamily">@font/futura_medium</item>
+        <item name="android:lineSpacingMultiplier">1.2</item>
+        <item name="android:textColor">@color/purple</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="Theme.Bridge.Text.Event.ItemText">
+        <item name="android:fontFamily">@font/roboto_regular</item>
+        <item name="android:textColor">#575656</item>
+        <item name="android:lineSpacingMultiplier">1.2</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
     <style name="AppTheme.Text.Title" parent="Theme.Bridge.Text">
         <item name="android:textSize">18sp</item>
         <item name="android:fontFamily">@font/futura_medium</item>

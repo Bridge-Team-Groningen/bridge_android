@@ -6,11 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import nl.totowka.bridge.R
-import nl.totowka.bridge.databinding.EventDetailsHolderBinding
+import nl.totowka.bridge.databinding.HolderEventDetailsBinding
 import nl.totowka.bridge.domain.model.EventEntity
 import nl.totowka.bridge.presentation.SharedViewModel
+import nl.totowka.bridge.utils.Common.toCoolString
 import nl.totowka.bridge.utils.callback.EventClickListener
 import nl.totowka.bridge.utils.callback.SignInClickListener
 
@@ -19,12 +21,12 @@ import nl.totowka.bridge.utils.callback.SignInClickListener
  */
 class EventDetailsBottomDialogFragment(private var signInListener: SignInClickListener) :
     BottomSheetDialogFragment() {
-    private lateinit var binding: EventDetailsHolderBinding
+    private lateinit var binding: HolderEventDetailsBinding
     var event: EventEntity? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = EventDetailsHolderBinding.inflate(layoutInflater)
+        binding = HolderEventDetailsBinding.inflate(layoutInflater)
         event = arguments?.getParcelable(EVENT_ENTITY_TAG)
     }
 
@@ -33,7 +35,7 @@ class EventDetailsBottomDialogFragment(private var signInListener: SignInClickLi
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = EventDetailsHolderBinding.inflate(inflater, container, false)
+        binding = HolderEventDetailsBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -41,20 +43,28 @@ class EventDetailsBottomDialogFragment(private var signInListener: SignInClickLi
         super.onViewCreated(view, savedInstanceState)
         val context = view.context
         event?.let { event ->
-//            Glide.with(context)
-//                .load(context.resources.getDrawable(it.image, null))
-//                .circleCrop()
-//                .into(binding.image)
+            Glide.with(context)
+                .load(context.resources.getDrawable(R.drawable.club, null))
+                .circleCrop()
+                .into(binding.image)
             binding.title.text = event.name
             binding.place.text = context.getString(R.string.place, event.location)
-            binding.time.text = context.getString(R.string.time, event.date)
-            binding.people.text = context.getString(R.string.people, event.noOfParticipants)
+            binding.time.text = context.getString(
+                R.string.time,
+                event.date?.toCoolString() ?: "unknown"
+            )
+            binding.people.text = context.getString(
+                R.string.people_details,
+                event.noOfParticipants,
+                event.maxCapacity
+            )
+            binding.description.text = event.description
             event.isSigned?.let { isSigned ->
                 signUp(isSigned)
                 binding.signup.setOnClickListener {
                     event.let { signInListener.onClick(it) }
                     event.isSigned = !isSigned
-                    signUp(isSigned)
+                    signUp(!isSigned)
                 }
             }
 

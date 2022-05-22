@@ -20,6 +20,18 @@ object Converters {
     fun jsonToProfiles(value: String) = Gson().fromJson(value, Array<ProfileDataEntity>::class.java).toList()
 
     /**
+     * Converts list of profile entities to JSON string.
+     */
+    @TypeConverter
+    fun eventsToJson(value: List<EventDataEntity>) = Gson().toJson(value)
+
+    /**
+     * Converts JSON string to list of profile entities.
+     */
+    @TypeConverter
+    fun jsonToEvents(value: String) = Gson().fromJson(value, Array<EventDataEntity>::class.java).toList()
+
+    /**
      * Converts profile entity to JSON string.
      */
     @TypeConverter
@@ -30,4 +42,16 @@ object Converters {
      */
     @TypeConverter
     fun jsonToProfile(value: String) = Gson().fromJson(value, ProfileDataEntity::class.java)
+
+    /**
+     * Converts profile entity to JSON string.
+     */
+    @TypeConverter
+    fun eventToJson(value: EventDataEntity?) = Gson().toJson(value)
+
+    /**
+     * Converts JSON string to profile entity.
+     */
+    @TypeConverter
+    fun jsonToEvent(value: String) = Gson().fromJson(value, EventDataEntity::class.java)
 }

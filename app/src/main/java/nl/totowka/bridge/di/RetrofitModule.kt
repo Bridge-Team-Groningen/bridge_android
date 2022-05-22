@@ -1,10 +1,12 @@
 package nl.totowka.bridge.di
 
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import nl.totowka.bridge.BuildConfig
-import nl.totowka.bridge.data.api.ProfileService
 import nl.totowka.bridge.data.api.EventService
+import nl.totowka.bridge.data.api.ProfileService
 import nl.totowka.bridge.data.api.UserEventService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -13,6 +15,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
+
 /**
  * Module to DI the Retrofit
  */
@@ -20,27 +23,27 @@ import javax.inject.Singleton
 class RetrofitModule {
     @Provides
     @Singleton
-    fun provideAuthService(builder: Retrofit.Builder): ProfileService = builder
+    fun provideAuthService(builder: Retrofit.Builder, gson: Gson): ProfileService = builder
         .baseUrl(SERVER_BASE_URL+USER_URL)
-        .addConverterFactory(GsonConverterFactory.create())
+        .addConverterFactory(GsonConverterFactory.create(gson))
         .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
         .build()
         .create(ProfileService::class.java)
 
     @Provides
     @Singleton
-    fun provideEventService(builder: Retrofit.Builder): EventService = builder
+    fun provideEventService(builder: Retrofit.Builder, gson: Gson): EventService = builder
         .baseUrl(SERVER_BASE_URL+EVENT_URL)
-        .addConverterFactory(GsonConverterFactory.create())
+        .addConverterFactory(GsonConverterFactory.create(gson))
         .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
         .build()
         .create(EventService::class.java)
 
     @Provides
     @Singleton
-    fun provideUserEventService(builder: Retrofit.Builder): UserEventService = builder
+    fun provideUserEventService(builder: Retrofit.Builder, gson: Gson): UserEventService = builder
         .baseUrl(SERVER_BASE_URL+USER_EVENT_URL)
-        .addConverterFactory(GsonConverterFactory.create())
+        .addConverterFactory(GsonConverterFactory.create(gson))
         .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
         .build()
         .create(UserEventService::class.java)
@@ -57,6 +60,10 @@ class RetrofitModule {
         .newBuilder()
         .addInterceptor(httpLoggingInterceptor)
         .build()
+
+    @Provides
+    @Singleton
+    fun provideGson() : Gson = GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ").create()
 
     @Provides
     @Singleton

@@ -10,6 +10,8 @@ import kotlinx.android.parcel.Parcelize
 import nl.totowka.bridge.domain.model.EventEntity
 import nl.totowka.bridge.domain.model.ProfileEntity
 import java.time.LocalDate
+import java.time.LocalDateTime
+import java.util.*
 
 ///**
 // * Data-layer entity of event.
@@ -60,11 +62,10 @@ data class EventDataEntity(
     @SerializedName("location") var location: String? = null,
     @SerializedName("noOfParticipants") var noOfParticipants: Int? = null,
     @SerializedName("maxCapacity") var maxCapacity: Int? = null,
-    @SerializedName("date") var date: LocalDate? = null,
-    @SerializedName("isSigned") var isSigned: Boolean? = null
+    @SerializedName("date") var date: Date? = null
 ) : Parcelable {
     fun toEntity() = EventEntity(
-        id, activity, name, description, location, noOfParticipants, maxCapacity, date, isSigned
+        id, activity, name, description, location, noOfParticipants, maxCapacity, date
     )
 
     companion object {
@@ -77,8 +78,7 @@ data class EventDataEntity(
                 location,
                 noOfParticipants,
                 maxCapacity,
-                date,
-                isSigned
+                date
             )
         }
     }

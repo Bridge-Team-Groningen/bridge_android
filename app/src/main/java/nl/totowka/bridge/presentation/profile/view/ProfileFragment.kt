@@ -73,7 +73,7 @@ class ProfileFragment : Fragment(), View.OnClickListener {
             binding.mottoInLife.text = profile.mottoInLife ?: "undefined"
             binding.age.text = context?.getString(R.string.age, profile.age.toString())
             binding.people.text = profile.capacity?.let {
-                context?.getString(R.string.people, it)
+                context?.getString(R.string.people_profile, it)
             } ?: "undefined"
             binding.city.text = profile.city ?: "undefined"
         }

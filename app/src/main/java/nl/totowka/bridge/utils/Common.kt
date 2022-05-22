@@ -4,6 +4,9 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.view.View
 import androidx.annotation.StringRes
+import java.text.SimpleDateFormat
+import java.util.*
+
 
 /**
  * Object to work with common methods during UI work.
@@ -15,7 +18,8 @@ object Common {
      * @param context app's context
      */
     fun isConnectedInternet(context: Context): Boolean {
-        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val activeNetworkInfo = connectivityManager.activeNetworkInfo
         return activeNetworkInfo != null && activeNetworkInfo.isConnected
     }
@@ -31,4 +35,6 @@ object Common {
      * Getting [String] from [StringRes]
      */
     fun Context.string(@StringRes resId: Int) = this.resources.getString(resId)
+
+    fun Date.toCoolString(): String = SimpleDateFormat("dd MMM yyyy HH:mm").format(this)
 }

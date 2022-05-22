@@ -31,6 +31,17 @@ class EventViewModel(
         )
     }
 
+    fun getSignedEvents(userId: String) {
+        disposables.add(eventInteractor.getSignedEvents(userId)
+            .observeOn(Schedulers.io()).subscribeOn(Schedulers.io())
+            .doOnSubscribe { progressLiveData.postValue(true) }
+            .doAfterTerminate { progressLiveData.postValue(false) }
+            .subscribeOn(schedulers.io())
+            .observeOn(schedulers.ui())
+            .subscribe(eventsLiveData::setValue, errorLiveData::setValue)
+        )
+    }
+
     fun signUpForEvent(eventId: String, userId: String) {
         disposables.add(eventInteractor.addUserToEvent(eventId, userId)
             .observeOn(Schedulers.io()).subscribeOn(Schedulers.io())

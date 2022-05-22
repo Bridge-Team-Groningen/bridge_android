@@ -20,10 +20,12 @@
         <entry key="..\:/Users/tigra/Desktop/android/bridge_android/app/src/main/res/menu/menu.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/tigra/Desktop/android/bridge_android/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />
         <entry key="app/src/main/res/layout/dropdown_item.xml" value="0.1640625" />
+        <entry key="app/src/main/res/layout/event_details_holder.xml" value="0.22735507246376813" />
         <entry key="app/src/main/res/layout/fragment_edit_profile.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_events.xml" value="0.3234375" />
         <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_trending.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/holder_event.xml" value="0.25" />
       </map>
     </option>
   </component>

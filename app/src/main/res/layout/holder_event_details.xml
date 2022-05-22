@@ -16,7 +16,7 @@
 
     <TextView
         android:id="@+id/title"
-        style="@style/AppTheme.Text.EventTitle"
+        style="@style/Theme.Bridge.Text.Event.Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -25,8 +25,18 @@
         tools:text="Вечеринка у меня дома" />
 
     <TextView
-        android:id="@+id/place"
+        android:paddingVertical="10dp"
+        android:textAlignment="center"
+        android:id="@+id/description"
+        android:layout_gravity="center_horizontal"
         style="@style/Theme.Bridge.Text.EventDetails"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="Let's play football! Let's play football! Let's play football! Let's play football! Let's play football! Let's play football!" />
+
+    <TextView
+        android:id="@+id/place"
+        style="@style/Theme.Bridge.Text.Event.Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
@@ -34,14 +44,14 @@
 
     <TextView
         android:id="@+id/time"
-        style="@style/Theme.Bridge.Text.EventDetails"
+        style="@style/Theme.Bridge.Text.Event.Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:text="10am" />
 
     <TextView
         android:id="@+id/people"
-        style="@style/Theme.Bridge.Text.EventDetails"
+        style="@style/Theme.Bridge.Text.Event.Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:text="10 people to go" />
