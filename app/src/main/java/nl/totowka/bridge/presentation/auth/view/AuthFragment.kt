@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.util.LogTime
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -29,6 +30,8 @@ import nl.totowka.bridge.databinding.FragmentAuthBinding
 import nl.totowka.bridge.domain.interactor.ProfileInteractor
 import nl.totowka.bridge.domain.model.ProfileEntity
 import nl.totowka.bridge.presentation.LauncherActivity
+import nl.totowka.bridge.presentation.SharedViewModel
+import nl.totowka.bridge.presentation.events.view.signed.EventsFragment
 import nl.totowka.bridge.presentation.profile.view.EditProfileFragment
 import nl.totowka.bridge.presentation.profile.viewmodel.ProfileViewModel
 import nl.totowka.bridge.presentation.profile.view.ProfileFragment
@@ -47,6 +50,7 @@ class AuthFragment : Fragment(), View.OnClickListener {
     private lateinit var options: GoogleSignInOptions
     private lateinit var client: GoogleSignInClient
     private lateinit var viewModel: ProfileViewModel
+    private val sharedViewModel: SharedViewModel by activityViewModels()
 
     @Inject
     lateinit var interactor: ProfileInteractor
@@ -145,6 +149,7 @@ class AuthFragment : Fragment(), View.OnClickListener {
 
     private fun startProfile(profile: ProfileEntity) {
         Log.d(TAG, profile.toString())
+        sharedViewModel.setUser(profile)
         (activity as AppCompatActivity).supportFragmentManager
             .beginTransaction()
             .replace(
@@ -161,7 +166,8 @@ class AuthFragment : Fragment(), View.OnClickListener {
     }
 
     private fun showProgress(isVisible: Boolean) {
-        // TODO
+        Log.i(EventsFragment.TAG, "showProgress called with param = $isVisible")
+        binding.progressbar.visibility = if (isVisible) View.VISIBLE else View.GONE
     }
 
     private fun showSuccess(message: String) {

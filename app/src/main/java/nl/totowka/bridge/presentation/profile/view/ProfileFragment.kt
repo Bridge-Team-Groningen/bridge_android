@@ -21,6 +21,7 @@ import nl.totowka.bridge.domain.model.ProfileEntity
 import nl.totowka.bridge.presentation.LauncherActivity
 import nl.totowka.bridge.presentation.SharedViewModel
 import nl.totowka.bridge.presentation.auth.view.AuthFragment
+import nl.totowka.bridge.presentation.events.view.signed.EventsFragment
 import nl.totowka.bridge.presentation.profile.viewmodel.ProfileViewModel
 import nl.totowka.bridge.presentation.profile.viewmodel.ProfileViewModelFactory
 import nl.totowka.bridge.utils.ModelPreferencesManager
@@ -46,7 +47,6 @@ class ProfileFragment : Fragment(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (activity?.applicationContext as App).getAppComponent().inject(this)
-        profile = arguments?.getParcelable(PROFILE_TAG)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -62,8 +62,8 @@ class ProfileFragment : Fragment(), View.OnClickListener {
         (activity as AppCompatActivity?)?.supportActionBar?.hide()
         (activity as LauncherActivity).isBottomNavVisible(true)
 
+        profile = sharedViewModel.user?.value
         profile?.let { profile ->
-            sharedViewModel.setUser(profile)
             binding.profileTitle.text = profile.name ?: "undefined"
             binding.gender.text = profile.gender ?: "undefined"
             binding.description.text = profile.description ?: "undefined"
@@ -98,7 +98,8 @@ class ProfileFragment : Fragment(), View.OnClickListener {
     }
 
     private fun showProgress(isVisible: Boolean) {
-        // TODO
+        Log.i(EventsFragment.TAG, "showProgress called with param = $isVisible")
+        binding.progressbar.visibility = if (isVisible) View.VISIBLE else View.GONE
     }
 
     private fun showSuccess(message: String) {
