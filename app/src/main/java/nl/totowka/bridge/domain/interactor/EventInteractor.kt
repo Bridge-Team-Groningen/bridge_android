@@ -14,6 +14,9 @@ class EventInteractor @Inject constructor(private val eventRepository: EventRepo
 
     fun getAllEvents(): Single<List<EventEntity>> = eventRepository.getAllEvents()
 
+    fun getSignedEvents(userId: String): Single<List<EventEntity>> =
+        eventRepository.getSignedEvents(userId)
+
     fun getActivityEvents(activity: String): Single<List<EventEntity>> =
         eventRepository.getActivityEvents(activity)
 

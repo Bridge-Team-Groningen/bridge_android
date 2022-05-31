@@ -24,6 +24,7 @@ import nl.totowka.bridge.domain.interactor.ProfileInteractor
 import nl.totowka.bridge.domain.model.ProfileEntity
 import nl.totowka.bridge.presentation.SharedViewModel
 import nl.totowka.bridge.presentation.auth.view.AuthFragment
+import nl.totowka.bridge.presentation.events.view.signed.EventsFragment
 import nl.totowka.bridge.presentation.profile.viewmodel.ProfileViewModel
 import nl.totowka.bridge.presentation.profile.viewmodel.ProfileViewModelFactory
 import nl.totowka.bridge.utils.ModelPreferencesManager
@@ -154,11 +155,13 @@ class EditProfileFragment : Fragment(), View.OnClickListener {
             it.googleId?.let { id ->
                 viewModel.updateProfile(id, it)
             } ?: showError(Exception("Couldn't find Google ID"))
+            sharedViewModel.setUser(it)
         }
     }
 
     private fun showProgress(isVisible: Boolean) {
-        // TODO
+        Log.i(EventsFragment.TAG, "showProgress called with param = $isVisible")
+        binding.progressbar.visibility = if (isVisible) View.VISIBLE else View.GONE
     }
 
     private fun showSuccess(message: String) {
@@ -185,7 +188,6 @@ class EditProfileFragment : Fragment(), View.OnClickListener {
     }
 
     private fun startProfile(profile: ProfileEntity) {
-        sharedViewModel.setUser(profile)
         (activity as AppCompatActivity).supportFragmentManager
             .beginTransaction()
             .replace(

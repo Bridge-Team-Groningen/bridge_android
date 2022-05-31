@@ -4,10 +4,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Signed Events:"
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/your_events"
+        style="@style/Theme.Bridge.Text.Profile.ItemTitle"
+        android:textSize="24sp"
+        />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/events"
+        app:layout_constraintTop_toBottomOf="@id/your_events"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content" />
 
     <ProgressBar
         android:id="@+id/progressbar"

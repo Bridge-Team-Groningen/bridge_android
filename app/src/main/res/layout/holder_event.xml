@@ -40,10 +40,12 @@
 
             <TextView
                 android:id="@+id/place"
-                style="@style/Theme.Bridge.Text.Profile.ItemText"
-                android:layout_width="wrap_content"
+                style="@style/Theme.Bridge.Text.Event.ItemText"
+                android:layout_width="match_parent"
+
                 android:layout_height="wrap_content"
                 android:text="Zernike Campus"
+                android:textAlignment="textEnd"
                 android:textSize="14sp" />
 
         </LinearLayout>
@@ -60,11 +62,12 @@
                 android:text="Time:" />
 
             <TextView
-                style="@style/Theme.Bridge.Text.Profile.ItemText"
                 android:id="@+id/time"
-                android:layout_width="wrap_content"
+                style="@style/Theme.Bridge.Text.Event.ItemText"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="11am"
+                android:textAlignment="textEnd"
                 android:textSize="14sp" />
 
         </LinearLayout>
@@ -81,11 +84,12 @@
                 android:text="Amount of people:" />
 
             <TextView
-                style="@style/Theme.Bridge.Text.Profile.ItemText"
                 android:id="@+id/people_amount"
-                android:layout_width="wrap_content"
+                style="@style/Theme.Bridge.Text.Event.ItemText"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="10"
+                android:textAlignment="textEnd"
                 android:textSize="14sp" />
 
         </LinearLayout>

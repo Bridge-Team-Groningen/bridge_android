@@ -7,8 +7,10 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import nl.totowka.bridge.R
 import nl.totowka.bridge.domain.model.EventEntity
+import nl.totowka.bridge.utils.Common.toCoolString
 import nl.totowka.bridge.utils.callback.EventClickListener
 
 
@@ -52,12 +54,13 @@ class EventViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     fun bind(event: EventEntity, clickListener: EventClickListener) {
         val context = itemView.context
         itemView.setOnClickListener { clickListener.onClick(event) }
-//        Glide.with(context)
-//            .load(context.resources.getDrawable(event.image, null))
-//            .circleCrop()
-//            .into(imageView)
+        Glide.with(context)
+            .load(context.resources.getDrawable(R.drawable.club, null))
+            .circleCrop()
+            .into(imageView)
         placeTextView.text = event.location
-        timeTextView.text = event.date.toString()
-        peopleTextView.text = context.getString(R.string.people, event.noOfParticipants)
+        timeTextView.text = event.date?.toCoolString() ?: "unknown"
+        peopleTextView.text =
+            context.getString(R.string.people, event.noOfParticipants, event.maxCapacity)
     }
 }

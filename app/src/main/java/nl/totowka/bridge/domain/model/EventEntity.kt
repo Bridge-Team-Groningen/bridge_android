@@ -6,6 +6,8 @@ import androidx.room.Ignore
 import kotlinx.android.parcel.IgnoredOnParcel
 import kotlinx.android.parcel.Parcelize
 import java.time.LocalDate
+import java.time.LocalDateTime
+import java.util.*
 
 ///**
 // * Domain-layer entity of event.
@@ -32,6 +34,6 @@ data class EventEntity(
     var location: String? = null,
     var noOfParticipants: Int? = null,
     var maxCapacity: Int? = null,
-    var date: LocalDate? = null,
+    var date: Date? = null,
     var isSigned: Boolean? = null
 ) : Parcelable

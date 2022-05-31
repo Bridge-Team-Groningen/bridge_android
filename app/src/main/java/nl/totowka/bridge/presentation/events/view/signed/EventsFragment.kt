@@ -107,7 +107,7 @@ class EventsFragment : Fragment() {
                 DividerItemDecoration.VERTICAL
             )
         )
-        viewModel.getAllEvents()
+        viewModel.getSignedEvents(sharedViewModel.user?.value?.googleId.toString())
     }
 
     private fun showProgress(isVisible: Boolean) {

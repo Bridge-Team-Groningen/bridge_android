@@ -9,6 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 import android.R.string.no
 import io.reactivex.Completable
+import nl.totowka.bridge.data.model.EventDataEntity
 import retrofit2.http.*
 
 
@@ -51,6 +52,9 @@ interface ProfileService {
     @Headers("Content-Type: application/json")
     @PUT("{googleId}")
     fun updateUser(@Path("googleId") googleId: String, @Body profile: ProfileDataEntity): Completable
+
+    @GET("savedevents/{googleId}")
+    fun getSignedEvents(@Path("googleId") googleId: String): Single<List<EventDataEntity>>
 
     companion object {
         private const val POST_USER_URL = "."
