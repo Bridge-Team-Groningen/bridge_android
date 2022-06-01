@@ -6,5 +6,5 @@ import nl.totowka.bridge.domain.model.EventEntity
  * Interface to interact with onClick event for RecyclerView.
  */
 interface EventClickListener {
-    fun onClick(word: EventEntity)
+    fun onClick(word: EventEntity, position: Int)
 }

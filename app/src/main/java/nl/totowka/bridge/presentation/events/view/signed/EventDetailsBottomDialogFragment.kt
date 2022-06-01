@@ -22,6 +22,7 @@ import nl.totowka.bridge.utils.callback.SignInClickListener
 class EventDetailsBottomDialogFragment(private var signInListener: SignInClickListener) :
     BottomSheetDialogFragment() {
     private lateinit var binding: HolderEventDetailsBinding
+    private val sharedViewModel: SharedViewModel by activityViewModels()
     var event: EventEntity? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,9 +63,17 @@ class EventDetailsBottomDialogFragment(private var signInListener: SignInClickLi
             event.isSigned?.let { isSigned ->
                 signUp(isSigned)
                 binding.signup.setOnClickListener {
-                    event.let { signInListener.onClick(it) }
+                    event.let {
+                        sharedViewModel.adapterPosition.value?.let { position ->
+                            signInListener.onClick(
+                                it,
+                                position
+                            )
+                        }
+                    }
                     event.isSigned = !isSigned
                     signUp(!isSigned)
+                    binding.signup.isEnabled = false
                 }
             }
 

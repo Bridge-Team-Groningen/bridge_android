@@ -47,9 +47,10 @@ class EventsFragment : Fragment() {
     lateinit var schedulers: SchedulersProvider
 
     private var clickListener = object : EventClickListener {
-        override fun onClick(event: EventEntity) {
+        override fun onClick(event: EventEntity, position: Int) {
             val wordDetailsBottomDialogFragment =
                 EventDetailsBottomDialogFragment.newInstance(event, signInListener)
+            sharedViewModel.setAdapterPosition(position)
             wordDetailsBottomDialogFragment.show(
                 (activity as AppCompatActivity).supportFragmentManager,
                 EventDetailsBottomDialogFragment.TAG
@@ -58,7 +59,7 @@ class EventsFragment : Fragment() {
     }
 
     private var signInListener = object : SignInClickListener {
-        override fun onClick(event : EventEntity) {
+        override fun onClick(event : EventEntity, position: Int) {
             val user = sharedViewModel.user?.value
             user?.googleId?.let {
                 if(event.isSigned == true) {
@@ -66,6 +67,8 @@ class EventsFragment : Fragment() {
                 } else {
                     viewModel.signUpForEvent(event.id.toString(), it)
                 }
+                adapter.events.remove(event)
+                adapter.notifyItemRemoved(position)
             }
         }
     }
