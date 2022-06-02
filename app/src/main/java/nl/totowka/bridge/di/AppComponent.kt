@@ -5,10 +5,11 @@ import dagger.BindsInstance
 import dagger.Component
 import nl.totowka.bridge.presentation.LauncherActivity
 import nl.totowka.bridge.presentation.auth.view.AuthFragment
+import nl.totowka.bridge.presentation.events.view.add.AddEventFragment
 import nl.totowka.bridge.presentation.events.view.signed.EventsFragment
+import nl.totowka.bridge.presentation.events.view.trending.TrendingFragment
 import nl.totowka.bridge.presentation.profile.view.EditProfileFragment
 import nl.totowka.bridge.presentation.profile.view.ProfileFragment
-import nl.totowka.bridge.presentation.events.view.trending.TrendingFragment
 import javax.inject.Singleton
 
 /**
@@ -28,6 +29,7 @@ interface AppComponent {
     fun inject(fragment: ProfileFragment)
     fun inject(fragment: TrendingFragment)
     fun inject(fragment: EditProfileFragment)
+    fun inject(fragment: AddEventFragment)
 
     @Component.Builder
     interface Builder {

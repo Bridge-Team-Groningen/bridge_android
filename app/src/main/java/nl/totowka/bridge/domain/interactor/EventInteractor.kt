@@ -8,7 +8,7 @@ import nl.totowka.bridge.domain.repository.EventRepository
 import javax.inject.Inject
 
 class EventInteractor @Inject constructor(private val eventRepository: EventRepository) {
-    fun addEvent(event: EventEntity): Completable = eventRepository.addEvent(event)
+    fun addEvent(event: EventEntity): Single<EventEntity> = eventRepository.addEvent(event)
 
     fun deleteEvent(id: String): Completable = eventRepository.deleteEvent(id)
 

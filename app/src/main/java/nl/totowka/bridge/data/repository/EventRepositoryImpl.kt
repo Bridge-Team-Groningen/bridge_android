@@ -6,7 +6,6 @@ import nl.totowka.bridge.data.api.EventService
 import nl.totowka.bridge.data.api.ProfileService
 import nl.totowka.bridge.data.api.UserEventService
 import nl.totowka.bridge.data.model.EventDataEntity
-import nl.totowka.bridge.data.model.ProfileDataEntity
 import nl.totowka.bridge.domain.model.EventEntity
 import nl.totowka.bridge.domain.model.ProfileEntity
 import nl.totowka.bridge.domain.repository.EventRepository
@@ -17,8 +16,8 @@ class EventRepositoryImpl @Inject constructor(
     private val userEventService: UserEventService,
     private val profileService: ProfileService
 ) : EventRepository {
-    override fun addEvent(event: EventEntity): Completable =
-        eventService.addEvent(EventDataEntity.fromEntity(event))
+    override fun addEvent(event: EventEntity): Single<EventEntity> =
+        eventService.addEvent(EventDataEntity.fromEntity(event)).map { it.toEntity() }
 
     override fun deleteEvent(id: String): Completable = eventService.deleteEvent(id)
 

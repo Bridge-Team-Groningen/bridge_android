@@ -7,14 +7,9 @@ import io.mockk.mockk
 import io.mockk.verify
 import io.reactivex.Completable
 import io.reactivex.Single
-import nl.totowka.bridge.data.model.EventDataEntity
 import nl.totowka.bridge.data.repository.EventRepositoryImpl
-import nl.totowka.bridge.data.repository.ProfileRepositoryImpl
 import nl.totowka.bridge.domain.model.EventEntity
 import nl.totowka.bridge.domain.model.ProfileEntity
-import nl.totowka.bridge.presentation.events.viewmodel.EventViewModel
-import nl.totowka.bridge.utils.scheduler.SchedulersProvider
-import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test

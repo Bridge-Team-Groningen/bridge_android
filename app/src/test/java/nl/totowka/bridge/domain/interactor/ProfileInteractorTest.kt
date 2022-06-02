@@ -1,7 +1,6 @@
 package nl.totowka.bridge.domain.interactor
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.MutableLiveData
 import com.google.common.truth.Truth
 import io.mockk.every
 import io.mockk.mockk
@@ -10,7 +9,6 @@ import io.reactivex.Completable
 import io.reactivex.Single
 import nl.totowka.bridge.data.repository.ProfileRepositoryImpl
 import nl.totowka.bridge.domain.model.ProfileEntity
-import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test

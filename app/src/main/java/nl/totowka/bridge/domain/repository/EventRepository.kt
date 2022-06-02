@@ -6,7 +6,7 @@ import nl.totowka.bridge.domain.model.EventEntity
 import nl.totowka.bridge.domain.model.ProfileEntity
 
 interface EventRepository {
-    fun addEvent(event: EventEntity): Completable
+    fun addEvent(event: EventEntity): Single<EventEntity>
     fun deleteEvent(id: String): Completable
     fun getAllEvents(): Single<List<EventEntity>>
     fun getActivityEvents(activity: String): Single<List<EventEntity>>

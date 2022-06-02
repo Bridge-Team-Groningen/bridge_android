@@ -2,20 +2,13 @@ package nl.totowka.bridge.presentation
 
 import android.util.Log
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.Observer
 import com.google.common.truth.Truth
-import io.mockk.*
-import io.reactivex.Single
+import io.mockk.every
+import io.mockk.mockkStatic
 import io.reactivex.android.plugins.RxAndroidPlugins
 import io.reactivex.schedulers.Schedulers
-import nl.totowka.bridge.data.model.ProfileDataEntity
-import nl.totowka.bridge.domain.interactor.ProfileInteractor
 import nl.totowka.bridge.domain.model.EventEntity
 import nl.totowka.bridge.domain.model.ProfileEntity
-import nl.totowka.bridge.presentation.profile.viewmodel.ProfileViewModel
-import nl.totowka.bridge.utils.scheduler.SchedulersProvider
-import nl.totowka.bridge.utils.scheduler.SchedulersProviderImplStub
-import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test

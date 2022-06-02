@@ -3,7 +3,14 @@ package nl.totowka.bridge.utils
 import android.content.Context
 import android.net.ConnectivityManager
 import android.view.View
+import android.widget.EditText
+import androidx.annotation.ColorRes
 import androidx.annotation.StringRes
+import androidx.core.view.isVisible
+import androidx.fragment.app.FragmentActivity
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.textfield.TextInputLayout
+import nl.totowka.bridge.R
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -32,9 +39,24 @@ object Common {
     }
 
     /**
+     * Getting [Color] from [ColorRes]
+     */
+    fun Context.color(@ColorRes colorId: Int) = this.resources.getColor(colorId)
+
+    /**
      * Getting [String] from [StringRes]
      */
     fun Context.string(@StringRes resId: Int) = this.resources.getString(resId)
+
+    fun EditText.isEmpty() = this.text.toString().isEmpty()
+    fun TextInputLayout.isNotEmpty() = this.editText?.text.toString().isNotEmpty()
+    fun TextInputLayout.isEmpty() = this.editText?.text.toString().isEmpty()
+    fun EditText.text() = this.text.toString()
+
+    fun FragmentActivity.setNavBottomVisibility(isVisible: Boolean) =
+        this.findViewById<BottomNavigationView>(
+            R.id.bottom_nav
+        ).apply { this.isVisible = isVisible }
 
     fun Date.toCoolString(): String = SimpleDateFormat("dd MMM yyyy HH:mm").format(this)
 }

@@ -9,10 +9,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.fragment_profile.view.*
 import nl.totowka.bridge.App
 import nl.totowka.bridge.R
 import nl.totowka.bridge.databinding.FragmentProfileBinding
@@ -24,7 +22,6 @@ import nl.totowka.bridge.presentation.auth.view.AuthFragment
 import nl.totowka.bridge.presentation.events.view.signed.EventsFragment
 import nl.totowka.bridge.presentation.profile.viewmodel.ProfileViewModel
 import nl.totowka.bridge.presentation.profile.viewmodel.ProfileViewModelFactory
-import nl.totowka.bridge.utils.ModelPreferencesManager
 import nl.totowka.bridge.utils.scheduler.SchedulersProvider
 import javax.inject.Inject
 

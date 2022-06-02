@@ -3,7 +3,6 @@ package nl.totowka.bridge.presentation.events.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import nl.totowka.bridge.domain.interactor.EventInteractor
-import nl.totowka.bridge.domain.interactor.ProfileInteractor
 import nl.totowka.bridge.utils.scheduler.SchedulersProvider
 
 class EventViewModelFactory(

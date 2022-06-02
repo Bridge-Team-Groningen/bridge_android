@@ -14,7 +14,6 @@ import nl.totowka.bridge.data.model.EventDataEntity
 import nl.totowka.bridge.data.model.ProfileDataEntity
 import nl.totowka.bridge.domain.model.EventEntity
 import nl.totowka.bridge.domain.model.ProfileEntity
-import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test

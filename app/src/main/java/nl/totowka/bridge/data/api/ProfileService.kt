@@ -1,15 +1,9 @@
 package nl.totowka.bridge.data.api
 
-import io.reactivex.Single
-import nl.totowka.bridge.data.model.ProfileDataEntity
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-
-import android.R.string.no
 import io.reactivex.Completable
+import io.reactivex.Single
 import nl.totowka.bridge.data.model.EventDataEntity
+import nl.totowka.bridge.data.model.ProfileDataEntity
 import retrofit2.http.*
 
 

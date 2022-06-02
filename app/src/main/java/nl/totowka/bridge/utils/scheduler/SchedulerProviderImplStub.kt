@@ -2,7 +2,6 @@ package nl.totowka.bridge.utils.scheduler
 
 import io.reactivex.Scheduler
 import io.reactivex.schedulers.Schedulers
-import nl.totowka.bridge.utils.scheduler.SchedulersProvider
 
 /**
  * Implementation of interface [SchedulersProvider], that is used in testing.

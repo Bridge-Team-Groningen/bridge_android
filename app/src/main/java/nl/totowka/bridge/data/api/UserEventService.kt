@@ -2,9 +2,11 @@ package nl.totowka.bridge.data.api
 
 import io.reactivex.Completable
 import io.reactivex.Single
-import nl.totowka.bridge.data.model.EventDataEntity
 import nl.totowka.bridge.data.model.ProfileDataEntity
-import retrofit2.http.*
+import retrofit2.http.DELETE
+import retrofit2.http.GET
+import retrofit2.http.POST
+import retrofit2.http.Path
 
 interface UserEventService {
     /**

@@ -18,6 +18,7 @@ class EventViewModel(
     private val progressLiveData = MutableLiveData<Boolean>()
     private val errorLiveData = MutableLiveData<Throwable>()
     private val eventsLiveData = MutableLiveData<List<EventEntity>>()
+    private val eventLiveData = MutableLiveData<EventEntity>()
     private val disposables = CompositeDisposable()
 
     fun getAllEvents() {
@@ -39,6 +40,17 @@ class EventViewModel(
             .subscribeOn(schedulers.io())
             .observeOn(schedulers.ui())
             .subscribe(eventsLiveData::setValue, errorLiveData::setValue)
+        )
+    }
+
+    fun addEvent(event: EventEntity) {
+        disposables.add(eventInteractor.addEvent(event)
+            .observeOn(Schedulers.io()).subscribeOn(Schedulers.io())
+            .doOnSubscribe { progressLiveData.postValue(true) }
+            .doAfterTerminate { progressLiveData.postValue(false) }
+            .subscribeOn(schedulers.io())
+            .observeOn(schedulers.ui())
+            .subscribe(eventLiveData::setValue, errorLiveData::setValue)
         )
     }
 
@@ -81,6 +93,8 @@ class EventViewModel(
     fun getErrorLiveData(): LiveData<Throwable> = errorLiveData
 
     fun getEventsLiveData(): LiveData<List<EventEntity>> = eventsLiveData
+
+    fun getEventLiveData(): LiveData<EventEntity> = eventLiveData
 
     companion object {
         private const val TAG = "EventViewModel"

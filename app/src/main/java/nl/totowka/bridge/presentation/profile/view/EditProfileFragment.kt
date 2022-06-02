@@ -8,26 +8,25 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.EditText
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.textfield.TextInputLayout
 import nl.totowka.bridge.App
 import nl.totowka.bridge.R
 import nl.totowka.bridge.databinding.FragmentEditProfileBinding
 import nl.totowka.bridge.domain.interactor.ProfileInteractor
 import nl.totowka.bridge.domain.model.ProfileEntity
+import nl.totowka.bridge.presentation.LauncherActivity
 import nl.totowka.bridge.presentation.SharedViewModel
-import nl.totowka.bridge.presentation.auth.view.AuthFragment
 import nl.totowka.bridge.presentation.events.view.signed.EventsFragment
 import nl.totowka.bridge.presentation.profile.viewmodel.ProfileViewModel
 import nl.totowka.bridge.presentation.profile.viewmodel.ProfileViewModelFactory
-import nl.totowka.bridge.utils.ModelPreferencesManager
+import nl.totowka.bridge.utils.Common.isEmpty
+import nl.totowka.bridge.utils.Common.isNotEmpty
+import nl.totowka.bridge.utils.Common.text
 import nl.totowka.bridge.utils.scheduler.SchedulersProvider
 import javax.inject.Inject
 
@@ -82,6 +81,7 @@ class EditProfileFragment : Fragment(), View.OnClickListener {
         observeLiveData()
         binding.profileTitle.text = profile?.name ?: "undefined"
         (activity as AppCompatActivity?)?.supportActionBar?.hide()
+        (activity as LauncherActivity).isBottomNavVisible(false)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -197,11 +197,6 @@ class EditProfileFragment : Fragment(), View.OnClickListener {
             )
             .commit()
     }
-
-    private fun EditText.isEmpty() = this.text.toString().isEmpty()
-    private fun TextInputLayout.isNotEmpty() = this.editText?.text.toString().isNotEmpty()
-    private fun TextInputLayout.isEmpty() = this.editText?.text.toString().isEmpty()
-    private fun EditText.text() = this.text.toString()
 
     private fun exit() {
         (activity as AppCompatActivity).supportFragmentManager

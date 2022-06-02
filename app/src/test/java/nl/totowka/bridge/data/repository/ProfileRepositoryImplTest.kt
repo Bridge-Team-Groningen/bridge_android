@@ -10,7 +10,7 @@ import io.reactivex.Single
 import nl.totowka.bridge.data.api.ProfileService
 import nl.totowka.bridge.data.model.ProfileDataEntity.Companion.fromEntity
 import nl.totowka.bridge.domain.model.ProfileEntity
-import org.junit.Assert.*
+import org.junit.Assert.assertThrows
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test

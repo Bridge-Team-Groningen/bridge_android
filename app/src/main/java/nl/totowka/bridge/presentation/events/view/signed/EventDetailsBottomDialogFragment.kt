@@ -13,7 +13,6 @@ import nl.totowka.bridge.databinding.HolderEventDetailsBinding
 import nl.totowka.bridge.domain.model.EventEntity
 import nl.totowka.bridge.presentation.SharedViewModel
 import nl.totowka.bridge.utils.Common.toCoolString
-import nl.totowka.bridge.utils.callback.EventClickListener
 import nl.totowka.bridge.utils.callback.SignInClickListener
 
 /**

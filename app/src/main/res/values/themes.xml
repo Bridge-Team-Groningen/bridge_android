@@ -6,8 +6,8 @@
         <item name="colorPrimaryVariant">#980273</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/teal_200</item>
-        <item name="colorSecondaryVariant">@color/teal_700</item>
+        <item name="colorSecondary">@color/md_theme_dark_onPrimary</item>
+        <item name="colorSecondaryVariant">@color/md_theme_dark_primary</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
@@ -26,6 +26,16 @@
         <item name="windowSplashScreenIconBackgroundColor">#BA13B8</item>
         <item name="postSplashScreenTheme">@style/Theme.Bridge</item>
         <item name="windowSplashScreenAnimationDuration">3000</item>
+    </style>
+
+    <style name="AppTheme.Text">
+        <item name="android:lineSpacingMultiplier">1.2</item>
+    </style>
+
+    <style name="AppTheme.Text.BodyLink" parent="AppTheme.Text">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/blue</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
     </style>
 
     <style name="Theme.Bridge.Text">
