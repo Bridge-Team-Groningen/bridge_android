@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.view.View
 import android.widget.EditText
+import android.widget.TextView
 import androidx.annotation.ColorRes
 import androidx.annotation.StringRes
 import androidx.core.view.isVisible
@@ -39,6 +40,20 @@ object Common {
     }
 
     /**
+     * Making [View] to [View.VISIBLE] mode
+     */
+    fun View.setVisible() {
+        visibility = View.VISIBLE
+    }
+
+    /**
+     * Making [View] to [View.INVISIBLE] mode
+     */
+    fun View.setInvisible() {
+        visibility = View.INVISIBLE
+    }
+
+    /**
      * Getting [Color] from [ColorRes]
      */
     fun Context.color(@ColorRes colorId: Int) = this.resources.getColor(colorId)
@@ -59,4 +74,18 @@ object Common {
         ).apply { this.isVisible = isVisible }
 
     fun Date.toCoolString(): String = SimpleDateFormat("dd MMM yyyy HH:mm").format(this)
+
+    fun String?.getInitials(): String {
+        if (this == null) return ""
+        return split(" ").take(2).map { if (it.isNotEmpty()) it[0] else "" }.joinToString(separator = "")
+    }
+
+    fun TextView.bind(text: CharSequence?) {
+        if (text.isNullOrBlank()) {
+            this.setGone()
+        } else {
+            this.text = text
+            this.setVisible()
+        }
+    }
 }

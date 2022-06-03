@@ -30,6 +30,7 @@
 
     <style name="AppTheme.Text">
         <item name="android:lineSpacingMultiplier">1.2</item>
+        <item name="android:textColor">@color/textPrimary</item>
     </style>
 
     <style name="AppTheme.Text.BodyLink" parent="AppTheme.Text">
@@ -92,6 +93,18 @@
     <style name="AppTheme.Text.Title" parent="Theme.Bridge.Text">
         <item name="android:textSize">18sp</item>
         <item name="android:fontFamily">@font/futura_medium</item>
+    </style>
+
+    <style name="AppTheme.Text.UserTitle" parent="AppTheme.Text">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textColor">@color/purple</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+
+    <style name="AppTheme.Text.UserDescription" parent="AppTheme.Text">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/textSecondary</item>
     </style>
 
     <style name="AppTheme.Text.EventTitle" parent="Theme.Bridge.Text">

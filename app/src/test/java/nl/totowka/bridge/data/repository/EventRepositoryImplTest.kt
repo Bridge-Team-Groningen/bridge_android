@@ -58,7 +58,7 @@ class EventRepositoryImplTest {
     @Test
     fun `addEvent is successful`() {
         // Arrange
-        every { eventService.addEvent(eventDataStub) } returns Completable.complete()
+        every { eventService.addEvent(eventDataStub) } returns Single.just(eventDataStub)
 
         // Act && Assert
         eventRepositoryImpl.addEvent(eventStub).test().assertComplete()
@@ -68,7 +68,7 @@ class EventRepositoryImplTest {
     @Test
     fun `addEvent is error`() {
         // Arrange
-        every { eventService.addEvent(eventDataStub) } returns Completable.error(exception)
+        every { eventService.addEvent(eventDataStub) } returns Single.error(exception)
 
         // Act && Assert
         eventRepositoryImpl.addEvent(eventStub).test().assertError(exception)

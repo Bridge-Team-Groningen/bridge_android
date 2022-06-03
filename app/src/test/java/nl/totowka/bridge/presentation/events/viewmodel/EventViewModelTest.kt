@@ -184,7 +184,7 @@ class EventViewModelTest {
 
     @Test
     fun `addEvent is success`() {
-        every { eventInteractor.addEvent(entityStub) } returns Completable.complete()
+        every { eventInteractor.addEvent(entityStub) } returns Single.just(entityStub)
 
         viewModel.addEvent(entityStub)
 
@@ -199,7 +199,7 @@ class EventViewModelTest {
 
     @Test
     fun `addEvent is error`() {
-        every { eventInteractor.addEvent(entityStub) } returns Completable.error(exception)
+        every { eventInteractor.addEvent(entityStub) } returns Single.error(exception)
 
         viewModel.addEvent(entityStub)
 

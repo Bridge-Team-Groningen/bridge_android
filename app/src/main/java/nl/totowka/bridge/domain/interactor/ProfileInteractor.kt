@@ -29,6 +29,11 @@ class ProfileInteractor @Inject constructor(private val profileRepository: Profi
     fun getProfile(id: String) = profileRepository.get(id)
 
     /**
+     * Get the users data from DB.
+     */
+    fun getProfiles() = profileRepository.getAll()
+
+    /**
      * Check whether the user saved in DB.
      */
     fun isUser(id: String) = profileRepository.isUser(id)

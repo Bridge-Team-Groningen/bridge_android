@@ -13,7 +13,6 @@ import retrofit2.http.*
  * @author Tigran Kocharyan
  */
 interface ProfileService {
-
     /**
      * Method takes googleID to identify the user in db
      *
@@ -21,6 +20,12 @@ interface ProfileService {
      */
     @GET("{googleId}")
     fun getUser(@Path("googleId") googleId: String): Single<ProfileDataEntity>
+
+    /**
+     * Method returns all the users from db
+     */
+    @GET(GET_ALL_USERS_URL)
+    fun getUsers(): Single<List<ProfileDataEntity>>
 
     /**
      * Method takes googleID to delete the user from db
@@ -52,6 +57,7 @@ interface ProfileService {
 
     companion object {
         private const val POST_USER_URL = "."
+        private const val GET_ALL_USERS_URL = "."
         private const val DELETE_USER_URL = "."
     }
 }

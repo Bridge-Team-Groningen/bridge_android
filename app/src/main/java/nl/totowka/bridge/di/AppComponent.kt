@@ -10,6 +10,7 @@ import nl.totowka.bridge.presentation.events.view.signed.EventsFragment
 import nl.totowka.bridge.presentation.events.view.trending.TrendingFragment
 import nl.totowka.bridge.presentation.profile.view.EditProfileFragment
 import nl.totowka.bridge.presentation.profile.view.ProfileFragment
+import nl.totowka.bridge.presentation.profile.view.UsersFragment
 import javax.inject.Singleton
 
 /**
@@ -30,6 +31,7 @@ interface AppComponent {
     fun inject(fragment: TrendingFragment)
     fun inject(fragment: EditProfileFragment)
     fun inject(fragment: AddEventFragment)
+    fun inject(fragment: UsersFragment)
 
     @Component.Builder
     interface Builder {

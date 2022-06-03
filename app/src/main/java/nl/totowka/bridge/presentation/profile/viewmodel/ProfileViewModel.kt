@@ -22,6 +22,7 @@ class ProfileViewModel(
     private val successLiveData = MutableLiveData<String>()
     private val errorLiveData = MutableLiveData<Throwable>()
     private val profileLiveData = MutableLiveData<ProfileEntity>()
+    private val profilesLiveData = MutableLiveData<List<ProfileEntity>>()
     private val disposables = CompositeDisposable()
 
     /**
@@ -37,6 +38,20 @@ class ProfileViewModel(
             .subscribeOn(schedulers.io())
             .observeOn(schedulers.ui())
             .subscribe(profileLiveData::setValue, errorLiveData::setValue)
+        )
+    }
+
+    /**
+     * Get user profiles data from DB
+     */
+    fun getProfiles() {
+        disposables.add(profileInteractor.getProfiles()
+            .observeOn(Schedulers.io()).subscribeOn(Schedulers.io())
+            .doOnSubscribe { progressLiveData.postValue(true) }
+            .doAfterTerminate { progressLiveData.postValue(false) }
+            .subscribeOn(schedulers.io())
+            .observeOn(schedulers.ui())
+            .subscribe(profilesLiveData::setValue, errorLiveData::setValue)
         )
     }
 
@@ -126,6 +141,12 @@ class ProfileViewModel(
      */
     fun getProfileLiveData(): LiveData<ProfileEntity> =
         profileLiveData
+
+    /**
+     * @return LiveData<ProfileEntity> for sharing the users
+     */
+    fun getProfilesLiveData(): LiveData<List<ProfileEntity>> =
+        profilesLiveData
 
     companion object {
         private const val TAG = "ProfileViewModel"

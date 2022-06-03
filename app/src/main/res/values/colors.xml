@@ -15,6 +15,8 @@
     <color name="item_title">#BA13B8</color>
     <color name="item_text">#393939</color>
     <color name="blue">#0050cf</color>
+    <color name="textSecondary">#818C99</color>
+    <color name="textPrimary">#000000</color>
 
     <color name="md_theme_light_primary">#A900A8</color>
     <color name="md_theme_light_onPrimary">#FFFFFF</color>

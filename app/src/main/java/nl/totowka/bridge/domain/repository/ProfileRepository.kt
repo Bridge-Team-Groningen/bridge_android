@@ -29,6 +29,11 @@ interface ProfileRepository {
     fun get(googleId: String): Single<ProfileEntity>
 
     /**
+     * Get the [ProfileEntity] from DB.
+     */
+    fun getAll(): Single<List<ProfileEntity>>
+
+    /**
      * Check whether the [ProfileEntity] saved in DB.
      */
     fun isUser(googleId: String): Single<Boolean>

@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
-            android:text="Trending Events:"
+            android:text="@string/trending_events"
             android:textSize="24sp"
             app:layout_constraintTop_toTopOf="parent" />
 

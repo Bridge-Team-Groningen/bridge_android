@@ -48,7 +48,7 @@ class EventInteractorTest {
     @Test
     fun `addEvent is successful`() {
         // Arrange
-        every { eventRepositoryImpl.addEvent(entityStub) } returns Completable.complete()
+        every { eventRepositoryImpl.addEvent(entityStub) } returns Single.just(entityStub)
 
         // Assert
         eventInteractor.addEvent(entityStub).test().assertComplete()
@@ -58,7 +58,7 @@ class EventInteractorTest {
     @Test
     fun `addEvent is failure`() {
         // Arrange
-        every { eventRepositoryImpl.addEvent(entityStub) } returns Completable.error(exception)
+        every { eventRepositoryImpl.addEvent(entityStub) } returns Single.error(exception)
 
         // Assert
         eventInteractor.addEvent(entityStub).test().assertError(exception)

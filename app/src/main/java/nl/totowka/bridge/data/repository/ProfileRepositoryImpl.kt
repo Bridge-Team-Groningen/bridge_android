@@ -26,6 +26,16 @@ class ProfileRepositoryImpl @Inject constructor(val auth: ProfileService) : Prof
     override fun get(googleId: String): Single<ProfileEntity> =
         auth.getUser(googleId).map { it.toEntity() }
 
+    override fun getAll(): Single<List<ProfileEntity>> =
+        auth.getUsers().map { list ->
+            list.map { user ->
+                user.toEntity().apply {
+                    if(this.profilePicture.equals("-"))
+                        this.profilePicture = null
+                }
+            }
+        }
+
 
     override fun isUser(googleId: String): Single<Boolean> {
         TODO("Not yet implemented")
