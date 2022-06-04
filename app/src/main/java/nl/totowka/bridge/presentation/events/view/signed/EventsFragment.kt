@@ -52,7 +52,8 @@ class EventsFragment : Fragment() {
     private var clickListener = object : EventClickListener {
         override fun onClick(event: EventEntity, position: Int) {
             val wordDetailsBottomDialogFragment =
-                EventDetailsBottomDialogFragment.newInstance(event, signInListener)
+                EventDetailsBottomDialogFragment.newInstance(signInListener)
+            sharedViewModel.setEvent(event)
             sharedViewModel.setAdapterPosition(position)
             wordDetailsBottomDialogFragment.show(
                 (activity as AppCompatActivity).supportFragmentManager,

@@ -8,6 +8,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import nl.totowka.bridge.domain.interactor.EventInteractor
 import nl.totowka.bridge.domain.model.EventEntity
+import nl.totowka.bridge.domain.model.ProfileEntity
 import nl.totowka.bridge.utils.scheduler.SchedulersProvider
 
 class EventViewModel(
@@ -18,6 +19,7 @@ class EventViewModel(
     private val progressLiveData = MutableLiveData<Boolean>()
     private val errorLiveData = MutableLiveData<Throwable>()
     private val eventsLiveData = MutableLiveData<List<EventEntity>>()
+    private val profilesLiveData = MutableLiveData<List<ProfileEntity>>()
     private val eventLiveData = MutableLiveData<EventEntity>()
     private val disposables = CompositeDisposable()
 
@@ -40,6 +42,17 @@ class EventViewModel(
             .subscribeOn(schedulers.io())
             .observeOn(schedulers.ui())
             .subscribe(eventsLiveData::setValue, errorLiveData::setValue)
+        )
+    }
+
+    fun getUsersOfEvent(eventId: String) {
+        disposables.add(eventInteractor.getUsersOfEvent(eventId)
+            .observeOn(Schedulers.io()).subscribeOn(Schedulers.io())
+            .doOnSubscribe { progressLiveData.postValue(true) }
+            .doAfterTerminate { progressLiveData.postValue(false) }
+            .subscribeOn(schedulers.io())
+            .observeOn(schedulers.ui())
+            .subscribe(profilesLiveData::setValue, errorLiveData::setValue)
         )
     }
 
@@ -95,6 +108,8 @@ class EventViewModel(
     fun getEventsLiveData(): LiveData<List<EventEntity>> = eventsLiveData
 
     fun getEventLiveData(): LiveData<EventEntity> = eventLiveData
+
+    fun getProfilesLiveData(): LiveData<List<ProfileEntity>> = profilesLiveData
 
     companion object {
         private const val TAG = "EventViewModel"

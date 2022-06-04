@@ -9,6 +9,7 @@ import androidx.annotation.ColorRes
 import androidx.annotation.StringRes
 import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentActivity
+import com.bumptech.glide.request.transition.DrawableCrossFadeFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.textfield.TextInputLayout
 import nl.totowka.bridge.R
@@ -88,4 +89,6 @@ object Common {
             this.setVisible()
         }
     }
+
+    fun glideFactory() = DrawableCrossFadeFactory.Builder().setCrossFadeEnabled(true).build()
 }

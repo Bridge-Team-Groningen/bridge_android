@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import nl.totowka.bridge.App
@@ -73,6 +74,12 @@ class ProfileFragment : Fragment(), View.OnClickListener {
                 context?.getString(R.string.people_profile, it)
             } ?: "undefined"
             binding.city.text = profile.city ?: "undefined"
+            Glide.with(view.context)
+                .load(profile.profilePicture)
+                .circleCrop()
+                .placeholder(R.drawable.ic_avatar_placeholder)
+                .error(R.drawable.ic_avatar_placeholder)
+                .into(binding.profileImage)
         }
     }
 

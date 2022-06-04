@@ -39,7 +39,14 @@ class EventRepositoryImpl @Inject constructor(
         eventService.getActivityEvents(activity).map { list -> list.map { it.toEntity() } }
 
     override fun getUsersOfEvent(eventId: String): Single<List<ProfileEntity>> =
-        userEventService.getUsersOfEvent(eventId).map { list -> list.map { it.toEntity() } }
+        userEventService.getUsersOfEvent(eventId).map { list ->
+            list.map {
+                it.toEntity().apply {
+                    if (this.profilePicture.equals("-"))
+                        this.profilePicture = null
+                }
+            }
+        }
 
     override fun deleteUser(eventId: String, userId: String): Completable =
         userEventService.deleteUser(eventId, userId)

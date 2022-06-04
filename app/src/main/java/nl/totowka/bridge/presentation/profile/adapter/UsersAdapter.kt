@@ -5,12 +5,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.bumptech.glide.request.transition.DrawableCrossFadeFactory
 import nl.totowka.bridge.R
 import nl.totowka.bridge.databinding.HolderUserBinding
 import nl.totowka.bridge.domain.model.ProfileEntity
 import nl.totowka.bridge.utils.Common.bind
 import nl.totowka.bridge.utils.Common.getInitials
+import nl.totowka.bridge.utils.Common.glideFactory
 import nl.totowka.bridge.utils.Common.setGone
 import nl.totowka.bridge.utils.Common.setVisible
 
@@ -58,7 +58,7 @@ class UserViewHolder(private val binding: HolderUserBinding) : RecyclerView.View
             Glide.with(itemView.context)
                 .load(profile.profilePicture)
                 .circleCrop()
-                .transition(DrawableTransitionOptions.withCrossFade(factory).crossFade(100))
+                .transition(DrawableTransitionOptions.withCrossFade(glideFactory()).crossFade(100))
                 .into(binding.avatar)
             binding.avatarName.setGone()
         } else {
@@ -66,9 +66,5 @@ class UserViewHolder(private val binding: HolderUserBinding) : RecyclerView.View
             binding.avatarName.setVisible()
             binding.avatarName.text = profile.name?.getInitials()
         }
-    }
-
-    companion object {
-        private var factory = DrawableCrossFadeFactory.Builder().setCrossFadeEnabled(true).build()
     }
 }

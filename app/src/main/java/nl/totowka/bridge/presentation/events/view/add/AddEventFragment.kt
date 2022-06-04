@@ -12,7 +12,6 @@ import android.widget.DatePicker
 import android.widget.TimePicker
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
@@ -29,12 +28,10 @@ import nl.totowka.bridge.presentation.events.view.signed.EventsFragment
 import nl.totowka.bridge.presentation.events.viewmodel.EventViewModel
 import nl.totowka.bridge.presentation.events.viewmodel.EventViewModelFactory
 import nl.totowka.bridge.presentation.profile.view.EditProfileFragment
-import nl.totowka.bridge.utils.Common.isEmpty
-import nl.totowka.bridge.utils.Common.text
 import nl.totowka.bridge.utils.Common.toCoolString
 import nl.totowka.bridge.utils.scheduler.SchedulersProvider
-import java.time.LocalDateTime
 import java.time.ZoneId
+import java.time.ZonedDateTime
 import java.util.*
 import javax.inject.Inject
 
@@ -94,7 +91,9 @@ class AddEventFragment : Fragment(), View.OnClickListener, DatePickerDialog.OnDa
                 if (binding.activity.isEmpty() or binding.title.isEmpty() or
                     binding.description.isEmpty() or binding.location.isEmpty() or
                     binding.maxCapacity.isEmpty() or binding.maxCapacity.text.toString().equals("0")
-                    or binding.maxCapacity.text.toString().equals("1") or (dateTime?.equals(null) ?: true)) {
+                    or binding.maxCapacity.text.toString().equals("1") or (dateTime?.equals(null)
+                        ?: true)
+                ) {
                     Snackbar.make(
                         binding.root,
                         "All the fields must be filled and max № of people must be at least 2",
@@ -130,12 +129,6 @@ class AddEventFragment : Fragment(), View.OnClickListener, DatePickerDialog.OnDa
             this.location = binding.location.text()
             this.maxCapacity = binding.maxCapacity.text().toInt()
             this.noOfParticipants = 0
-            var dt = Date()
-            val c: Calendar = Calendar.getInstance()
-            c.setTime(dt)
-            c.add(Calendar.DATE, 1)
-            dt = c.getTime()
-            this.date = dt
             viewModel.addEvent(this)
         }
     }
@@ -155,7 +148,7 @@ class AddEventFragment : Fragment(), View.OnClickListener, DatePickerDialog.OnDa
         this.year = year
         this.month = month
         this.day = dayOfMonth
-        binding.dateTime.text = "${day} + \"-\" + (${month + 1}) + \"-\" + ${year}"
+        binding.dateTime.text = "${dayOfMonth} + \"-\" + (${month + 1}) + \"-\" + ${year}"
         TimePickerDialog(requireContext(), this, hour, minute, true).show()
     }
 
@@ -163,7 +156,8 @@ class AddEventFragment : Fragment(), View.OnClickListener, DatePickerDialog.OnDa
     override fun onTimeSet(view: TimePicker?, hour: Int, minute: Int) {
         this.hour = hour
         this.minute = minute
-        val result = LocalDateTime.of(year, month + 1, day, hour, minute)
+        val result = ZonedDateTime.of(year, month + 1, day, hour, minute, 0, 0,
+                ZoneId.systemDefault())
         dateTime = convertToDateViaInstant(result)
         binding.dateTime.text = dateTime?.toCoolString()
         binding.dateTime.isVisible = true
@@ -171,10 +165,9 @@ class AddEventFragment : Fragment(), View.OnClickListener, DatePickerDialog.OnDa
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun convertToDateViaInstant(dateToConvert: LocalDateTime) = Date
+    fun convertToDateViaInstant(dateToConvert: ZonedDateTime) = Date
         .from(
-            dateToConvert.atZone(ZoneId.systemDefault())
-                .toInstant()
+            dateToConvert.toInstant()
         )
 
     private fun showProgress(isVisible: Boolean) {

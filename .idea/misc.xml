@@ -29,7 +29,7 @@
         <entry key="app/src/main/res/layout/fragment_auth.xml" value="0.1716485507246377" />
         <entry key="app/src/main/res/layout/fragment_edit_profile.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_events.xml" value="0.335" />
-        <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_trending.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_users.xml" value="0.3234375" />
         <entry key="app/src/main/res/layout/holder_event.xml" value="0.25" />

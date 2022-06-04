@@ -12,6 +12,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import nl.totowka.bridge.App
@@ -24,6 +26,7 @@ import nl.totowka.bridge.presentation.SharedViewModel
 import nl.totowka.bridge.presentation.events.view.signed.EventsFragment
 import nl.totowka.bridge.presentation.profile.viewmodel.ProfileViewModel
 import nl.totowka.bridge.presentation.profile.viewmodel.ProfileViewModelFactory
+import nl.totowka.bridge.utils.Common.glideFactory
 import nl.totowka.bridge.utils.Common.isEmpty
 import nl.totowka.bridge.utils.Common.isNotEmpty
 import nl.totowka.bridge.utils.Common.text
@@ -82,6 +85,15 @@ class EditProfileFragment : Fragment(), View.OnClickListener {
         binding.profileTitle.text = profile?.name ?: "undefined"
         (activity as AppCompatActivity?)?.supportActionBar?.hide()
         (activity as LauncherActivity).isBottomNavVisible(false)
+        profile?.let {
+            Glide.with(view.context)
+                .load(it.profilePicture)
+                .circleCrop()
+                .transition(DrawableTransitionOptions.withCrossFade(glideFactory()).crossFade(100))
+                .placeholder(R.drawable.ic_avatar_placeholder)
+                .error(R.drawable.ic_avatar_placeholder)
+                .into(binding.profileImage)
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

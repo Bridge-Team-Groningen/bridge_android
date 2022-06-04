@@ -53,8 +53,9 @@ class TrendingFragment : Fragment() {
     private var clickListener = object : EventClickListener {
         override fun onClick(event: EventEntity, position: Int) {
             val wordDetailsBottomDialogFragment =
-                EventDetailsBottomDialogFragment.newInstance(event, signInListener)
+                EventDetailsBottomDialogFragment.newInstance(signInListener)
             sharedViewModel.setAdapterPosition(position)
+            sharedViewModel.setEvent(event)
             wordDetailsBottomDialogFragment.show(
                 (activity as AppCompatActivity).supportFragmentManager,
                 EventDetailsBottomDialogFragment.TAG
