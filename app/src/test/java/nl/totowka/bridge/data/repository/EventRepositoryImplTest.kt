@@ -8,13 +8,14 @@ import io.mockk.verify
 import io.reactivex.Completable
 import io.reactivex.Single
 import nl.totowka.bridge.data.api.EventService
+import nl.totowka.bridge.data.api.LikeService
 import nl.totowka.bridge.data.api.ProfileService
 import nl.totowka.bridge.data.api.UserEventService
 import nl.totowka.bridge.data.model.EventDataEntity
+import nl.totowka.bridge.data.model.Like
 import nl.totowka.bridge.data.model.ProfileDataEntity
 import nl.totowka.bridge.domain.model.EventEntity
 import nl.totowka.bridge.domain.model.ProfileEntity
-import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -25,6 +26,7 @@ class EventRepositoryImplTest {
     lateinit var profileService: ProfileService
     lateinit var userEventService: UserEventService
     lateinit var eventService: EventService
+    lateinit var likeService: LikeService
     private val profileStub = ProfileEntity(
         name = "Tigran Kocharyan",
         googleId = "12345678",
@@ -33,7 +35,8 @@ class EventRepositoryImplTest {
         interestList = "soccer",
         gender = "Male",
         capacity = 5,
-        city = "groningen"
+        city = "groningen",
+        isLiked = true
     )
     private val eventStub = EventEntity(0)
     private val eventsStub = arrayListOf(eventStub)
@@ -53,13 +56,15 @@ class EventRepositoryImplTest {
         profileService = mockk()
         eventService = mockk()
         userEventService = mockk()
-        eventRepositoryImpl = EventRepositoryImpl(eventService, userEventService, profileService)
+        likeService = mockk()
+        eventRepositoryImpl =
+            EventRepositoryImpl(eventService, userEventService, profileService, likeService)
     }
 
     @Test
     fun `addEvent is successful`() {
         // Arrange
-        every { eventService.addEvent(eventDataStub) } returns Completable.complete()
+        every { eventService.addEvent(eventDataStub) } returns Single.just(eventDataStub)
 
         // Act && Assert
         eventRepositoryImpl.addEvent(eventStub).test().assertComplete()
@@ -69,7 +74,7 @@ class EventRepositoryImplTest {
     @Test
     fun `addEvent is error`() {
         // Arrange
-        every { eventService.addEvent(eventDataStub) } returns Completable.error(exception)
+        every { eventService.addEvent(eventDataStub) } returns Single.error(exception)
 
         // Act && Assert
         eventRepositoryImpl.addEvent(eventStub).test().assertError(exception)
@@ -216,10 +221,11 @@ class EventRepositoryImplTest {
     fun `getUsersOfEvent is successful`() {
         // Arrange
         every { userEventService.getUsersOfEvent(eventId) } returns Single.just(profilesDataStub)
+        every { likeService.match(userId, profileDataStub.googleId.toString()) } returns Single.just(Like(true))
         val expected = profilesStub
 
         // Act
-        val actual = eventRepositoryImpl.getUsersOfEvent(eventId).blockingGet()
+        val actual = eventRepositoryImpl.getUsersOfEvent(eventId, userId).blockingGet()
 
         // Assert
         Truth.assertThat(actual).isEqualTo(expected)
@@ -232,7 +238,7 @@ class EventRepositoryImplTest {
         every { userEventService.getUsersOfEvent(eventId) } returns Single.error(exception)
 
         // Assert
-        eventRepositoryImpl.getUsersOfEvent(eventId).test().assertError(exception)
+        eventRepositoryImpl.getUsersOfEvent(eventId, userId).test().assertError(exception)
         verify(exactly = 1) { userEventService.getUsersOfEvent(eventId) }
     }
 

@@ -3,7 +3,6 @@ package nl.totowka.bridge.data.api
 import io.reactivex.Completable
 import io.reactivex.Single
 import nl.totowka.bridge.data.model.EventDataEntity
-import nl.totowka.bridge.data.model.ProfileDataEntity
 import retrofit2.http.*
 
 /**
@@ -31,7 +30,7 @@ interface EventService {
      * @param event entity of event created by user
      */
     @POST(ADD_EVENT_URL)
-    fun addEvent(@Body event: EventDataEntity): Completable
+    fun addEvent(@Body event: EventDataEntity): Single<EventDataEntity>
 
     /**
      * Method to delete event from db.

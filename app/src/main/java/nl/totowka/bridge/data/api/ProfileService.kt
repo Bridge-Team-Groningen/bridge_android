@@ -1,15 +1,9 @@
 package nl.totowka.bridge.data.api
 
-import io.reactivex.Single
-import nl.totowka.bridge.data.model.ProfileDataEntity
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-
-import android.R.string.no
 import io.reactivex.Completable
+import io.reactivex.Single
 import nl.totowka.bridge.data.model.EventDataEntity
+import nl.totowka.bridge.data.model.ProfileDataEntity
 import retrofit2.http.*
 
 
@@ -19,7 +13,6 @@ import retrofit2.http.*
  * @author Tigran Kocharyan
  */
 interface ProfileService {
-
     /**
      * Method takes googleID to identify the user in db
      *
@@ -27,6 +20,12 @@ interface ProfileService {
      */
     @GET("{googleId}")
     fun getUser(@Path("googleId") googleId: String): Single<ProfileDataEntity>
+
+    /**
+     * Method returns all the users from db
+     */
+    @GET(GET_ALL_USERS_URL)
+    fun getUsers(): Single<List<ProfileDataEntity>>
 
     /**
      * Method takes googleID to delete the user from db
@@ -58,6 +57,7 @@ interface ProfileService {
 
     companion object {
         private const val POST_USER_URL = "."
+        private const val GET_ALL_USERS_URL = "."
         private const val DELETE_USER_URL = "."
     }
 }

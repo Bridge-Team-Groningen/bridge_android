@@ -7,10 +7,11 @@ import io.mockk.mockk
 import io.mockk.verify
 import io.reactivex.Completable
 import io.reactivex.Single
+import nl.totowka.bridge.data.api.LikeService
 import nl.totowka.bridge.data.api.ProfileService
 import nl.totowka.bridge.data.model.ProfileDataEntity.Companion.fromEntity
 import nl.totowka.bridge.domain.model.ProfileEntity
-import org.junit.Assert.*
+import org.junit.Assert.assertThrows
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -19,6 +20,7 @@ import java.io.IOException
 class ProfileRepositoryImplTest {
     private lateinit var profileRepositoryImpl: ProfileRepositoryImpl
     lateinit var profileService: ProfileService
+    lateinit var likeService: LikeService
     private val entityStub = ProfileEntity(
         name = "Tigran Kocharyan",
         googleId = "12345678",
@@ -39,7 +41,8 @@ class ProfileRepositoryImplTest {
     @Before
     fun setUp() {
         profileService = mockk()
-        profileRepositoryImpl = ProfileRepositoryImpl(profileService)
+        likeService = mockk()
+        profileRepositoryImpl = ProfileRepositoryImpl(profileService, likeService)
     }
 
     @Test

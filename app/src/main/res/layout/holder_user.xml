@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="?attr/selectableItemBackground"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingVertical="8dp">
+
+    <FrameLayout
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@drawable/circle_light_gray"
+        android:id="@+id/avatar_holder"
+        android:layout_width="48dp"
+        android:layout_height="48dp">
+
+        <ImageView
+            android:id="@+id/avatar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:textSize="18sp"
+            style="@style/AppTheme.Text.UserTitle"
+            android:id="@+id/avatar_name"
+            tools:text="TK"/>
+    </FrameLayout>
+
+    <LinearLayout
+        app:layout_constraintStart_toEndOf="@id/avatar_holder"
+        app:layout_constraintEnd_toStartOf="@id/like"
+        app:layout_constraintTop_toTopOf="@id/avatar_holder"
+        app:layout_constraintBottom_toBottomOf="@id/avatar_holder"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingHorizontal="12dp">
+
+        <TextView
+            android:id="@+id/name"
+            style="@style/AppTheme.Text.Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tigran Kocharyan" />
+
+        <TextView
+            style="@style/AppTheme.Text.UserDescription"
+            android:id="@+id/subtitle"
+            android:text="I love my mom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <com.like.LikeButton
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:circle_start_color="@color/purple"
+        app:circle_end_color="@color/purple"
+        app:dots_primary_color="@color/purple"
+        app:dots_secondary_color="@color/purple"
+        app:unlike_drawable="@drawable/ic_unheart"
+        app:like_drawable="@drawable/ic_heart"
+        app:icon_type="heart"
+        app:icon_size="25dp"
+        android:layout_gravity="end"
+        android:id="@+id/like"
+        android:layout_width="25dp"
+        android:layout_height="25dp"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

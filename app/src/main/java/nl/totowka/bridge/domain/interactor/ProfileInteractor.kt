@@ -29,7 +29,22 @@ class ProfileInteractor @Inject constructor(private val profileRepository: Profi
     fun getProfile(id: String) = profileRepository.get(id)
 
     /**
+     * Get the users data from DB.
+     */
+    fun getProfiles(userId: String) = profileRepository.getAll(userId)
+
+    /**
      * Check whether the user saved in DB.
      */
     fun isUser(id: String) = profileRepository.isUser(id)
+
+    /**
+     * Likes the user
+     */
+    fun like(user1Id: String, user2Id: String) = profileRepository.like(user1Id, user2Id)
+
+    /**
+     * Likes the user
+     */
+    fun unlike(user1Id: String, user2Id: String) = profileRepository.unlike(user1Id, user2Id)
 }

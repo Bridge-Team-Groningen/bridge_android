@@ -5,7 +5,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import nl.totowka.bridge.R
@@ -18,7 +17,7 @@ import nl.totowka.bridge.utils.callback.EventClickListener
  * Adapter to show events in recyclerview
  */
 class EventsAdapter(
-    private var events: ArrayList<EventEntity>,
+    var events: ArrayList<EventEntity>,
     private var clickListener: EventClickListener
 ) : RecyclerView.Adapter<EventViewHolder>() {
 
@@ -53,7 +52,7 @@ class EventViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     fun bind(event: EventEntity, clickListener: EventClickListener) {
         val context = itemView.context
-        itemView.setOnClickListener { clickListener.onClick(event) }
+        itemView.setOnClickListener { clickListener.onClick(event, adapterPosition) }
         Glide.with(context)
             .load(context.resources.getDrawable(R.drawable.club, null))
             .circleCrop()

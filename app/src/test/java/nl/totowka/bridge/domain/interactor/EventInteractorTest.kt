@@ -7,14 +7,9 @@ import io.mockk.mockk
 import io.mockk.verify
 import io.reactivex.Completable
 import io.reactivex.Single
-import nl.totowka.bridge.data.model.EventDataEntity
 import nl.totowka.bridge.data.repository.EventRepositoryImpl
-import nl.totowka.bridge.data.repository.ProfileRepositoryImpl
 import nl.totowka.bridge.domain.model.EventEntity
 import nl.totowka.bridge.domain.model.ProfileEntity
-import nl.totowka.bridge.presentation.events.viewmodel.EventViewModel
-import nl.totowka.bridge.utils.scheduler.SchedulersProvider
-import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -53,7 +48,7 @@ class EventInteractorTest {
     @Test
     fun `addEvent is successful`() {
         // Arrange
-        every { eventRepositoryImpl.addEvent(entityStub) } returns Completable.complete()
+        every { eventRepositoryImpl.addEvent(entityStub) } returns Single.just(entityStub)
 
         // Assert
         eventInteractor.addEvent(entityStub).test().assertComplete()
@@ -63,7 +58,7 @@ class EventInteractorTest {
     @Test
     fun `addEvent is failure`() {
         // Arrange
-        every { eventRepositoryImpl.addEvent(entityStub) } returns Completable.error(exception)
+        every { eventRepositoryImpl.addEvent(entityStub) } returns Single.error(exception)
 
         // Assert
         eventInteractor.addEvent(entityStub).test().assertError(exception)
@@ -205,24 +200,24 @@ class EventInteractorTest {
     @Test
     fun `getUsersOfEvent is successful`() {
         // Arrange
-        every { eventRepositoryImpl.getUsersOfEvent(userId) } returns Single.just(usersStub)
+        every { eventRepositoryImpl.getUsersOfEvent(eventId, userId) } returns Single.just(usersStub)
         val expected = usersStub
 
         // Act
-        val actual = eventInteractor.getUsersOfEvent(userId).blockingGet()
+        val actual = eventInteractor.getUsersOfEvent(eventId, userId).blockingGet()
 
         // Assert
         Truth.assertThat(actual).isEqualTo(expected)
-        verify(exactly = 1) { eventRepositoryImpl.getUsersOfEvent(userId)  }
+        verify(exactly = 1) { eventRepositoryImpl.getUsersOfEvent(eventId, userId)  }
     }
 
     @Test
     fun `getUsersOfEvent is failure`() {
         // Arrange
-        every { eventRepositoryImpl.getUsersOfEvent(userId) } returns Single.error(exception)
+        every { eventRepositoryImpl.getUsersOfEvent(eventId, userId) } returns Single.error(exception)
 
         // Assert
-        eventInteractor.getUsersOfEvent(userId).test().assertError(exception)
-        verify(exactly = 1) { eventRepositoryImpl.getUsersOfEvent(userId) }
+        eventInteractor.getUsersOfEvent(eventId, userId).test().assertError(exception)
+        verify(exactly = 1) { eventRepositoryImpl.getUsersOfEvent(eventId, userId) }
     }
 }

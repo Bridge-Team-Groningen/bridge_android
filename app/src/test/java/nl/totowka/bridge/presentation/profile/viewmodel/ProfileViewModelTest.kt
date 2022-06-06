@@ -40,10 +40,12 @@ class ProfileViewModelTest {
         city = "groningen"
     )
     private val entityDataStub = ProfileDataEntity.fromEntity(entityStub)
+    private val entitiesStub = arrayListOf(entityStub)
     private val exception = IOException("")
     private val id = "12345678"
 
     var profileObserver: Observer<ProfileEntity> = mockk()
+    var profilesObserver: Observer<List<ProfileEntity>> = mockk()
     var progressObserver: Observer<Boolean> = mockk()
     var errorObserver: Observer<Throwable> = mockk()
 
@@ -54,6 +56,7 @@ class ProfileViewModelTest {
         schedulers = SchedulersProviderImplStub()
 
         every { profileObserver.onChanged(any()) } just Runs
+        every { profilesObserver.onChanged(any()) } just Runs
         every { progressObserver.onChanged(any()) } just Runs
         every { errorObserver.onChanged(any()) } just Runs
         mockkStatic(Log::class)
@@ -63,6 +66,7 @@ class ProfileViewModelTest {
         viewModel.getProfileLiveData().observeForever(profileObserver)
         viewModel.getErrorLiveData().observeForever(errorObserver)
         viewModel.getProgressLiveData().observeForever(progressObserver)
+        viewModel.getProfilesLiveData().observeForever(profilesObserver)
     }
 
     @Test
@@ -94,6 +98,37 @@ class ProfileViewModelTest {
             progressObserver.onChanged(false)
         }
         verify(exactly = 1) { profileInteractor.getProfile(id) }
+    }
+
+    @Test
+    fun `getProfiles is success`() {
+        every { profileInteractor.getProfiles(id) } returns Single.just(entitiesStub)
+
+        viewModel.getProfiles(id)
+
+        // The order in this sequence may be changing from time to time because the testing framework may not be on time to catch the changing.
+        verifySequence {
+            progressObserver.onChanged(true)
+            profilesObserver.onChanged(entitiesStub)
+            progressObserver.onChanged(false)
+        }
+        verify(exactly = 1) { profileInteractor.getProfiles(id) }
+        verify { errorObserver wasNot Called }
+    }
+
+    @Test
+    fun `getProfiles is error`() {
+        every { profileInteractor.getProfiles(id) } returns Single.error(exception)
+
+        viewModel.getProfiles(id)
+
+        // The order in this sequence may be changing from time to time because the testing framework may be late to catch the changes.
+        verifySequence {
+            progressObserver.onChanged(true)
+            errorObserver.onChanged(exception)
+            progressObserver.onChanged(false)
+        }
+        verify(exactly = 1) { profileInteractor.getProfiles(id) }
     }
 
     @Test

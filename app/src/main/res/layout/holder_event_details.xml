@@ -56,6 +56,11 @@
         android:layout_height="wrap_content"
         tools:text="10 people to go" />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/users"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
     <Button
         android:id="@+id/signup"
         style="@style/Widget.MaterialComponents.Button"

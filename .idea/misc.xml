@@ -19,15 +19,26 @@
         <entry key="..\:/Users/tigra/Desktop/android/bridge_android/app/src/main/res/menu/bottom_menu.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/tigra/Desktop/android/bridge_android/app/src/main/res/menu/menu.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/tigra/Desktop/android/bridge_android/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/circle_light_gray.xml" value="0.1815" />
+        <entry key="app/src/main/res/drawable/ic_edit.xml" value="0.1655" />
+        <entry key="app/src/main/res/drawable/ic_heart.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_people.xml" value="0.1515" />
+        <entry key="app/src/main/res/drawable/ic_splashscreen.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_unheart.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1716485507246377" />
         <entry key="app/src/main/res/layout/dropdown_item.xml" value="0.1640625" />
         <entry key="app/src/main/res/layout/event_details_holder.xml" value="0.22735507246376813" />
+        <entry key="app/src/main/res/layout/fragment_add_event.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_auth.xml" value="0.1716485507246377" />
         <entry key="app/src/main/res/layout/fragment_edit_profile.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/fragment_events.xml" value="0.3234375" />
-        <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_events.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_trending.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_users.xml" value="0.3234375" />
         <entry key="app/src/main/res/layout/holder_event.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/holder_event_details.xml" value="0.3234375" />
+        <entry key="app/src/main/res/layout/holder_user.xml" value="0.165" />
+        <entry key="app/src/main/res/menu/bottom_menu.xml" value="0.3234375" />
       </map>
     </option>
   </component>

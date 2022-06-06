@@ -22,6 +22,7 @@ class ProfileViewModel(
     private val successLiveData = MutableLiveData<String>()
     private val errorLiveData = MutableLiveData<Throwable>()
     private val profileLiveData = MutableLiveData<ProfileEntity>()
+    private val profilesLiveData = MutableLiveData<List<ProfileEntity>>()
     private val disposables = CompositeDisposable()
 
     /**
@@ -37,6 +38,20 @@ class ProfileViewModel(
             .subscribeOn(schedulers.io())
             .observeOn(schedulers.ui())
             .subscribe(profileLiveData::setValue, errorLiveData::setValue)
+        )
+    }
+
+    /**
+     * Get user profiles data from DB
+     */
+    fun getProfiles(userId: String) {
+        disposables.add(profileInteractor.getProfiles(userId)
+            .observeOn(Schedulers.io()).subscribeOn(Schedulers.io())
+            .doOnSubscribe { progressLiveData.postValue(true) }
+            .doAfterTerminate { progressLiveData.postValue(false) }
+            .subscribeOn(schedulers.io())
+            .observeOn(schedulers.ui())
+            .subscribe(profilesLiveData::setValue, errorLiveData::setValue)
         )
     }
 
@@ -95,6 +110,40 @@ class ProfileViewModel(
     }
 
     /**
+     * Like other user
+     *
+     * @param user1Id user's id
+     * @param user2Id other user's id
+     */
+    fun like(user1Id: String, user2Id: String) {
+        disposables.add(profileInteractor.like(user1Id, user2Id)
+            .observeOn(Schedulers.io()).subscribeOn(Schedulers.io())
+            .doOnSubscribe { progressLiveData.postValue(true) }
+            .doAfterTerminate { progressLiveData.postValue(false) }
+            .subscribeOn(schedulers.io())
+            .observeOn(schedulers.ui())
+            .subscribe({ Log.d(TAG, "completed like!") }, { })
+        )
+    }
+
+    /**
+     * Unlikes other user
+     *
+     * @param user1Id user's id
+     * @param user2Id other user's id
+     */
+    fun unlike(user1Id: String, user2Id: String) {
+        disposables.add(profileInteractor.unlike(user1Id, user2Id)
+            .observeOn(Schedulers.io()).subscribeOn(Schedulers.io())
+            .doOnSubscribe { progressLiveData.postValue(true) }
+            .doAfterTerminate { progressLiveData.postValue(false) }
+            .subscribeOn(schedulers.io())
+            .observeOn(schedulers.ui())
+            .subscribe({ Log.d(TAG, "completed unlike!") }, errorLiveData::setValue)
+        )
+    }
+
+    /**
      * Method clears disposables.
      */
     override fun onCleared() {
@@ -126,6 +175,12 @@ class ProfileViewModel(
      */
     fun getProfileLiveData(): LiveData<ProfileEntity> =
         profileLiveData
+
+    /**
+     * @return LiveData<ProfileEntity> for sharing the users
+     */
+    fun getProfilesLiveData(): LiveData<List<ProfileEntity>> =
+        profilesLiveData
 
     companion object {
         private const val TAG = "ProfileViewModel"

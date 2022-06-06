@@ -45,12 +45,23 @@
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_marginTop="75dp"
-        android:src="@drawable/avatar"
+        android:src="@drawable/ic_avatar_placeholder"
         app:civ_border_color="@color/white"
         app:civ_border_width="3dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/avatar_change"
+        style="@style/AppTheme.Text.BodyLink"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textAlignment="center"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/profile_image"
+        tools:text="Change profile photo" />
 
     <TextView
         android:id="@+id/profile_title"
@@ -61,7 +72,7 @@
         android:gravity="center"
         android:textAlignment="center"
         android:textSize="24sp"
-        app:layout_constraintTop_toBottomOf="@id/profile_image"
+        app:layout_constraintTop_toBottomOf="@id/avatar_change"
         tools:text="Kocharyan Tigran" />
 
     <ScrollView
@@ -76,219 +87,168 @@
             android:layout_height="0dp"
             android:orientation="vertical">
 
-            <LinearLayout
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/genders_menu"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:orientation="vertical">
+                android:hint="Gender"
+                android:textColorHint="@color/purple"
+                app:boxBackgroundColor="#FFF">
 
-                <com.google.android.material.textfield.TextInputLayout
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                <AutoCompleteTextView
+                    android:id="@+id/genders_dropdown"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/genders_menu"
-                    android:hint="Gender">
+                    android:inputType="none" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-                    <AutoCompleteTextView
-                        android:id="@+id/genders_dropdown"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="none" />
-                </com.google.android.material.textfield.TextInputLayout>
-            </LinearLayout>
-
-            <LinearLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:orientation="vertical">
+                android:background="@android:color/transparent"
+                android:textColorHint="@color/purple"
+                app:boxBackgroundColor="@android:color/transparent">
 
-                <com.google.android.material.textfield.TextInputLayout
+                <EditText
+                    android:id="@+id/description"
+                    style="@style/Theme.Bridge.Text.Profile.ItemText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:textColorHint="@color/purple"
-                    app:boxBackgroundColor="@android:color/transparent">
+                    android:hint="Type your description..."
+                    android:imeOptions="actionNext" />
 
-                    <EditText
-                        android:id="@+id/description"
-                        style="@style/Theme.Bridge.Text.Profile.ItemText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Type your description..."
-                        android:imeOptions="actionNext" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-                </com.google.android.material.textfield.TextInputLayout>
-            </LinearLayout>
-
-            <LinearLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:orientation="vertical">
+                android:background="@android:color/transparent"
+                android:textColorHint="@color/purple"
+                app:boxBackgroundColor="@android:color/transparent">
 
-                <com.google.android.material.textfield.TextInputLayout
+                <EditText
+                    android:id="@+id/interests"
+                    style="@style/Theme.Bridge.Text.Profile.ItemText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:textColorHint="@color/purple"
-                    app:boxBackgroundColor="@android:color/transparent">
+                    android:hint="Type your fields of interests..."
+                    android:imeOptions="actionNext" />
 
-                    <EditText
-                        android:id="@+id/interests"
-                        style="@style/Theme.Bridge.Text.Profile.ItemText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Type your fields of interests..."
-                        android:imeOptions="actionNext" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-                </com.google.android.material.textfield.TextInputLayout>
-            </LinearLayout>
-
-            <LinearLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:orientation="vertical">
+                android:background="@android:color/transparent"
+                android:textColorHint="@color/purple"
+                app:boxBackgroundColor="@android:color/transparent">
 
-                <com.google.android.material.textfield.TextInputLayout
+                <EditText
+                    android:id="@+id/hobbies"
+                    style="@style/Theme.Bridge.Text.Profile.ItemText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:textColorHint="@color/purple"
-                    app:boxBackgroundColor="@android:color/transparent">
+                    android:hint="Type your hobbies..."
+                    android:imeOptions="actionNext" />
 
-                    <EditText
-                        android:id="@+id/hobbies"
-                        style="@style/Theme.Bridge.Text.Profile.ItemText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Type your hobbies..."
-                        android:imeOptions="actionNext" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-                </com.google.android.material.textfield.TextInputLayout>
-            </LinearLayout>
-
-            <LinearLayout
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/starSigns_menu"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:orientation="vertical">
+                android:hint="Star Sign"
+                android:textColorHint="@color/purple">
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/starSigns_menu"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                <AutoCompleteTextView
+                    android:id="@+id/starSigns_dropdown"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Star Sign">
+                    android:inputType="none" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-                    <AutoCompleteTextView
-                        android:id="@+id/starSigns_dropdown"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="none" />
-                </com.google.android.material.textfield.TextInputLayout>
-            </LinearLayout>
-
-            <LinearLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:orientation="vertical">
+                android:background="@android:color/transparent"
+                android:textColorHint="@color/purple"
+                app:boxBackgroundColor="@android:color/transparent">
 
-                <com.google.android.material.textfield.TextInputLayout
+                <EditText
+                    android:id="@+id/age"
+                    style="@style/Theme.Bridge.Text.Profile.ItemText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:textColorHint="@color/purple"
-                    app:boxBackgroundColor="@android:color/transparent">
+                    android:digits="0123456789"
+                    android:hint="Type your age..."
+                    android:imeOptions="actionNext"
+                    android:inputType="numberDecimal" />
 
-                    <EditText
-                        android:id="@+id/age"
-                        style="@style/Theme.Bridge.Text.Profile.ItemText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="numberDecimal"
-                        android:digits="0123456789"
-                        android:hint="Type your age..."
-                        android:imeOptions="actionNext" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-                </com.google.android.material.textfield.TextInputLayout>
-            </LinearLayout>
-
-            <LinearLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:orientation="vertical">
+                android:background="@android:color/transparent"
+                android:textColorHint="@color/purple"
+                app:boxBackgroundColor="@android:color/transparent">
 
-                <com.google.android.material.textfield.TextInputLayout
+                <EditText
+                    android:id="@+id/people"
+                    style="@style/Theme.Bridge.Text.Profile.ItemText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:textColorHint="@color/purple"
-                    app:boxBackgroundColor="@android:color/transparent">
+                    android:digits="0123456789"
+                    android:hint="Type the amount of people to meet..."
+                    android:imeOptions="actionNext"
+                    android:inputType="numberDecimal" />
 
-                    <EditText
-                        android:id="@+id/people"
-                        style="@style/Theme.Bridge.Text.Profile.ItemText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="numberDecimal"
-                        android:digits="0123456789"
-                        android:hint="Type the amount of people to meet..."
-                        android:imeOptions="actionNext" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-                </com.google.android.material.textfield.TextInputLayout>
-            </LinearLayout>
-
-            <LinearLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:orientation="vertical">
+                android:background="@android:color/transparent"
+                android:textColorHint="@color/purple"
+                app:boxBackgroundColor="@android:color/transparent">
 
-                <com.google.android.material.textfield.TextInputLayout
+                <EditText
+                    android:id="@+id/city"
+                    style="@style/Theme.Bridge.Text.Profile.ItemText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:textColorHint="@color/purple"
-                    app:boxBackgroundColor="@android:color/transparent">
+                    android:hint="Type your current location..."
+                    android:imeOptions="actionNext" />
 
-                    <EditText
-                        android:id="@+id/city"
-                        style="@style/Theme.Bridge.Text.Profile.ItemText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Type your current location..."
-                        android:imeOptions="actionNext" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-                </com.google.android.material.textfield.TextInputLayout>
-            </LinearLayout>
-
-            <LinearLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:orientation="vertical">
+                android:background="@android:color/transparent"
+                android:textColorHint="@color/purple"
+                app:boxBackgroundColor="@android:color/transparent">
 
-                <com.google.android.material.textfield.TextInputLayout
+                <EditText
+                    android:id="@+id/mottoInLife"
+                    style="@style/Theme.Bridge.Text.Profile.ItemText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:textColorHint="@color/purple"
-                    app:boxBackgroundColor="@android:color/transparent">
+                    android:hint="Type your motto in life..."
+                    android:imeOptions="actionNext" />
 
-                    <EditText
-                        android:id="@+id/mottoInLife"
-                        style="@style/Theme.Bridge.Text.Profile.ItemText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Type your motto in life..."
-                        android:imeOptions="actionNext" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-            </LinearLayout>
+            </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
     </ScrollView>
 

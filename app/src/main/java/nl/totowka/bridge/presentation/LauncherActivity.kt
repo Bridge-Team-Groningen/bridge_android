@@ -8,9 +8,10 @@ import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.activity_main.*
 import nl.totowka.bridge.R
 import nl.totowka.bridge.presentation.auth.view.AuthFragment
-import nl.totowka.bridge.presentation.profile.view.ProfileFragment
 import nl.totowka.bridge.presentation.events.view.signed.EventsFragment
 import nl.totowka.bridge.presentation.events.view.trending.TrendingFragment
+import nl.totowka.bridge.presentation.profile.view.ProfileFragment
+import nl.totowka.bridge.presentation.profile.view.UsersFragment
 
 /**
  * Main [Activity]. All fragments will be added on top of it.
@@ -34,6 +35,7 @@ class LauncherActivity : AppCompatActivity() {
                 R.id.profile -> setCurrentFragment(ProfileFragment.newInstance(), ProfileFragment.TAG)
                 R.id.trending -> setCurrentFragment(TrendingFragment.newInstance(), TrendingFragment.TAG)
                 R.id.events -> setCurrentFragment(EventsFragment.newInstance(), EventsFragment.TAG)
+                R.id.users -> setCurrentFragment(UsersFragment.newInstance(), UsersFragment.TAG)
             }
             true
         }

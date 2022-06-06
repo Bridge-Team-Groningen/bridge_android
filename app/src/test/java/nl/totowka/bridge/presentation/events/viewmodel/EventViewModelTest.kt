@@ -9,15 +9,10 @@ import io.reactivex.Single
 import io.reactivex.android.plugins.RxAndroidPlugins
 import io.reactivex.schedulers.Schedulers
 import nl.totowka.bridge.data.model.EventDataEntity
-import nl.totowka.bridge.data.model.ProfileDataEntity
 import nl.totowka.bridge.domain.interactor.EventInteractor
-import nl.totowka.bridge.domain.interactor.ProfileInteractor
 import nl.totowka.bridge.domain.model.EventEntity
-import nl.totowka.bridge.domain.model.ProfileEntity
-import nl.totowka.bridge.presentation.profile.viewmodel.ProfileViewModel
 import nl.totowka.bridge.utils.scheduler.SchedulersProvider
 import nl.totowka.bridge.utils.scheduler.SchedulersProviderImplStub
-import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -185,5 +180,35 @@ class EventViewModelTest {
             progressObserver.onChanged(false)
         }
         verify(exactly = 1) { eventInteractor.deleteUser(eventId, userId) }
+    }
+
+    @Test
+    fun `addEvent is success`() {
+        every { eventInteractor.addEvent(entityStub) } returns Single.just(entityStub)
+
+        viewModel.addEvent(entityStub)
+
+        // The order in this sequence may be changing from time to time because the testing framework may not be on time to catch the changing.
+        verifySequence {
+            progressObserver.onChanged(true)
+            progressObserver.onChanged(false)
+        }
+        verify(exactly = 1) { eventInteractor.addEvent(entityStub) }
+        verify { errorObserver wasNot Called }
+    }
+
+    @Test
+    fun `addEvent is error`() {
+        every { eventInteractor.addEvent(entityStub) } returns Single.error(exception)
+
+        viewModel.addEvent(entityStub)
+
+        // The order in this sequence may be changing from time to time because the testing framework may not be on time to catch the changing.
+        verifySequence {
+            progressObserver.onChanged(true)
+            errorObserver.onChanged(exception)
+            progressObserver.onChanged(false)
+        }
+        verify(exactly = 1) { eventInteractor.addEvent(entityStub) }
     }
 }

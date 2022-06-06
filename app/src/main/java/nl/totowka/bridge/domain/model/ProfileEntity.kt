@@ -1,7 +1,6 @@
 package nl.totowka.bridge.domain.model
 
 import android.os.Parcelable
-import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 /**
@@ -23,11 +22,5 @@ data class ProfileEntity(
     var city: String? = null,
     var mottoInLife: String? = null,
     var questionWifi: String? = null,
+    var isLiked: Boolean? = null
 ) : Parcelable
-
-@Parcelize
-enum class Gender(var gender: String) : Parcelable {
-    MALE("male"),
-    FEMALE("female"),
-    UNDEFINED("undefined")
-}
