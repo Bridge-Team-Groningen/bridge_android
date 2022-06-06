@@ -4,7 +4,7 @@
     <string name="people">%d/%d people</string>
     <string name="people_profile">%d  speople to meet</string>
     <string name="people_details">%d out of %d people are signed</string>
-    <string name="user_subtitle">%s years old, from %s</string>
+    <string name="user_subtitle">likes %s, from %s</string>
     <string name="time">When? %s</string>
     <string name="place">Where? %s</string>
     <string name="age">%s years old</string>

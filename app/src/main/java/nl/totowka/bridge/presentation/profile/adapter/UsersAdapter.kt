@@ -57,7 +57,7 @@ class UserViewHolder(private val binding: HolderUserBinding, private val listene
         binding.subtitle.bind(
             context.getString(
                 R.string.user_subtitle,
-                profile.age.toString(),
+                profile.interestList,
                 profile.city
             )
         )

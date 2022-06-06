@@ -9,6 +9,7 @@ import io.reactivex.Completable
 import io.reactivex.Single
 import nl.totowka.bridge.data.api.LikeService
 import nl.totowka.bridge.data.api.ProfileService
+import nl.totowka.bridge.data.model.Like
 import nl.totowka.bridge.data.model.ProfileDataEntity.Companion.fromEntity
 import nl.totowka.bridge.domain.model.ProfileEntity
 import org.junit.Assert.assertThrows
@@ -29,9 +30,13 @@ class ProfileRepositoryImplTest {
         interestList = "soccer",
         gender = "Male",
         capacity = 5,
-        city = "groningen"
+        city = "groningen",
+        isLiked = null
     )
+    private val like = Like(true)
     private val entityDataStub = fromEntity(entityStub)
+    private val entitiesDataStub = arrayListOf(entityDataStub)
+    private val entitiesStub = arrayListOf(entityStub)
     private val exception = IOException("")
 
     @Rule
@@ -48,25 +53,93 @@ class ProfileRepositoryImplTest {
     @Test
     fun `get is successful`() {
         // Arrange
-        every { profileService.getUser(userId) } returns Single.just(entityDataStub)
+        every { profileService.getUser(user1Id) } returns Single.just(entityDataStub)
         val expected = entityStub
 
         // Act
-        val actual = profileRepositoryImpl.get(userId).blockingGet()
+        val actual = profileRepositoryImpl.get(user1Id).blockingGet()
 
         // Assert
         Truth.assertThat(actual).isEqualTo(expected)
-        verify(exactly = 1) { profileService.getUser(userId) }
+        verify(exactly = 1) { profileService.getUser(user1Id) }
     }
 
     @Test
     fun `get is error`() {
         // Arrange
-        every { profileService.getUser(userId) } throws exception
+        every { profileService.getUser(user1Id) } throws exception
 
         // Act && Assert
-        assertThrows(IOException::class.java) { profileRepositoryImpl.get(userId) }
-        verify(exactly = 1) { profileService.getUser(userId) }
+        assertThrows(IOException::class.java) { profileRepositoryImpl.get(user1Id) }
+        verify(exactly = 1) { profileService.getUser(user1Id) }
+    }
+
+    @Test
+    fun `getAll is successful`() {
+        // Arrange
+        every { profileService.getUsers() } returns Single.just(entitiesDataStub)
+        every { likeService.match(userId, entityDataStub.googleId.toString()) } returns Single.just(Like(true))
+        every { likeService.likes(userId, entityDataStub.googleId.toString()) } returns Single.just(Like(true))
+        val expected = entitiesStub
+
+        // Act
+        val actual = profileRepositoryImpl.getAll(userId).blockingGet()
+
+        // Assert
+        Truth.assertThat(actual).isEqualTo(expected)
+        verify(exactly = 1) { profileService.getUsers() }
+    }
+
+    @Test
+    fun `getAll is error`() {
+        // Arrange
+        every { profileService.getUsers() } returns Single.error(exception)
+        every { likeService.match(userId, entityDataStub.googleId.toString()) } returns Single.just(Like(true))
+        every { likeService.likes(userId, entityDataStub.googleId.toString()) } returns Single.just(Like(true))
+
+        // Act && Assert
+        profileRepositoryImpl.getAll(user1Id).test().assertError(exception)
+        verify(exactly = 1) { profileService.getUsers()  }
+    }
+
+    @Test
+    fun `like is successful`() {
+        // Arrange
+        every { likeService.like(user1Id, user2Id) } returns Completable.complete()
+
+        // Act && Assert
+        profileRepositoryImpl.like(user1Id, user2Id).test().assertComplete()
+        verify(exactly = 1) { likeService.like(user1Id, user2Id) }
+    }
+
+    @Test
+    fun `like is error`() {
+        // Arrange
+        every { likeService.like(user1Id, user2Id) } returns Completable.error(exception)
+
+        // Act && Assert
+        profileRepositoryImpl.like(user1Id, user2Id).test().assertError(exception)
+        verify(exactly = 1) { likeService.like(user1Id, user2Id) }
+    }
+
+    @Test
+    fun `unlike is successful`() {
+        // Arrange
+        every { likeService.unlike(user1Id, user2Id) } returns Completable.complete()
+
+        // Act && Assert
+        profileRepositoryImpl.unlike(user1Id, user2Id).test().assertComplete()
+        verify(exactly = 1) { likeService.unlike(user1Id, user2Id) }
+    }
+
+    @Test
+    fun `unlike is error`() {
+        // Arrange
+        every { likeService.unlike(user1Id, user2Id) } returns Completable.error(exception)
+
+        // Act && Assert
+        profileRepositoryImpl.unlike(user1Id, user2Id).test().assertError(exception)
+        verify(exactly = 1) { likeService.unlike(user1Id, user2Id) }
     }
 
     @Test
@@ -130,7 +203,9 @@ class ProfileRepositoryImplTest {
     }
 
     companion object {
-        private const val userId = "0"
+        private const val user1Id = "0"
+        private const val user2Id = "1"
+        private const val userId = "2"
         private const val eventId = "0"
     }
 }
