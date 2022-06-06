@@ -1,7 +1,9 @@
 package nl.totowka.bridge.data.repository
 
+import android.util.Log
 import io.reactivex.Completable
 import io.reactivex.Single
+import nl.totowka.bridge.data.api.LikeService
 import nl.totowka.bridge.data.api.ProfileService
 import nl.totowka.bridge.data.model.ProfileDataEntity
 import nl.totowka.bridge.domain.model.ProfileEntity
@@ -11,26 +13,37 @@ import javax.inject.Inject
 /**
  * Implementation of [ProfileRepository]
  */
-class ProfileRepositoryImpl @Inject constructor(val auth: ProfileService) : ProfileRepository {
+class ProfileRepositoryImpl @Inject constructor(
+    val profileService: ProfileService,
+    val likeService: LikeService
+) : ProfileRepository {
     override fun update(googleId: String, profile: ProfileEntity): Completable =
-        auth.updateUser(googleId, ProfileDataEntity.fromEntity(profile))
+        profileService.updateUser(googleId, ProfileDataEntity.fromEntity(profile))
 
 
     override fun add(profile: ProfileEntity): Completable =
-        auth.addUser(ProfileDataEntity.fromEntity(profile))
+        profileService.addUser(ProfileDataEntity.fromEntity(profile))
 
     override fun delete(googleId: String): Completable =
-        auth.deleteUser(googleId)
+        profileService.deleteUser(googleId)
 
 
     override fun get(googleId: String): Single<ProfileEntity> =
-        auth.getUser(googleId).map { it.toEntity() }
+        profileService.getUser(googleId).map { it.toEntity() }
 
-    override fun getAll(): Single<List<ProfileEntity>> =
-        auth.getUsers().map { list ->
+    override fun getAll(userId: String): Single<List<ProfileEntity>> =
+        profileService.getUsers().map { list ->
             list.map { user ->
                 user.toEntity().apply {
-                    if(this.profilePicture.equals("-"))
+                    likeService.likes(user1Id = userId, user2Id = user.googleId ?: "0")
+                        .subscribe({
+                            Log.d("TOTOWKA", "result is ${it}")
+                            this.isLiked = it.message
+                        }, { error ->
+                            Log.d("TOTOWKA", error?.message ?: "")
+                            this.isLiked = false
+                        }).dispose()
+                    if (this.profilePicture.equals("-"))
                         this.profilePicture = null
                 }
             }
@@ -40,4 +53,10 @@ class ProfileRepositoryImpl @Inject constructor(val auth: ProfileService) : Prof
     override fun isUser(googleId: String): Single<Boolean> {
         TODO("Not yet implemented")
     }
+
+    override fun like(user1Id: String, user2Id: String): Completable =
+        likeService.like(user1Id, user2Id)
+
+    override fun unlike(user1Id: String, user2Id: String): Completable =
+        likeService.unlike(user1Id, user2Id)
 }

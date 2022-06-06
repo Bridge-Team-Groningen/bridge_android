@@ -31,10 +31,20 @@ interface ProfileRepository {
     /**
      * Get the [ProfileEntity] from DB.
      */
-    fun getAll(): Single<List<ProfileEntity>>
+    fun getAll(userId: String): Single<List<ProfileEntity>>
 
     /**
      * Check whether the [ProfileEntity] saved in DB.
      */
     fun isUser(googleId: String): Single<Boolean>
+
+    /**
+     * Likes of users
+     */
+    fun like(user1Id: String, user2Id: String): Completable
+
+    /**
+     * Likes of users
+     */
+    fun unlike(user1Id: String, user2Id: String): Completable
 }

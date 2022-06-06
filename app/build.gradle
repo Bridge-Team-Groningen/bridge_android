@@ -5,7 +5,11 @@ plugins {
     id 'kotlinx-serialization'
     id 'kotlin-kapt'
     id 'com.google.gms.google-services'
+    id 'org.sonarqube' version "3.3"
 }
+
+apply from: '../jacoco.gradle'
+apply from: '../sonarqube.gradle'
 
 android {
     kotlinOptions {
@@ -22,6 +26,7 @@ android {
         applicationId "nl.totowka.bridge"
         minSdkVersion 24
         targetSdkVersion 31
+        multiDexEnabled true
         versionCode 1
         versionName "1.0"
         kapt {
@@ -33,9 +38,19 @@ android {
     }
 
     buildTypes {
+        debug {
+            testCoverageEnabled = true
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    testOptions {
+        execution 'ANDROID_TEST_ORCHESTRATOR'
+        animationsDisabled true
+        unitTests {
+            includeAndroidResources = true
         }
     }
     compileOptions {
@@ -52,7 +67,7 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment-ktx:2.4.1'
     implementation 'androidx.navigation:navigation-ui-ktx:2.4.1'
     def lifecycle_version = "2.2.0"
-    def room_version = "2.3.0"
+    def room_version = "2.4.2"
 
     // Testing
     testImplementation 'junit:junit:4.13.2'
@@ -82,7 +97,8 @@ dependencies {
     implementation("androidx.room:room-runtime:$room_version")
     implementation("androidx.room:room-ktx:$room_version")
     kapt("androidx.room:room-compiler:$room_version")
-    kapt "android.arch.persistence.room:compiler:1.1.1"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
+
 
     // Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
@@ -118,6 +134,9 @@ dependencies {
     // Circle Image
     implementation 'de.hdodenhof:circleimageview:2.1.0'
     implementation "io.getstream:avatarview-coil:1.0.4"
+
+    // Like design
+    implementation 'com.github.jd-alexander:LikeButton:0.2.3'
 
     // Basic
     implementation 'androidx.core:core-splashscreen:1.0.0-beta01'

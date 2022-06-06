@@ -54,4 +54,16 @@ object Converters {
      */
     @TypeConverter
     fun jsonToEvent(value: String) = Gson().fromJson(value, EventDataEntity::class.java)
+
+    /**
+     * ConvertsBoolean to JSON string.
+     */
+    @TypeConverter
+    fun booleanToJson(value: Boolean) = Gson().toJson(value)
+
+    /**
+     * Converts JSON string to Boolean.
+     */
+    @TypeConverter
+    fun jsonToBoolean(value: String) = Gson().fromJson(value, Boolean::class.java)
 }

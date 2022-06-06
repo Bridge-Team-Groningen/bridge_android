@@ -10,7 +10,7 @@ interface EventRepository {
     fun deleteEvent(id: String): Completable
     fun getAllEvents(): Single<List<EventEntity>>
     fun getActivityEvents(activity: String): Single<List<EventEntity>>
-    fun getUsersOfEvent(eventId: String): Single<List<ProfileEntity>>
+    fun getUsersOfEvent(eventId: String, userId: String): Single<List<ProfileEntity>>
     fun deleteUser(eventId: String, userId: String): Completable
     fun addUserToEvent(eventId: String, userId: String): Completable
     fun getSignedEvents(userId: String): Single<List<EventEntity>>

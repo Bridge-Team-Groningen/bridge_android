@@ -12,6 +12,7 @@ import android.widget.DatePicker
 import android.widget.TimePicker
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
@@ -28,8 +29,11 @@ import nl.totowka.bridge.presentation.events.view.signed.EventsFragment
 import nl.totowka.bridge.presentation.events.viewmodel.EventViewModel
 import nl.totowka.bridge.presentation.events.viewmodel.EventViewModelFactory
 import nl.totowka.bridge.presentation.profile.view.EditProfileFragment
+import nl.totowka.bridge.utils.Common.isEmpty
+import nl.totowka.bridge.utils.Common.text
 import nl.totowka.bridge.utils.Common.toCoolString
 import nl.totowka.bridge.utils.scheduler.SchedulersProvider
+import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.util.*

@@ -20,8 +20,8 @@ class EventInteractor @Inject constructor(private val eventRepository: EventRepo
     fun getActivityEvents(activity: String): Single<List<EventEntity>> =
         eventRepository.getActivityEvents(activity)
 
-    fun getUsersOfEvent(eventId: String): Single<List<ProfileEntity>> =
-        eventRepository.getUsersOfEvent(eventId)
+    fun getUsersOfEvent(eventId: String, userId: String): Single<List<ProfileEntity>> =
+        eventRepository.getUsersOfEvent(eventId, userId)
 
     fun deleteUser(eventId: String, userId: String): Completable =
         eventRepository.deleteUser(eventId, userId)

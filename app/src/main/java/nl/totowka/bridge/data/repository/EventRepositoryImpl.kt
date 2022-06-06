@@ -1,8 +1,10 @@
 package nl.totowka.bridge.data.repository
 
+import android.util.Log
 import io.reactivex.Completable
 import io.reactivex.Single
 import nl.totowka.bridge.data.api.EventService
+import nl.totowka.bridge.data.api.LikeService
 import nl.totowka.bridge.data.api.ProfileService
 import nl.totowka.bridge.data.api.UserEventService
 import nl.totowka.bridge.data.model.EventDataEntity
@@ -14,7 +16,8 @@ import javax.inject.Inject
 class EventRepositoryImpl @Inject constructor(
     private val eventService: EventService,
     private val userEventService: UserEventService,
-    private val profileService: ProfileService
+    private val profileService: ProfileService,
+    private val likeService: LikeService
 ) : EventRepository {
     override fun addEvent(event: EventEntity): Single<EventEntity> =
         eventService.addEvent(EventDataEntity.fromEntity(event)).map { it.toEntity() }
@@ -38,10 +41,17 @@ class EventRepositoryImpl @Inject constructor(
     override fun getActivityEvents(activity: String): Single<List<EventEntity>> =
         eventService.getActivityEvents(activity).map { list -> list.map { it.toEntity() } }
 
-    override fun getUsersOfEvent(eventId: String): Single<List<ProfileEntity>> =
+    override fun getUsersOfEvent(eventId: String, userId: String): Single<List<ProfileEntity>> =
         userEventService.getUsersOfEvent(eventId).map { list ->
             list.map {
                 it.toEntity().apply {
+                    likeService.likes(user1Id = userId, user2Id = this.googleId ?: "0")
+                        .subscribe({
+                            this.isLiked = it.message
+                        }, { error ->
+                            Log.d("getUsersOfEvent", error?.message ?: "")
+                            this.isLiked = false
+                        }).dispose()
                     if (this.profilePicture.equals("-"))
                         this.profilePicture = null
                 }

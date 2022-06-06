@@ -66,3 +66,7 @@ data class ProfileDataEntity(
         }
     }
 }
+
+@Parcelize
+@TypeConverters(Converters::class)
+data class Like(@SerializedName("message") var message: Boolean? = null) : Parcelable

@@ -44,8 +44,8 @@ class ProfileViewModel(
     /**
      * Get user profiles data from DB
      */
-    fun getProfiles() {
-        disposables.add(profileInteractor.getProfiles()
+    fun getProfiles(userId: String) {
+        disposables.add(profileInteractor.getProfiles(userId)
             .observeOn(Schedulers.io()).subscribeOn(Schedulers.io())
             .doOnSubscribe { progressLiveData.postValue(true) }
             .doAfterTerminate { progressLiveData.postValue(false) }
@@ -106,6 +106,40 @@ class ProfileViewModel(
             .subscribeOn(schedulers.io())
             .observeOn(schedulers.ui())
             .subscribe({ Log.d(TAG, "completed isUser!") }, errorLiveData::setValue)
+        )
+    }
+
+    /**
+     * Like other user
+     *
+     * @param user1Id user's id
+     * @param user2Id other user's id
+     */
+    fun like(user1Id: String, user2Id: String) {
+        disposables.add(profileInteractor.like(user1Id, user2Id)
+            .observeOn(Schedulers.io()).subscribeOn(Schedulers.io())
+            .doOnSubscribe { progressLiveData.postValue(true) }
+            .doAfterTerminate { progressLiveData.postValue(false) }
+            .subscribeOn(schedulers.io())
+            .observeOn(schedulers.ui())
+            .subscribe({ Log.d(TAG, "completed like!") }, { })
+        )
+    }
+
+    /**
+     * Unlikes other user
+     *
+     * @param user1Id user's id
+     * @param user2Id other user's id
+     */
+    fun unlike(user1Id: String, user2Id: String) {
+        disposables.add(profileInteractor.unlike(user1Id, user2Id)
+            .observeOn(Schedulers.io()).subscribeOn(Schedulers.io())
+            .doOnSubscribe { progressLiveData.postValue(true) }
+            .doAfterTerminate { progressLiveData.postValue(false) }
+            .subscribeOn(schedulers.io())
+            .observeOn(schedulers.ui())
+            .subscribe({ Log.d(TAG, "completed unlike!") }, errorLiveData::setValue)
         )
     }
 

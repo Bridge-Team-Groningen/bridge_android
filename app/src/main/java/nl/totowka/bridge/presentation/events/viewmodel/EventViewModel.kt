@@ -45,8 +45,8 @@ class EventViewModel(
         )
     }
 
-    fun getUsersOfEvent(eventId: String) {
-        disposables.add(eventInteractor.getUsersOfEvent(eventId)
+    fun getUsersOfEvent(eventId: String, userId: String) {
+        disposables.add(eventInteractor.getUsersOfEvent(eventId, userId)
             .observeOn(Schedulers.io()).subscribeOn(Schedulers.io())
             .doOnSubscribe { progressLiveData.postValue(true) }
             .doAfterTerminate { progressLiveData.postValue(false) }

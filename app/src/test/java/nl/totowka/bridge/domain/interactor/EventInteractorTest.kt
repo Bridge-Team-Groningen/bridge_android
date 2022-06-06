@@ -200,24 +200,24 @@ class EventInteractorTest {
     @Test
     fun `getUsersOfEvent is successful`() {
         // Arrange
-        every { eventRepositoryImpl.getUsersOfEvent(userId) } returns Single.just(usersStub)
+        every { eventRepositoryImpl.getUsersOfEvent(eventId, userId) } returns Single.just(usersStub)
         val expected = usersStub
 
         // Act
-        val actual = eventInteractor.getUsersOfEvent(userId).blockingGet()
+        val actual = eventInteractor.getUsersOfEvent(eventId, userId).blockingGet()
 
         // Assert
         Truth.assertThat(actual).isEqualTo(expected)
-        verify(exactly = 1) { eventRepositoryImpl.getUsersOfEvent(userId)  }
+        verify(exactly = 1) { eventRepositoryImpl.getUsersOfEvent(eventId, userId)  }
     }
 
     @Test
     fun `getUsersOfEvent is failure`() {
         // Arrange
-        every { eventRepositoryImpl.getUsersOfEvent(userId) } returns Single.error(exception)
+        every { eventRepositoryImpl.getUsersOfEvent(eventId, userId) } returns Single.error(exception)
 
         // Assert
-        eventInteractor.getUsersOfEvent(userId).test().assertError(exception)
-        verify(exactly = 1) { eventRepositoryImpl.getUsersOfEvent(userId) }
+        eventInteractor.getUsersOfEvent(eventId, userId).test().assertError(exception)
+        verify(exactly = 1) { eventRepositoryImpl.getUsersOfEvent(eventId, userId) }
     }
 }

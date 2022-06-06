@@ -27,6 +27,7 @@ import nl.totowka.bridge.presentation.profile.adapter.UsersAdapter
 import nl.totowka.bridge.presentation.profile.viewmodel.ProfileViewModel
 import nl.totowka.bridge.presentation.profile.viewmodel.ProfileViewModelFactory
 import nl.totowka.bridge.utils.Common.color
+import nl.totowka.bridge.utils.callback.LikeListener
 import nl.totowka.bridge.utils.scheduler.SchedulersProvider
 import javax.inject.Inject
 
@@ -69,7 +70,7 @@ class UsersFragment : Fragment() {
     }
 
     private fun createAdapter() {
-        adapter = UsersAdapter(ArrayList())
+        adapter = UsersAdapter(ArrayList(), listener)
         binding.users.layoutManager = LinearLayoutManager(context)
         binding.users.adapter = adapter
         binding.users.addItemDecoration(
@@ -78,14 +79,14 @@ class UsersFragment : Fragment() {
                 DividerItemDecoration.VERTICAL
             )
         )
-        viewModel.getProfiles()
+        sharedViewModel.user?.value?.googleId?.let { viewModel.getProfiles(it) }
     }
 
     private fun createRefresher() {
         binding.refresher.isRefreshing = true
         binding.refresher.setColorSchemeColors(context?.color(R.color.purple) ?: Color.MAGENTA)
         binding.refresher.setOnRefreshListener {
-            viewModel.getProfiles()
+            sharedViewModel.user?.value?.googleId?.let { viewModel.getProfiles(it) }
         }
     }
 
@@ -110,6 +111,16 @@ class UsersFragment : Fragment() {
         viewModel.getErrorLiveData().observe(viewLifecycleOwner, this::showError)
         viewModel.getProgressLiveData().observe(viewLifecycleOwner, this::showProgress)
         viewModel.getProfilesLiveData().observe(viewLifecycleOwner, this::showUsers)
+    }
+
+    val listener = object : LikeListener {
+        override fun onLike(user: ProfileEntity) {
+            viewModel.like(sharedViewModel.user?.value?.googleId ?: "", user.googleId ?: "")
+        }
+
+        override fun onUnlike(user: ProfileEntity) {
+            viewModel.unlike(sharedViewModel.user?.value?.googleId ?: "", user.googleId ?: "")
+        }
     }
 
     companion object {

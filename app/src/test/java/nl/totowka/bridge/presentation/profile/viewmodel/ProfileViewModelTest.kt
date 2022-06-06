@@ -102,9 +102,9 @@ class ProfileViewModelTest {
 
     @Test
     fun `getProfiles is success`() {
-        every { profileInteractor.getProfiles() } returns Single.just(entitiesStub)
+        every { profileInteractor.getProfiles(id) } returns Single.just(entitiesStub)
 
-        viewModel.getProfiles()
+        viewModel.getProfiles(id)
 
         // The order in this sequence may be changing from time to time because the testing framework may not be on time to catch the changing.
         verifySequence {
@@ -112,15 +112,15 @@ class ProfileViewModelTest {
             profilesObserver.onChanged(entitiesStub)
             progressObserver.onChanged(false)
         }
-        verify(exactly = 1) { profileInteractor.getProfiles() }
+        verify(exactly = 1) { profileInteractor.getProfiles(id) }
         verify { errorObserver wasNot Called }
     }
 
     @Test
     fun `getProfiles is error`() {
-        every { profileInteractor.getProfiles() } returns Single.error(exception)
+        every { profileInteractor.getProfiles(id) } returns Single.error(exception)
 
-        viewModel.getProfiles()
+        viewModel.getProfiles(id)
 
         // The order in this sequence may be changing from time to time because the testing framework may be late to catch the changes.
         verifySequence {
@@ -128,7 +128,7 @@ class ProfileViewModelTest {
             errorObserver.onChanged(exception)
             progressObserver.onChanged(false)
         }
-        verify(exactly = 1) { profileInteractor.getProfiles() }
+        verify(exactly = 1) { profileInteractor.getProfiles(id) }
     }
 
     @Test

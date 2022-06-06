@@ -14,10 +14,13 @@ import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
+import com.like.LikeButton
+import com.like.OnLikeListener
 import nl.totowka.bridge.App
 import nl.totowka.bridge.R
 import nl.totowka.bridge.databinding.HolderEventDetailsBinding
 import nl.totowka.bridge.domain.interactor.EventInteractor
+import nl.totowka.bridge.domain.interactor.ProfileInteractor
 import nl.totowka.bridge.domain.model.EventEntity
 import nl.totowka.bridge.domain.model.ProfileEntity
 import nl.totowka.bridge.presentation.SharedViewModel
@@ -25,7 +28,10 @@ import nl.totowka.bridge.presentation.auth.view.AuthFragment
 import nl.totowka.bridge.presentation.events.viewmodel.EventViewModel
 import nl.totowka.bridge.presentation.events.viewmodel.EventViewModelFactory
 import nl.totowka.bridge.presentation.profile.adapter.UsersAdapter
+import nl.totowka.bridge.presentation.profile.viewmodel.ProfileViewModel
+import nl.totowka.bridge.presentation.profile.viewmodel.ProfileViewModelFactory
 import nl.totowka.bridge.utils.Common.toCoolString
+import nl.totowka.bridge.utils.callback.LikeListener
 import nl.totowka.bridge.utils.callback.SignInClickListener
 import nl.totowka.bridge.utils.scheduler.SchedulersProvider
 import javax.inject.Inject
@@ -36,13 +42,17 @@ import javax.inject.Inject
 class EventDetailsBottomDialogFragment(private var signInListener: SignInClickListener) :
     BottomSheetDialogFragment() {
     private lateinit var binding: HolderEventDetailsBinding
-    private lateinit var viewModel: EventViewModel
+    private lateinit var eventViewModel: EventViewModel
+    private lateinit var profileViewModel: ProfileViewModel
     private lateinit var adapter: UsersAdapter
     private val sharedViewModel: SharedViewModel by activityViewModels()
     var event: EventEntity? = null
 
     @Inject
-    lateinit var interactor: EventInteractor
+    lateinit var eventInteractor: EventInteractor
+
+    @Inject
+    lateinit var profileInteractor: ProfileInteractor
 
     @Inject
     lateinit var schedulers: SchedulersProvider
@@ -106,13 +116,16 @@ class EventDetailsBottomDialogFragment(private var signInListener: SignInClickLi
     }
 
     private fun createViewModel() {
-        viewModel = ViewModelProvider(
-            this, EventViewModelFactory(interactor, schedulers)
+        eventViewModel = ViewModelProvider(
+            this, EventViewModelFactory(eventInteractor, schedulers)
         ).get(EventViewModel::class.java)
+        profileViewModel = ViewModelProvider(
+            this, ProfileViewModelFactory(profileInteractor, schedulers)
+        ).get(ProfileViewModel::class.java)
     }
 
     private fun createAdapter() {
-        adapter = UsersAdapter(ArrayList())
+        adapter = UsersAdapter(ArrayList(), listener)
         binding.users.layoutManager = LinearLayoutManager(context)
         binding.users.adapter = adapter
         binding.users.addItemDecoration(
@@ -121,7 +134,9 @@ class EventDetailsBottomDialogFragment(private var signInListener: SignInClickLi
                 DividerItemDecoration.VERTICAL
             )
         )
-        viewModel.getUsersOfEvent(event?.id.toString())
+        sharedViewModel.user?.value?.googleId?.let {
+            eventViewModel.getUsersOfEvent(event?.id.toString(), it)
+        }
     }
 
     private fun showError(throwable: Throwable) {
@@ -135,8 +150,8 @@ class EventDetailsBottomDialogFragment(private var signInListener: SignInClickLi
     }
 
     private fun observeLiveData() {
-        viewModel.getErrorLiveData().observe(viewLifecycleOwner, this::showError)
-        viewModel.getProfilesLiveData().observe(viewLifecycleOwner, this::showUsers)
+        eventViewModel.getErrorLiveData().observe(viewLifecycleOwner, this::showError)
+        eventViewModel.getProfilesLiveData().observe(viewLifecycleOwner, this::showUsers)
     }
 
     private fun signUp(isSigned: Boolean) {
@@ -151,6 +166,18 @@ class EventDetailsBottomDialogFragment(private var signInListener: SignInClickLi
         }
     }
 
+    val listener = object : LikeListener {
+        override fun onLike(user: ProfileEntity) {
+            profileViewModel.like(sharedViewModel.user?.value?.googleId ?: "", user.googleId ?: "")
+        }
+
+        override fun onUnlike(user: ProfileEntity) {
+            profileViewModel.unlike(
+                sharedViewModel.user?.value?.googleId ?: "",
+                user.googleId ?: ""
+            )
+        }
+    }
 
     companion object {
         /**
