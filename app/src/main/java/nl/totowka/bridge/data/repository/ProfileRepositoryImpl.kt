@@ -33,7 +33,7 @@ class ProfileRepositoryImpl @Inject constructor(
 
     override fun getAll(userId: String): Single<List<ProfileEntity>> =
         profileService.getUsers().map { list ->
-            list.map { user ->
+            list.filter { it.googleId != userId }.map { user ->
                 user.toEntity().apply {
                     likeService.likes(user1Id = userId, user2Id = user.googleId ?: "0")
                         .subscribe({
