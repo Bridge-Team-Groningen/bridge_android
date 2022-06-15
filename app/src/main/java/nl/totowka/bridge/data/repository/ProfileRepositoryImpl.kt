@@ -5,6 +5,7 @@ import io.reactivex.Completable
 import io.reactivex.Single
 import nl.totowka.bridge.data.api.LikeService
 import nl.totowka.bridge.data.api.ProfileService
+import nl.totowka.bridge.data.model.Like
 import nl.totowka.bridge.data.model.ProfileDataEntity
 import nl.totowka.bridge.domain.model.ProfileEntity
 import nl.totowka.bridge.domain.repository.ProfileRepository
@@ -59,4 +60,7 @@ class ProfileRepositoryImpl @Inject constructor(
 
     override fun unlike(user1Id: String, user2Id: String): Completable =
         likeService.unlike(user1Id, user2Id)
+
+    override fun match(user1Id: String, user2Id: String): Single<Like> =
+        likeService.match(user1Id, user2Id)
 }

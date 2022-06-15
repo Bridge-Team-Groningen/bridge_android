@@ -8,12 +8,14 @@ import nl.totowka.bridge.domain.model.ProfileEntity
 
 class SharedViewModel : ViewModel() {
     private var _user = MutableLiveData(ProfileEntity())
+    private var _matchedUser = MutableLiveData(ProfileEntity())
     private var _allEvents = MutableLiveData(emptyList<EventEntity>())
     private var _event = MutableLiveData(EventEntity(0))
     private var _signedEvents = MutableLiveData(emptyList<EventEntity>())
     private var _adapterPosition = MutableLiveData(0)
 
     var user: LiveData<ProfileEntity>? = _user
+    var matchedUser: LiveData<ProfileEntity>? = _matchedUser
     var event: LiveData<EventEntity>? = _event
     var signedEvents: LiveData<List<EventEntity>>? = _signedEvents
     var allEvents: LiveData<List<EventEntity>>? = _allEvents
@@ -21,6 +23,10 @@ class SharedViewModel : ViewModel() {
 
     fun setUser(user: ProfileEntity) {
         _user.value = user
+    }
+
+    fun setMatchedUser(user: ProfileEntity) {
+        _matchedUser.value = user
     }
 
     fun setSignedEvents(events: List<EventEntity>) {

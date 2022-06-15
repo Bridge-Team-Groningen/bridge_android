@@ -6,6 +6,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -14,8 +16,6 @@ import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
-import com.like.LikeButton
-import com.like.OnLikeListener
 import nl.totowka.bridge.App
 import nl.totowka.bridge.R
 import nl.totowka.bridge.databinding.HolderEventDetailsBinding
@@ -28,10 +28,11 @@ import nl.totowka.bridge.presentation.auth.view.AuthFragment
 import nl.totowka.bridge.presentation.events.viewmodel.EventViewModel
 import nl.totowka.bridge.presentation.events.viewmodel.EventViewModelFactory
 import nl.totowka.bridge.presentation.profile.adapter.UsersAdapter
+import nl.totowka.bridge.presentation.profile.view.ProfileBottomDialogFragment
 import nl.totowka.bridge.presentation.profile.viewmodel.ProfileViewModel
 import nl.totowka.bridge.presentation.profile.viewmodel.ProfileViewModelFactory
 import nl.totowka.bridge.utils.Common.toCoolString
-import nl.totowka.bridge.utils.callback.LikeListener
+import nl.totowka.bridge.utils.callback.UserClickListener
 import nl.totowka.bridge.utils.callback.SignInClickListener
 import nl.totowka.bridge.utils.scheduler.SchedulersProvider
 import javax.inject.Inject
@@ -47,6 +48,7 @@ class EventDetailsBottomDialogFragment(private var signInListener: SignInClickLi
     private lateinit var adapter: UsersAdapter
     private val sharedViewModel: SharedViewModel by activityViewModels()
     var event: EventEntity? = null
+    var user: ProfileEntity? = null
 
     @Inject
     lateinit var eventInteractor: EventInteractor
@@ -62,6 +64,7 @@ class EventDetailsBottomDialogFragment(private var signInListener: SignInClickLi
         binding = HolderEventDetailsBinding.inflate(layoutInflater)
         (activity?.applicationContext as App).getAppComponent().inject(this)
         event = sharedViewModel.event?.value
+        user = sharedViewModel.user?.value
     }
 
     override fun onCreateView(
@@ -166,7 +169,7 @@ class EventDetailsBottomDialogFragment(private var signInListener: SignInClickLi
         }
     }
 
-    val listener = object : LikeListener {
+    val listener = object : UserClickListener {
         override fun onLike(user: ProfileEntity) {
             profileViewModel.like(sharedViewModel.user?.value?.googleId ?: "", user.googleId ?: "")
         }
@@ -176,6 +179,28 @@ class EventDetailsBottomDialogFragment(private var signInListener: SignInClickLi
                 sharedViewModel.user?.value?.googleId ?: "",
                 user.googleId ?: ""
             )
+        }
+
+        override fun onOpenUser(user: ProfileEntity) {
+            if (profileViewModel.match(
+                    sharedViewModel.user?.value?.googleId ?: "",
+                    user.googleId ?: ""
+                ) == true
+            ) {
+                val profileBottomDialogFragment =
+                    ProfileBottomDialogFragment.newInstance()
+                sharedViewModel.setMatchedUser(user)
+                profileBottomDialogFragment.show(
+                    (activity as AppCompatActivity).supportFragmentManager,
+                    ProfileBottomDialogFragment.TAG
+                )
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    "You're not matched with ${user.name} yet!",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         }
     }
 
