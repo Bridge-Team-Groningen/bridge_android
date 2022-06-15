@@ -15,11 +15,11 @@ import nl.totowka.bridge.utils.Common.getInitials
 import nl.totowka.bridge.utils.Common.glideFactory
 import nl.totowka.bridge.utils.Common.setGone
 import nl.totowka.bridge.utils.Common.setVisible
-import nl.totowka.bridge.utils.callback.LikeListener
+import nl.totowka.bridge.utils.callback.UserClickListener
 
 class UsersAdapter(
     var users: ArrayList<ProfileEntity>,
-    private val listener: LikeListener
+    private val listener: UserClickListener
 ) : RecyclerView.Adapter<UserViewHolder>() {
 
     private lateinit var binding: HolderUserBinding
@@ -47,7 +47,7 @@ class UsersAdapter(
 /**
  * Holder to show the events
  */
-class UserViewHolder(private val binding: HolderUserBinding, private val listener: LikeListener) :
+class UserViewHolder(private val binding: HolderUserBinding, private val listener: UserClickListener) :
     RecyclerView.ViewHolder(binding.root) {
     fun bind(
         profile: ProfileEntity
@@ -62,6 +62,7 @@ class UserViewHolder(private val binding: HolderUserBinding, private val listene
             )
         )
         binding.like.isLiked = profile.isLiked ?: false
+        binding.root.setOnClickListener {listener.onOpenUser(profile)}
         binding.like.setOnLikeListener(object : OnLikeListener {
             override fun liked(likeButton: LikeButton?) {
                 listener.onLike(profile)
