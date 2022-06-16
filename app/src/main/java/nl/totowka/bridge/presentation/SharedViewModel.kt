@@ -11,12 +11,14 @@ class SharedViewModel : ViewModel() {
     private var _matchedUser = MutableLiveData(ProfileEntity())
     private var _allEvents = MutableLiveData(emptyList<EventEntity>())
     private var _event = MutableLiveData(EventEntity(0))
+    private var _editEvent = MutableLiveData(EventEntity(0))
     private var _signedEvents = MutableLiveData(emptyList<EventEntity>())
     private var _adapterPosition = MutableLiveData(0)
 
     var user: LiveData<ProfileEntity>? = _user
     var matchedUser: LiveData<ProfileEntity>? = _matchedUser
     var event: LiveData<EventEntity>? = _event
+    var editEvent: LiveData<EventEntity>? = _editEvent
     var signedEvents: LiveData<List<EventEntity>>? = _signedEvents
     var allEvents: LiveData<List<EventEntity>>? = _allEvents
     var adapterPosition: LiveData<Int> = _adapterPosition
@@ -43,5 +45,9 @@ class SharedViewModel : ViewModel() {
 
     fun setEvent(event: EventEntity) {
         _event.value = event
+    }
+
+    fun setEditEvent(event: EventEntity) {
+        _editEvent.value = event
     }
 }

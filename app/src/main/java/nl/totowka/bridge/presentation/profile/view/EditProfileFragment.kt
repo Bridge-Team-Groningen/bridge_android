@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
@@ -30,6 +31,7 @@ import nl.totowka.bridge.utils.Common.glideFactory
 import nl.totowka.bridge.utils.Common.isEmpty
 import nl.totowka.bridge.utils.Common.isNotEmpty
 import nl.totowka.bridge.utils.Common.text
+import nl.totowka.bridge.utils.Common.toCoolString
 import nl.totowka.bridge.utils.scheduler.SchedulersProvider
 import javax.inject.Inject
 
@@ -86,6 +88,7 @@ class EditProfileFragment : Fragment(), View.OnClickListener {
         (activity as AppCompatActivity?)?.supportActionBar?.hide()
         (activity as LauncherActivity).isBottomNavVisible(false)
         profile?.let {
+            showProfileDetails(it)
             Glide.with(view.context)
                 .load(it.profilePicture)
                 .circleCrop()
@@ -94,6 +97,18 @@ class EditProfileFragment : Fragment(), View.OnClickListener {
                 .error(R.drawable.ic_avatar_placeholder)
                 .into(binding.profileImage)
         }
+    }
+
+    private fun showProfileDetails(profile: ProfileEntity) {
+        binding.city.setText(profile.city)
+        binding.age.setText(profile.age.toString())
+        binding.description.setText(profile.description)
+        binding.interests.setText(profile.interestList)
+        binding.hobbies.setText(profile.hobbies)
+        binding.people.setText(profile.capacity.toString())
+        binding.mottoInLife.setText(profile.mottoInLife.toString())
+        binding.starSignsDropdown.setText(profile.starSign)
+        binding.gendersDropdown.setText(profile.gender)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

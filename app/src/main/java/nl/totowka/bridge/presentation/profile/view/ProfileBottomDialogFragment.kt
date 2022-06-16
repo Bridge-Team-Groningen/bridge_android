@@ -72,6 +72,6 @@ class ProfileBottomDialogFragment() : BottomSheetDialogFragment() {
          */
         fun newInstance() = ProfileBottomDialogFragment()
 
-        const val TAG = "EventDetailsBottomDialogFragment"
+        const val TAG = "ProfileBottomDialogFragment"
     }
 }

@@ -1,4 +1,4 @@
-package nl.totowka.bridge.presentation.events.view.add
+package nl.totowka.bridge.presentation.events.view.edit
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
@@ -44,12 +44,12 @@ import javax.inject.Inject
  *
  * @author Kocharyan Tigran
  */
-class AddEventFragment : Fragment(), View.OnClickListener, DatePickerDialog.OnDateSetListener,
+class EditEventFragment : Fragment(), View.OnClickListener, DatePickerDialog.OnDateSetListener,
     TimePickerDialog.OnTimeSetListener {
     private lateinit var binding: FragmentAddEventBinding
     private lateinit var viewModel: EventViewModel
+    private lateinit var event: EventEntity
     private val sharedViewModel: SharedViewModel by activityViewModels()
-    var event = EventEntity(0)
     private val calendar = Calendar.getInstance()
     private var year = calendar[Calendar.YEAR]
     private var month = calendar[Calendar.MONTH]
@@ -83,6 +83,8 @@ class AddEventFragment : Fragment(), View.OnClickListener, DatePickerDialog.OnDa
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        event = sharedViewModel.editEvent?.value ?: EventEntity(0)
+        showEventDetails()
         createViewModel()
         observeLiveData()
         (activity as AppCompatActivity?)?.supportActionBar?.hide()
@@ -92,19 +94,7 @@ class AddEventFragment : Fragment(), View.OnClickListener, DatePickerDialog.OnDa
     override fun onClick(view: View?) {
         when (view?.id) {
             R.id.save_event -> {
-                if (binding.activity.isEmpty() or binding.title.isEmpty() or
-                    binding.description.isEmpty() or binding.location.isEmpty() or
-                    binding.maxCapacity.isEmpty() or binding.maxCapacity.text.toString().equals("0")
-                    or binding.maxCapacity.text.toString().equals("1") or (dateTime?.equals(null)
-                        ?: true)
-                ) {
-                    Snackbar.make(
-                        binding.root,
-                        "All the fields must be filled and max № of people must be at least 2",
-                        BaseTransientBottomBar.LENGTH_SHORT
-                    ).show()
-                } else
-                    saveEvent()
+                updateEvent()
             }
             R.id.back -> {
                 exit()
@@ -113,6 +103,16 @@ class AddEventFragment : Fragment(), View.OnClickListener, DatePickerDialog.OnDa
                 pickDate()
             }
         }
+    }
+
+    private fun showEventDetails() {
+        binding.description.setText(event.description)
+        binding.activity.setText(event.activity)
+        binding.title.setText(event.name)
+        binding.location.setText(event.location)
+        binding.maxCapacity.setText(event.maxCapacity.toString())
+        binding.dateTime.text = event.date?.toCoolString()
+        binding.dateTime.isVisible = true
     }
 
     private fun createViewModel() {
@@ -125,21 +125,18 @@ class AddEventFragment : Fragment(), View.OnClickListener, DatePickerDialog.OnDa
         activity?.supportFragmentManager?.popBackStack()
     }
 
-    private fun saveEvent() {
+    private fun updateEvent() {
         event.apply {
             this.activity = binding.activity.text()
             this.name = binding.title.text()
             this.description = binding.description.text()
             this.location = binding.location.text()
             this.maxCapacity = binding.maxCapacity.text().toInt()
-            this.noOfParticipants = 0
-            this.creatorId = sharedViewModel.user?.value?.googleId ?: "0"
-            viewModel.addEvent(this)
+            viewModel.updateEvent(event.id.toString(), this)
         }
     }
 
     private fun pickDate() {
-
         DatePickerDialog(
             requireContext(),
             this,
@@ -161,8 +158,10 @@ class AddEventFragment : Fragment(), View.OnClickListener, DatePickerDialog.OnDa
     override fun onTimeSet(view: TimePicker?, hour: Int, minute: Int) {
         this.hour = hour
         this.minute = minute
-        val result = ZonedDateTime.of(year, month + 1, day, hour, minute, 0, 0,
-                ZoneId.systemDefault())
+        val result = ZonedDateTime.of(
+            year, month + 1, day, hour, minute, 0, 0,
+            ZoneId.systemDefault()
+        )
         dateTime = convertToDateViaInstant(result)
         binding.dateTime.text = dateTime?.toCoolString()
         binding.dateTime.isVisible = true
@@ -207,14 +206,14 @@ class AddEventFragment : Fragment(), View.OnClickListener, DatePickerDialog.OnDa
     }
 
     companion object {
-        const val TAG = "AddEventFragment"
+        const val TAG = "EditEventFragment"
         private const val TAG_ADD = "$TAG ADD"
         private const val TAG_ERROR = "$TAG ERROR"
         private const val TAG_PROGRESS = "$TAG PROGRESS"
 
         /**
-         * Builder for [AddEventFragment]
+         * Builder for [EditEventFragment]
          */
-        fun newInstance() = AddEventFragment()
+        fun newInstance() = EditEventFragment()
     }
 }

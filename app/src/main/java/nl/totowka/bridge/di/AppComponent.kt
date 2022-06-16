@@ -6,6 +6,7 @@ import dagger.Component
 import nl.totowka.bridge.presentation.LauncherActivity
 import nl.totowka.bridge.presentation.auth.view.AuthFragment
 import nl.totowka.bridge.presentation.events.view.add.AddEventFragment
+import nl.totowka.bridge.presentation.events.view.edit.EditEventFragment
 import nl.totowka.bridge.presentation.events.view.signed.EventDetailsBottomDialogFragment
 import nl.totowka.bridge.presentation.events.view.signed.EventsFragment
 import nl.totowka.bridge.presentation.events.view.trending.TrendingFragment
@@ -33,6 +34,7 @@ interface AppComponent {
     fun inject(fragment: TrendingFragment)
     fun inject(fragment: EditProfileFragment)
     fun inject(fragment: AddEventFragment)
+    fun inject(fragment: EditEventFragment)
     fun inject(fragment: EventDetailsBottomDialogFragment)
     fun inject(fragment: ProfileBottomDialogFragment)
     fun inject(fragment: UsersFragment)

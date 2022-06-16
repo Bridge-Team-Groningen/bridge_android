@@ -1,6 +1,7 @@
 package nl.totowka.bridge.presentation.events.view.signed
 
 import android.graphics.Color
+import android.opengl.Visibility
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -25,12 +26,16 @@ import nl.totowka.bridge.domain.model.EventEntity
 import nl.totowka.bridge.domain.model.ProfileEntity
 import nl.totowka.bridge.presentation.SharedViewModel
 import nl.totowka.bridge.presentation.auth.view.AuthFragment
+import nl.totowka.bridge.presentation.events.view.edit.EditEventFragment
 import nl.totowka.bridge.presentation.events.viewmodel.EventViewModel
 import nl.totowka.bridge.presentation.events.viewmodel.EventViewModelFactory
 import nl.totowka.bridge.presentation.profile.adapter.UsersAdapter
+import nl.totowka.bridge.presentation.profile.view.EditProfileFragment
 import nl.totowka.bridge.presentation.profile.view.ProfileBottomDialogFragment
+import nl.totowka.bridge.presentation.profile.view.ProfileFragment
 import nl.totowka.bridge.presentation.profile.viewmodel.ProfileViewModel
 import nl.totowka.bridge.presentation.profile.viewmodel.ProfileViewModelFactory
+import nl.totowka.bridge.utils.Common.setGone
 import nl.totowka.bridge.utils.Common.toCoolString
 import nl.totowka.bridge.utils.callback.UserClickListener
 import nl.totowka.bridge.utils.callback.SignInClickListener
@@ -73,6 +78,7 @@ class EventDetailsBottomDialogFragment(private var signInListener: SignInClickLi
         savedInstanceState: Bundle?
     ): View {
         binding = HolderEventDetailsBinding.inflate(inflater, container, false)
+        if (!event?.creatorId.equals(user?.googleId)) binding.editEvent.setGone()
         return binding.root
     }
 
@@ -113,6 +119,19 @@ class EventDetailsBottomDialogFragment(private var signInListener: SignInClickLi
                     event.isSigned = !isSigned
                     signUp(!isSigned)
                     binding.signup.isEnabled = false
+                }
+                binding.editEvent.setOnClickListener {
+                    sharedViewModel.setEditEvent(event)
+                    this.dismiss()
+                    (activity as AppCompatActivity).supportFragmentManager
+                        .beginTransaction()
+                        .addToBackStack(null)
+                        .replace(
+                            R.id.fragment_container,
+                            EditEventFragment.newInstance(),
+                            EditEventFragment.TAG
+                        )
+                        .commit()
                 }
             }
         }

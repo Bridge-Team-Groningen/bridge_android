@@ -17,5 +17,6 @@ data class EventEntity(
     var noOfParticipants: Int? = null,
     var maxCapacity: Int? = null,
     var date: Date? = null,
+    var creatorId: String? = null,
     var isSigned: Boolean? = null
 ) : Parcelable

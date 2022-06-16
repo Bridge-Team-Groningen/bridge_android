@@ -10,6 +10,9 @@ import javax.inject.Inject
 class EventInteractor @Inject constructor(private val eventRepository: EventRepository) {
     fun addEvent(event: EventEntity): Single<EventEntity> = eventRepository.addEvent(event)
 
+    fun updateEvent(eventId: String, event: EventEntity): Completable =
+        eventRepository.updateEvent(eventId, event)
+
     fun deleteEvent(id: String): Completable = eventRepository.deleteEvent(id)
 
     fun getAllEvents(): Single<List<EventEntity>> = eventRepository.getAllEvents()
