@@ -20,10 +20,11 @@ data class EventDataEntity(
     @SerializedName("location") var location: String? = null,
     @SerializedName("noOfParticipants") var noOfParticipants: Int? = null,
     @SerializedName("maxCapacity") var maxCapacity: Int? = null,
-    @SerializedName("date") var date: Date? = null
+    @SerializedName("date") var date: Date? = null,
+    @SerializedName("creatorId") var creatorId: String? = null
 ) : Parcelable {
     fun toEntity() = EventEntity(
-        id, activity, name, description, location, noOfParticipants, maxCapacity, date
+        id, activity, name, description, location, noOfParticipants, maxCapacity, date, creatorId
     )
 
     companion object {
@@ -36,7 +37,8 @@ data class EventDataEntity(
                 location,
                 noOfParticipants,
                 maxCapacity,
-                date
+                date,
+                creatorId
             )
         }
     }

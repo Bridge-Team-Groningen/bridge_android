@@ -2,6 +2,7 @@ package nl.totowka.bridge.domain.repository
 
 import io.reactivex.Completable
 import io.reactivex.Single
+import nl.totowka.bridge.data.model.Like
 import nl.totowka.bridge.domain.model.ProfileEntity
 
 /**
@@ -47,4 +48,9 @@ interface ProfileRepository {
      * Likes of users
      */
     fun unlike(user1Id: String, user2Id: String): Completable
+
+    /**
+     * Likes of users
+     */
+    fun match(user1Id: String, user2Id: String): Single<Like>
 }

@@ -1,5 +1,6 @@
 package nl.totowka.bridge.presentation.profile.view
 
+import android.app.Activity
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,6 +11,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import nl.totowka.bridge.App
@@ -47,9 +51,14 @@ class ProfileFragment : Fragment(), View.OnClickListener {
         (activity?.applicationContext as App).getAppComponent().inject(this)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         binding = FragmentProfileBinding.inflate(inflater, container, false)
         binding.editProfile.setOnClickListener(this)
+        binding.logout.setOnClickListener(this)
         return binding.root
     }
 
@@ -95,8 +104,31 @@ class ProfileFragment : Fragment(), View.OnClickListener {
                 R.id.edit_profile -> (activity as AppCompatActivity).supportFragmentManager
                     .beginTransaction()
                     .addToBackStack(null)
-                    .replace(R.id.fragment_container, EditProfileFragment.newInstance(profile), EditProfileFragment.TAG)
+                    .replace(
+                        R.id.fragment_container,
+                        EditProfileFragment.newInstance(profile),
+                        EditProfileFragment.TAG
+                    )
                     .commit()
+                R.id.logout -> {
+                    val options = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                        .requestEmail()
+                        .build()
+                    val client = GoogleSignIn.getClient(this.activity as Activity, options)
+
+                    client.signOut()
+                        .addOnCompleteListener(requireActivity(), OnCompleteListener<Void?> {
+                            (activity as AppCompatActivity).supportFragmentManager
+                                .beginTransaction()
+                                .addToBackStack(null)
+                                .replace(
+                                    R.id.fragment_container,
+                                    AuthFragment.newInstance(),
+                                    AuthFragment.TAG
+                                )
+                                .commit()
+                        })
+                }
             }
         }
     }

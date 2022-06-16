@@ -3,6 +3,7 @@ package nl.totowka.bridge.data.api
 import io.reactivex.Completable
 import io.reactivex.Single
 import nl.totowka.bridge.data.model.EventDataEntity
+import nl.totowka.bridge.data.model.ProfileDataEntity
 import retrofit2.http.*
 
 /**
@@ -39,6 +40,15 @@ interface EventService {
      */
     @DELETE("{id}")
     fun deleteEvent(@Path("id") id: String): Completable
+
+    /**
+     * Method updates events on db
+     *
+     * @param event entity of event
+     */
+    @Headers("Content-Type: application/json")
+    @PUT("{eventId}")
+    fun updateUser(@Path("eventId") eventId: String, @Body event: EventDataEntity): Completable
 
     companion object {
         private const val GET_ALL_EVENTS_URL = "."

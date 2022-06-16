@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -27,7 +28,7 @@ import nl.totowka.bridge.presentation.profile.adapter.UsersAdapter
 import nl.totowka.bridge.presentation.profile.viewmodel.ProfileViewModel
 import nl.totowka.bridge.presentation.profile.viewmodel.ProfileViewModelFactory
 import nl.totowka.bridge.utils.Common.color
-import nl.totowka.bridge.utils.callback.LikeListener
+import nl.totowka.bridge.utils.callback.UserClickListener
 import nl.totowka.bridge.utils.scheduler.SchedulersProvider
 import javax.inject.Inject
 
@@ -48,7 +49,11 @@ class UsersFragment : Fragment() {
         (activity?.applicationContext as App).getAppComponent().inject(this)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         binding = FragmentUsersBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -113,13 +118,35 @@ class UsersFragment : Fragment() {
         viewModel.getProfilesLiveData().observe(viewLifecycleOwner, this::showUsers)
     }
 
-    val listener = object : LikeListener {
+    val listener = object : UserClickListener {
         override fun onLike(user: ProfileEntity) {
             viewModel.like(sharedViewModel.user?.value?.googleId ?: "", user.googleId ?: "")
         }
 
         override fun onUnlike(user: ProfileEntity) {
             viewModel.unlike(sharedViewModel.user?.value?.googleId ?: "", user.googleId ?: "")
+        }
+
+        override fun onOpenUser(user: ProfileEntity) {
+            if (viewModel.match(
+                    sharedViewModel.user?.value?.googleId ?: "",
+                    user.googleId ?: ""
+                ) == true
+            ) {
+                val profileBottomDialogFragment =
+                    ProfileBottomDialogFragment.newInstance()
+                sharedViewModel.setMatchedUser(user)
+                profileBottomDialogFragment.show(
+                    (activity as AppCompatActivity).supportFragmentManager,
+                    ProfileBottomDialogFragment.TAG
+                )
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    "You're not matched with ${user.name} yet!",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         }
     }
 

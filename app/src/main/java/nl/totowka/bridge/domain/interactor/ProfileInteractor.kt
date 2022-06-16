@@ -1,5 +1,6 @@
 package nl.totowka.bridge.domain.interactor
 
+import io.reactivex.schedulers.Schedulers
 import nl.totowka.bridge.domain.model.ProfileEntity
 import nl.totowka.bridge.domain.repository.ProfileRepository
 import javax.inject.Inject
@@ -47,4 +48,12 @@ class ProfileInteractor @Inject constructor(private val profileRepository: Profi
      * Likes the user
      */
     fun unlike(user1Id: String, user2Id: String) = profileRepository.unlike(user1Id, user2Id)
+
+    /**
+     * Matched the user
+     */
+    fun match(user1Id: String, user2Id: String) =
+        profileRepository.match(user1Id, user2Id).subscribeOn(
+            Schedulers.io()
+        ).blockingGet().message
 }

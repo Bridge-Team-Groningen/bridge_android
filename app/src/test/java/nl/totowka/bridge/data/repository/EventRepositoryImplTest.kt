@@ -222,6 +222,7 @@ class EventRepositoryImplTest {
         // Arrange
         every { userEventService.getUsersOfEvent(eventId) } returns Single.just(profilesDataStub)
         every { likeService.match(userId, profileDataStub.googleId.toString()) } returns Single.just(Like(true))
+        every { likeService.likes(userId, profileDataStub.googleId.toString()) } returns Single.just(Like(true))
         val expected = profilesStub
 
         // Act
@@ -236,6 +237,8 @@ class EventRepositoryImplTest {
     fun `getUsersOfEvent is failure`() {
         // Arrange
         every { userEventService.getUsersOfEvent(eventId) } returns Single.error(exception)
+        every { likeService.match(userId, profileDataStub.googleId.toString()) } returns Single.just(Like(true))
+        every { likeService.likes(userId, profileDataStub.googleId.toString()) } returns Single.just(Like(true))
 
         // Assert
         eventRepositoryImpl.getUsersOfEvent(eventId, userId).test().assertError(exception)

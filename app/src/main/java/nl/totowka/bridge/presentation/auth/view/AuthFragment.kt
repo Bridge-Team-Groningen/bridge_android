@@ -114,7 +114,7 @@ class AuthFragment : Fragment(), View.OnClickListener {
         options = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestEmail()
             .build()
-        client = GoogleSignIn.getClient(this.activity as Activity, options);
+        client = GoogleSignIn.getClient(this.activity as Activity, options)
     }
 
     private fun handleSignInResult(task: Task<GoogleSignInAccount>) {

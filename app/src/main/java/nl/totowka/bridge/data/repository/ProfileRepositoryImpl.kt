@@ -5,6 +5,7 @@ import io.reactivex.Completable
 import io.reactivex.Single
 import nl.totowka.bridge.data.api.LikeService
 import nl.totowka.bridge.data.api.ProfileService
+import nl.totowka.bridge.data.model.Like
 import nl.totowka.bridge.data.model.ProfileDataEntity
 import nl.totowka.bridge.domain.model.ProfileEntity
 import nl.totowka.bridge.domain.repository.ProfileRepository
@@ -33,7 +34,7 @@ class ProfileRepositoryImpl @Inject constructor(
 
     override fun getAll(userId: String): Single<List<ProfileEntity>> =
         profileService.getUsers().map { list ->
-            list.map { user ->
+            list.filter { it.googleId != userId }.map { user ->
                 user.toEntity().apply {
                     likeService.likes(user1Id = userId, user2Id = user.googleId ?: "0")
                         .subscribe({
@@ -59,4 +60,7 @@ class ProfileRepositoryImpl @Inject constructor(
 
     override fun unlike(user1Id: String, user2Id: String): Completable =
         likeService.unlike(user1Id, user2Id)
+
+    override fun match(user1Id: String, user2Id: String): Single<Like> =
+        likeService.match(user1Id, user2Id)
 }

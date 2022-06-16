@@ -144,6 +144,14 @@ class ProfileViewModel(
     }
 
     /**
+     * Check match between users
+     *
+     * @param user1Id user's id
+     * @param user2Id other user's id
+     */
+    fun match(user1Id: String, user2Id: String) = profileInteractor.match(user1Id, user2Id)
+
+    /**
      * Method clears disposables.
      */
     override fun onCleared() {
